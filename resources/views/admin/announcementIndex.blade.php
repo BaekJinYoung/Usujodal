@@ -15,7 +15,7 @@
                         공지사항
                     </h2>
                     <div class="top-btn-wrap">
-                        <a href="" class="top-btn">
+                        <a href="{{route("admin.announcementCreate")}}" class="top-btn">
                             등록
                         </a>
                     </div>

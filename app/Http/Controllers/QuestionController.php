@@ -25,4 +25,9 @@ class QuestionController extends Controller
 
         return view('admin.questionIndex', compact('questions', 'perPage', 'search'));
     }
+
+    public function create()
+    {
+        return view('admin.questionCreate');
+    }
 }

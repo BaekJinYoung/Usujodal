@@ -25,4 +25,9 @@ class AnnouncementController extends Controller
 
         return view('admin.announcementIndex', compact('announcements', 'perPage', 'search'));
     }
+
+    public function create()
+    {
+        return view('admin.announcementCreate');
+    }
 }

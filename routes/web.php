@@ -8,13 +8,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::controller(AnnouncementController::class)->group(function () {
-    Route::get('/', 'index')->name("admin.announcementIndex");
+Route::prefix('announcement')->group(function () {
+    Route::controller(AnnouncementController::class)->group(function () {
+        Route::get('/', 'index')->name("admin.announcementIndex");
+        Route::get('/create', 'create')->name("admin.announcementCreate");
+    });
 });
 
-Route::controller(QuestionController::class)->group(function () {
-    Route::get('/question', 'index')->name("admin.questionIndex");
+
+Route::prefix('question')->group(function () {
+    Route::controller(QuestionController::class)->group(function () {
+        Route::get('/', 'index')->name("admin.questionIndex");
+        Route::get('/create', 'create')->name("admin.questionCreate");
+    });
 });
+
 
 Route::middleware([
     'auth:sanctum',
