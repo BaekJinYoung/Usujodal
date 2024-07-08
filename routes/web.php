@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -9,6 +10,10 @@ Route::get('/', function () {
 
 Route::controller(AnnouncementController::class)->group(function () {
     Route::get('/', 'index')->name("admin.announcementIndex");
+});
+
+Route::controller(QuestionController::class)->group(function () {
+    Route::get('/question', 'index')->name("admin.questionIndex");
 });
 
 Route::middleware([
