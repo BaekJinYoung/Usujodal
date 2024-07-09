@@ -69,14 +69,20 @@
                             <span class="guide-txt">
                                 320*440px 비율 고해상도 사진 등록
                             </span>
-                            <div class="file-preview" id="image-preview" style="display: none">
-                                <p class="file-name" id="image-filename"></p>
+                            <div class="file-preview" id="image-preview"
+                                 @if(!$youtube->main_image) style="display: none" @endif>
+                                <p class="file-name" id="image-filename">
+                                    @if($youtube->main_image)
+                                        {{$youtube->main_image}}
+                                    @endif
+                                </p>
                                 <button type="button" class="file-del-btn" id="remove-image-btn">
                                     <i class="xi-close"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" name="remove_image" id="remove_image" value="0">
                 </div>
 
                 <div class="form-btn-wrap col-group">
@@ -84,10 +90,7 @@
                         목록으로
                     </a>
                     <button class="form-prev-btn" type="submit">
-                        등록
-                    </button>
-                    <button class="form-submit-btn" name="continue" type="submit" value="1">
-                        등록 후 계속
+                        수정
                     </button>
                 </div>
             </form>

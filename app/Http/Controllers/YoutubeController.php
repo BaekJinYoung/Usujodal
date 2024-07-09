@@ -33,10 +33,10 @@ class YoutubeController extends Controller
     public function store(YoutubeRequest $request) {
         $store = $request->validated();
 
-        if ($request->hasFile('image')) {
-            $fileName = $request->file('image')->getClientOriginalName();
-            $path = $request->file('image')->storeAs('images', time() . '_' . $fileName, 'public');
-            $store['image'] = $path;
+        if ($request->hasFile('main_image')) {
+            $fileName = $request->file('main_image')->getClientOriginalName();
+            $path = $request->file('main_image')->storeAs('images', time() . '_' . $fileName, 'public');
+            $store['main_image'] = $path;
         }
 
         $this->Youtube->create($store);
@@ -57,6 +57,12 @@ class YoutubeController extends Controller
 
     public function update(YoutubeRequest $request, Youtube $youtube) {
         $update = $request->validated();
+
+        if ($request->hasFile('main_image')) {
+            $fileName = $request->file('main_image')->getClientOriginalName();
+            $path = $request->file('main_image')->storeAs('images', time() . '_' . $fileName, 'public');
+            $update['main_image'] = $path;
+        }
 
         $youtube->update($update);
 
