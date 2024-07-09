@@ -29,7 +29,7 @@
                     자주하는 질문 등록
                 </h2>
             </div>
-            <form action="" method="post" enctype="multipart/form-data">
+            <form action="{{route("admin.questionStore")}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="form-wrap row-group">
                     <div class="form-item row-group">

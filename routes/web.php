@@ -20,6 +20,7 @@ Route::prefix('question')->group(function () {
     Route::controller(QuestionController::class)->group(function () {
         Route::get('/', 'index')->name("admin.questionIndex");
         Route::get('/create', 'create')->name("admin.questionCreate");
+        Route::post('/store', 'store')->name("admin.questionStore");
     });
 });
 
