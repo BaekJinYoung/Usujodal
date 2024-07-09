@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
-    public function __construct(Question $announcement)
+    public function __construct(Question $question)
     {
-        $this->Question = $announcement;
+        $this->Question = $question;
     }
 
     public function index(Request $request) {
