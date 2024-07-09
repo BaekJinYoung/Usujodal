@@ -60,4 +60,10 @@ class QuestionController extends Controller
 
         return redirect()->route('admin.questionIndex');
     }
+
+    public function delete(Question $question)
+    {
+        $question->delete();
+        return redirect()->route('admin.questionIndex');
+    }
 }

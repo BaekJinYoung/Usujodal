@@ -63,4 +63,10 @@ class AnnouncementController extends Controller
 
         return redirect()->route('admin.announcementIndex');
     }
+
+    public function delete(Announcement $announcement)
+    {
+        $announcement->delete();
+        return redirect()->route('admin.announcementIndex');
+    }
 }

@@ -18,9 +18,9 @@ Route::prefix('announcement')->group(function () {
         Route::post('/store', 'store')->name("admin.announcementStore");
         Route::get('/{announcement}/edit', 'edit')->name("admin.announcementEdit");
         Route::patch('/{announcement}', 'update')->name("admin.announcementUpdate");
+        Route::delete('/{announcement}', 'delete')->name("admin.announcementDelete");
     });
 });
-
 
 Route::prefix('question')->group(function () {
     Route::controller(QuestionController::class)->group(function () {
@@ -29,6 +29,7 @@ Route::prefix('question')->group(function () {
         Route::post('/store', 'store')->name("admin.questionStore");
         Route::get('/{question}/edit', 'edit')->name("admin.questionEdit");
         Route::patch('/{question}', 'update')->name("admin.questionUpdate");
+        Route::delete('/{question}', 'delete')->name("admin.questionDelete");
     });
 });
 
@@ -39,6 +40,7 @@ Route::prefix('history')->group(function () {
         Route::post('/store', 'store')->name("admin.historyStore");
         Route::get('/{history}/edit', 'edit')->name("admin.historyEdit");
         Route::patch('/{history}', 'update')->name("admin.historyUpdate");
+        Route::delete('/{history}', 'delete')->name("admin.historyDelete");
     });
 });
 
@@ -49,6 +51,7 @@ Route::prefix('company')->group(function () {
         Route::post('/store', 'store')->name("admin.companyStore");
         Route::get('/{company}/edit', 'edit')->name("admin.companyEdit");
         Route::patch('/{company}', 'update')->name("admin.companyUpdate");
+        Route::delete('/{company}', 'delete')->name("admin.companyDelete");
     });
 });
 
@@ -59,6 +62,7 @@ Route::prefix('youtube')->group(function () {
         Route::post('/store', 'store')->name("admin.youtubeStore");
         Route::get('/{youtube}/edit', 'edit')->name("admin.youtubeEdit");
         Route::patch('/{youtube}', 'update')->name("admin.youtubeUpdate");
+        Route::delete('/{youtube}', 'delete')->name("admin.youtubeDelete");
     });
 });
 

@@ -59,7 +59,7 @@
                                     <a href="{{route("admin.youtubeEdit", $youtube->id)}}" class="btn">
                                         수정
                                     </a>
-                                    <form action="" method="post">
+                                    <form action="{{route("admin.youtubeDelete", $youtube->id)}}" method="post">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn del-btn">

@@ -79,4 +79,10 @@ class HistoryController extends Controller
 
         return redirect()->route('admin.historyIndex');
     }
+
+    public function delete(History $history)
+    {
+        $history->delete();
+        return redirect()->route('admin.historyIndex');
+    }
 }

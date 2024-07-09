@@ -76,7 +76,7 @@
                                     <a href="{{route("admin.questionEdit", $question->id)}}" class="btn">
                                         상세
                                     </a>
-                                    <form action="" method="post">
+                                    <form action="{{route("admin.questionDelete", $question->id)}}" method="post">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn del-btn">

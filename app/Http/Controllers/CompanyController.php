@@ -63,4 +63,10 @@ class CompanyController extends Controller
 
         return redirect()->route('admin.companyIndex');
     }
+
+    public function delete(Company $company)
+    {
+        $company->delete();
+        return redirect()->route('admin.companyIndex');
+    }
 }

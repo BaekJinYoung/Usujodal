@@ -59,7 +59,7 @@
                                     <a href="{{route("admin.companyEdit", $company->id)}}" class="btn">
                                         수정
                                     </a>
-                                    <form action="" method="post">
+                                    <form action="{{route("admin.companyDelete", $company->id)}}" method="post">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn del-btn">
