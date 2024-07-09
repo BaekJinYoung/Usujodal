@@ -45,14 +45,37 @@ class HistoryController extends Controller
             $store['image'] = $path;
         }
 
-        $date = Carbon::parse($request['registered_at']);
-        $store['date'] = $date->format('Y-m-d');
+        if ($request->filled('date')) {
+            $date = Carbon::parse($request->input('date'));
+            $store['date'] = $date->format('Y-m-d');
+        }
 
         $this->History->create($store);
 
         if ($request->filled('continue')) {
             return redirect()->route('admin.historyIndex');
         }
+
+        return redirect()->route('admin.historyIndex');
+    }
+
+    public function edit($id)
+    {
+        $history = $this->History->find($id);
+
+        return view('admin.historyEdit', compact('history'));
+    }
+
+    public function update(HistoryRequest $request, History $history)
+    {
+        $update = $request->validated();
+
+        if ($request->filled('date')) {
+            $date = Carbon::parse($request->input('date'));
+            $update['date'] = $date->format('Y-m-d');
+        }
+
+        $history->update($update);
 
         return redirect()->route('admin.historyIndex');
     }

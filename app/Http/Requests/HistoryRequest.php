@@ -23,7 +23,7 @@ class HistoryRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'registered_at' => 'required',
+            'date' => 'required',
             'content' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];

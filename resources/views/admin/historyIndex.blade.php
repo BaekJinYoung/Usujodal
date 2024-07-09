@@ -56,8 +56,19 @@
                             </div>
                             <div class="txt-box row-group" data-year="{{ date('Y', strtotime($history->date)) }}">
                                 <p class="title">{{date('Y-m', strtotime($history->date))}}</p>
-                                <p class="title">{{$history->details}}</p>
-
+                                <p class="title">{{$history->title}}</p>
+                                <div class="btn-wrap col-group">
+                                    <a href="{{route("admin.historyEdit", $history->id)}}" class="btn">
+                                        수정
+                                    </a>
+                                    <form action="" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn del-btn">
+                                            삭제
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     @endforeach

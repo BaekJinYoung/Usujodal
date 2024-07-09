@@ -36,6 +36,8 @@ Route::prefix('history')->group(function () {
         Route::get('/', 'index')->name("admin.historyIndex");
         Route::get('/create', 'create')->name("admin.historyCreate");
         Route::post('/store', 'store')->name("admin.historyStore");
+        Route::get('/{history}/edit', 'edit')->name("admin.historyEdit");
+        Route::patch('/{history}', 'update')->name("admin.historyUpdate");
     });
 });
 

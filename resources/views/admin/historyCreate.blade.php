@@ -38,15 +38,15 @@
                             진행 일자
                             <span class="red">*</span>
                         </p>
-                        <input type="month" class="form-input w-560" id="date" name="registered_at"
-                               value="{{old('registered_at')}}">
+                        <input type="month" class="form-input w-560" id="date" name="date"
+                               value="{{old('date')}}">
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
                             내용
                             <span class="red">*</span>
                         </p>
-                        <textarea rows="5" name="details" id="details"
+                        <textarea rows="5" name="content" id="content"
                                   placeholder="내용을 작성해주세요.">{{old('content')}}</textarea>
                     </div>
                     <div class="form-item row-group">
