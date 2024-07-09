@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
 
@@ -29,5 +30,26 @@ class CompanyController extends Controller
     public function create()
     {
         return view('admin.companyCreate');
+    }
+
+    public function store(CompanyRequest $request)
+    {
+        $store = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $fileName = $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', time() . '_' . $fileName, 'public');
+            $store['main_image'] = $path;
+        } else {
+            $store['main_image'] = null;
+        }
+
+        $this->Company->create($store);
+
+        if ($request->filled('continue')) {
+            return redirect()->route('admin.companyCreate');
+        }
+
+        return redirect()->route('admin.companyIndex');
     }
 }
