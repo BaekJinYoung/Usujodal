@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 
 class HistoryController extends Controller
 {
-    public function __construct(History $history)
-    {
+    public function __construct(History $history) {
         $this->History = $history;
     }
 
@@ -30,13 +29,11 @@ class HistoryController extends Controller
         return view('admin.historyIndex', compact('histories', 'perPage', 'years', 'selectedYear'));
     }
 
-    public function create()
-    {
+    public function create(){
         return view('admin.historyCreate');
     }
 
-    public function store(HistoryRequest $request)
-    {
+    public function store(HistoryRequest $request) {
         $store = $request->validated();
 
         if ($request->hasFile('image')) {
@@ -59,16 +56,20 @@ class HistoryController extends Controller
         return redirect()->route('admin.historyIndex');
     }
 
-    public function edit($id)
-    {
+    public function edit($id) {
         $history = $this->History->find($id);
 
         return view('admin.historyEdit', compact('history'));
     }
 
-    public function update(HistoryRequest $request, History $history)
-    {
+    public function update(HistoryRequest $request, History $history) {
         $update = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $fileName = $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', time() . '_' . $fileName, 'public');
+            $update['image'] = $path;
+        }
 
         if ($request->filled('date')) {
             $date = Carbon::parse($request->input('date'));
@@ -80,8 +81,7 @@ class HistoryController extends Controller
         return redirect()->route('admin.historyIndex');
     }
 
-    public function delete(History $history)
-    {
+    public function delete(History $history) {
         $history->delete();
         return redirect()->route('admin.historyIndex');
     }
