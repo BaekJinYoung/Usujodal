@@ -8,8 +8,7 @@ use Illuminate\Http\Request;
 
 class YoutubeController extends Controller
 {
-    public function __construct(Youtube $youtube)
-    {
+    public function __construct(Youtube $youtube) {
         $this->Youtube = $youtube;
     }
 
@@ -27,13 +26,11 @@ class YoutubeController extends Controller
         return view('admin.youtubeIndex', compact('youtubes', 'perPage', 'search'));
     }
 
-    public function create()
-    {
+    public function create() {
         return view('admin.youtubeCreate');
     }
 
-    public function store(YoutubeRequest $request)
-    {
+    public function store(YoutubeRequest $request) {
         $store = $request->validated();
 
         if ($request->hasFile('image')) {
@@ -51,15 +48,14 @@ class YoutubeController extends Controller
         return redirect()->route('admin.youtubeIndex');
     }
 
-    public function edit($id)
-    {
+    public function edit($id) {
         $youtube = $this->Youtube->find($id);
+        $youtube->increment('views');
 
         return view('admin.youtubeEdit', compact('youtube'));
     }
 
-    public function update(YoutubeRequest $request, Youtube $youtube)
-    {
+    public function update(YoutubeRequest $request, Youtube $youtube) {
         $update = $request->validated();
 
         $youtube->update($update);
@@ -67,8 +63,7 @@ class YoutubeController extends Controller
         return redirect()->route('admin.youtubeIndex');
     }
 
-    public function delete(Youtube $youtube)
-    {
+    public function delete(Youtube $youtube) {
         $youtube->delete();
         return redirect()->route('admin.youtubeIndex');
     }

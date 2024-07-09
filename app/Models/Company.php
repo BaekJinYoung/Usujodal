@@ -16,6 +16,7 @@ class Company extends Model
         'content',
         'filter',
         'main_image',
+        'views',
     ];
 
     protected $dates = ['deleted_at'];

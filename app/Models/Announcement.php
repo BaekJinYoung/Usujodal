@@ -12,9 +12,10 @@ class Announcement extends Model
     use SoftDeletes;
 
     protected $fillable = [
-      'title',
-      'content',
-      'is_featured'
+        'title',
+        'content',
+        'is_featured',
+        'views',
     ];
 
     protected $dates = ['deleted_at'];

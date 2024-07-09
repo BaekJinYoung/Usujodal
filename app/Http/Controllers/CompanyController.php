@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
-    public function __construct(Company $company){
+    public function __construct(Company $company) {
         $this->Company = $company;
     }
 
@@ -26,11 +26,11 @@ class CompanyController extends Controller
         return view('admin.companyIndex', compact('companies', 'perPage', 'search'));
     }
 
-    public function create(){
+    public function create() {
         return view('admin.companyCreate');
     }
 
-    public function store(CompanyRequest $request){
+    public function store(CompanyRequest $request) {
         $store = $request->validated();
 
         if ($request->hasFile('image')) {
@@ -50,13 +50,14 @@ class CompanyController extends Controller
         return redirect()->route('admin.companyIndex');
     }
 
-    public function edit($id){
+    public function edit($id) {
         $company = $this->Company->find($id);
+        $company->increment('views');
 
         return view('admin.companyEdit', compact('company'));
     }
 
-    public function update(CompanyRequest $request, Company $company){
+    public function update(CompanyRequest $request, Company $company) {
         $update = $request->validated();
 
         $company->update($update);
@@ -64,8 +65,7 @@ class CompanyController extends Controller
         return redirect()->route('admin.companyIndex');
     }
 
-    public function delete(Company $company)
-    {
+    public function delete(Company $company) {
         $company->delete();
         return redirect()->route('admin.companyIndex');
     }

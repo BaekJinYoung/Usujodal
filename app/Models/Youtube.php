@@ -16,6 +16,7 @@ class Youtube extends Model
         'content',
         'main_image',
         'link',
+        'views',
     ];
 
     protected $dates = ['deleted_at'];

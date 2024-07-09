@@ -14,7 +14,8 @@ class Share extends Model
     protected $fillable = [
         'title',
         'content',
-        'is_featured'
+        'is_featured',
+        'views',
     ];
 
     protected $dates = ['deleted_at'];

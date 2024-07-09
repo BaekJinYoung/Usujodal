@@ -6,8 +6,7 @@ use App\Http\Requests\ShareRequest;
 use App\Models\Share;
 use Illuminate\Http\Request;
 
-class ShareController extends Controller
-{
+class ShareController extends Controller {
     public function __construct(Share $share)
     {
         $this->Share = $share;
@@ -27,13 +26,11 @@ class ShareController extends Controller
         return view('admin.shareIndex', compact('shares', 'perPage', 'search'));
     }
 
-    public function create()
-    {
+    public function create() {
         return view('admin.shareCreate');
     }
 
-    public function store(ShareRequest $request)
-    {
+    public function store(ShareRequest $request) {
         $store = $request->validated();
 
         $isFeatured = $request->input('is_featured');
@@ -48,15 +45,14 @@ class ShareController extends Controller
         return redirect()->route('admin.shareIndex');
     }
 
-    public function edit($id)
-    {
+    public function edit($id) {
         $share = $this->Share->find($id);
+        $share->increment('views');
 
         return view('admin.shareEdit', compact('share'));
     }
 
-    public function update(ShareRequest $request, Share $share)
-    {
+    public function update(ShareRequest $request, Share $share) {
         $update = $request->validated();
 
         $share->update($update);
@@ -64,8 +60,7 @@ class ShareController extends Controller
         return redirect()->route('admin.shareIndex');
     }
 
-    public function delete(Share $share)
-    {
+    public function delete(Share $share) {
         $share->delete();
         return redirect()->route('admin.shareIndex');
     }

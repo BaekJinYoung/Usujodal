@@ -33,6 +33,7 @@
                 @csrf
                 @method('patch')
                 <div class="form-wrap row-group">
+                    <p>조회수: {{ $youtube->views }}</p>
                     <div class="form-item row-group">
                         <p class="item-default">
                             제목

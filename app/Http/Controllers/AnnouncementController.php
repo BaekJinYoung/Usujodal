@@ -51,6 +51,7 @@ class AnnouncementController extends Controller
     public function edit($id)
     {
         $announcement = $this->Announcement->find($id);
+        $announcement->increment('views');
 
         return view('admin.announcementEdit', compact('announcement'));
     }

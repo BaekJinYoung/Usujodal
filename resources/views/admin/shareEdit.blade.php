@@ -33,6 +33,7 @@
                 @csrf
                 @method('patch')
                 <div class="form-wrap row-group">
+                    <p>조회수: {{ $share->views }}</p>
                     <div class="form-item row-group">
                         <p class="item-default">
                             상단 공지
