@@ -46,6 +46,8 @@ Route::prefix('company')->group(function () {
         Route::get('/', 'index')->name("admin.companyIndex");
         Route::get('/create', 'create')->name("admin.companyCreate");
         Route::post('/store', 'store')->name("admin.companyStore");
+        Route::get('/{company}/edit', 'edit')->name("admin.companyEdit");
+        Route::patch('/{company}', 'update')->name("admin.companyUpdate");
     });
 });
 

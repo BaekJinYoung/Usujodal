@@ -23,9 +23,9 @@ class CompanyRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'title' => 'required',
-            'content' => 'required',
-            'filter' => 'required',
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'filter' => 'required|string|max:255',
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
 

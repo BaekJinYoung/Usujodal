@@ -28,7 +28,8 @@
                         </select>
                         <form action="{{route("admin.companyIndex")}}" method="get">
                             <div class="search-wrap col-group">
-                                <input type="text" name="search" class="search-input" placeholder="제목을 입력하세요" value="{{ old('search', $search) }}">
+                                <input type="text" name="search" class="search-input" placeholder="제목을 입력하세요"
+                                       value="{{ old('search', $search) }}">
                                 <button type="submit" class="search-btn">
                                     <i class="xi-search"></i>
                                 </button>
@@ -54,6 +55,18 @@
                             </div>
                             <div class="txt-box row-group">
                                 <p class="title">{{$company->title}}</p>
+                                <div class="btn-wrap col-group">
+                                    <a href="{{route("admin.companyEdit", $company->id)}}" class="btn">
+                                        수정
+                                    </a>
+                                    <form action="" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn del-btn">
+                                            삭제
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     @endforeach
