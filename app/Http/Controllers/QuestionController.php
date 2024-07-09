@@ -44,4 +44,20 @@ class QuestionController extends Controller
 
         return redirect()->route('admin.questionIndex');
     }
+
+    public function edit($id)
+    {
+        $question = $this->Question->find($id);
+
+        return view('admin.questionEdit', compact('question'));
+    }
+
+    public function update(QuestionRequest $request, Question $question)
+    {
+        $update = $request->validated();
+
+        $question->update($update);
+
+        return redirect()->route('admin.questionIndex');
+    }
 }

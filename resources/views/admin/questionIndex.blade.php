@@ -73,7 +73,7 @@
                             <td class="admin-td"></td>
                             <td class="admin-td">
                                 <div class="btn-wrap col-group">
-                                    <a href="" class="btn">
+                                    <a href="{{route("admin.questionEdit", $question->id)}}" class="btn">
                                         상세
                                     </a>
                                     <form action="" method="post">

@@ -26,6 +26,8 @@ Route::prefix('question')->group(function () {
         Route::get('/', 'index')->name("admin.questionIndex");
         Route::get('/create', 'create')->name("admin.questionCreate");
         Route::post('/store', 'store')->name("admin.questionStore");
+        Route::get('/{question}/edit', 'edit')->name("admin.questionEdit");
+        Route::patch('/{question}', 'update')->name("admin.questionUpdate");
     });
 });
 
