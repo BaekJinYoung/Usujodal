@@ -4,6 +4,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\YoutubeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -48,6 +49,16 @@ Route::prefix('company')->group(function () {
         Route::post('/store', 'store')->name("admin.companyStore");
         Route::get('/{company}/edit', 'edit')->name("admin.companyEdit");
         Route::patch('/{company}', 'update')->name("admin.companyUpdate");
+    });
+});
+
+Route::prefix('youtube')->group(function () {
+    Route::controller(YoutubeController::class)->group(function () {
+        Route::get('/', 'index')->name("admin.youtubeIndex");
+        Route::get('/create', 'create')->name("admin.youtubeCreate");
+        Route::post('/store', 'store')->name("admin.youtubeStore");
+        Route::get('/{youtube}/edit', 'edit')->name("admin.youtubeEdit");
+        Route::patch('/{youtube}', 'update')->name("admin.youtubeUpdate");
     });
 });
 
