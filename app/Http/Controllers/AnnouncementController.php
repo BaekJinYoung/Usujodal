@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AnnouncementRequest;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
 
@@ -29,5 +30,21 @@ class AnnouncementController extends Controller
     public function create()
     {
         return view('admin.announcementCreate');
+    }
+
+    public function store(AnnouncementRequest $request)
+    {
+        $store = $request->validated();
+
+        $isFeatured = $request->input('is_featured');
+        $store['is_featured'] = $isFeatured;
+
+        $this->Announcement->create($store);
+
+        if ($request->filled('continue')) {
+            return redirect()->route('admin.announcementIndex');
+        }
+
+        return redirect()->route('admin.announcementIndex');
     }
 }

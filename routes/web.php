@@ -12,6 +12,7 @@ Route::prefix('announcement')->group(function () {
     Route::controller(AnnouncementController::class)->group(function () {
         Route::get('/', 'index')->name("admin.announcementIndex");
         Route::get('/create', 'create')->name("admin.announcementCreate");
+        Route::post('/store', 'store')->name("admin.announcementStore");
     });
 });
 

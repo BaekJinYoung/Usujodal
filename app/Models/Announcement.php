@@ -12,7 +12,6 @@ class Announcement extends Model
     protected $fillable = [
       'title',
       'content',
-      'views',
       'is_featured'
     ];
 }
