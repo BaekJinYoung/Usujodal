@@ -4,6 +4,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\ShareController;
 use App\Http\Controllers\YoutubeController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,17 @@ Route::prefix('announcement')->group(function () {
         Route::get('/{announcement}/edit', 'edit')->name("admin.announcementEdit");
         Route::patch('/{announcement}', 'update')->name("admin.announcementUpdate");
         Route::delete('/{announcement}', 'delete')->name("admin.announcementDelete");
+    });
+});
+
+Route::prefix('share')->group(function () {
+    Route::controller(ShareController::class)->group(function () {
+        Route::get('/', 'index')->name("admin.shareIndex");
+        Route::get('/create', 'create')->name("admin.shareCreate");
+        Route::post('/store', 'store')->name("admin.shareStore");
+        Route::get('/{share}/edit', 'edit')->name("admin.shareEdit");
+        Route::patch('/{share}', 'update')->name("admin.shareUpdate");
+        Route::delete('/{share}', 'delete')->name("admin.shareDelete");
     });
 });
 
