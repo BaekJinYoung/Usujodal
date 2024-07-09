@@ -33,9 +33,9 @@ class CompanyController extends Controller
     public function store(CompanyRequest $request) {
         $store = $request->validated();
 
-        if ($request->hasFile('image')) {
-            $fileName = $request->file('image')->getClientOriginalName();
-            $path = $request->file('image')->storeAs('images', time() . '_' . $fileName, 'public');
+        if ($request->hasFile('main_image')) {
+            $fileName = $request->file('main_image')->getClientOriginalName();
+            $path = $request->file('main_image')->storeAs('images', time() . '_' . $fileName, 'public');
             $store['main_image'] = $path;
         } else {
             $store['main_image'] = null;
@@ -60,6 +60,14 @@ class CompanyController extends Controller
     public function update(CompanyRequest $request, Company $company) {
         $update = $request->validated();
 
+        if ($request->hasFile('main_image')) {
+            $fileName = $request->file('main_image')->getClientOriginalName();
+            $path = $request->file('main_image')->storeAs('images', time() . '_' . $fileName, 'public');
+            $update['main_image'] = $path;
+        } else {
+            $update['main_image'] = null;
+        }
+
         $company->update($update);
 
         return redirect()->route('admin.companyIndex');
@@ -67,6 +75,7 @@ class CompanyController extends Controller
 
     public function delete(Company $company) {
         $company->delete();
+
         return redirect()->route('admin.companyIndex');
     }
 }

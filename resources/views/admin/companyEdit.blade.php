@@ -63,14 +63,20 @@
                             <span class="guide-txt">
                                 320*440px 비율 고해상도 사진 등록
                             </span>
-                            <div class="file-preview" id="image-preview" style="display: none">
-                                <p class="file-name" id="image-filename"></p>
+                            <div class="file-preview" id="image-preview"
+                                 @if(!$company->main_image) style="display: none" @endif>
+                                <p class="file-name" id="image-filename">
+                                    @if($company->main_image)
+                                        {{$company->main_image}}
+                                    @endif
+                                </p>
                                 <button type="button" class="file-del-btn" id="remove-image-btn">
                                     <i class="xi-close"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" name="remove_image" id="remove_image" value="0">
                     <div class="form-item row-group">
                         <div class="form-group">
                             <label for="filter">필터 선택</label>
