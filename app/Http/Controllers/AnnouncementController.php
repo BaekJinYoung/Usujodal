@@ -47,4 +47,20 @@ class AnnouncementController extends Controller
 
         return redirect()->route('admin.announcementIndex');
     }
+
+    public function edit($id)
+    {
+        $announcement = $this->Announcement->find($id);
+
+        return view('admin.announcementEdit', compact('announcement'));
+    }
+
+    public function update(AnnouncementRequest $request, Announcement $announcement)
+    {
+        $update = $request->validated();
+
+        $announcement->update($update);
+
+        return redirect()->route('admin.announcementIndex');
+    }
 }

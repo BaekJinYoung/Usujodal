@@ -15,6 +15,8 @@ Route::prefix('announcement')->group(function () {
         Route::get('/', 'index')->name("admin.announcementIndex");
         Route::get('/create', 'create')->name("admin.announcementCreate");
         Route::post('/store', 'store')->name("admin.announcementStore");
+        Route::get('/{announcement}/edit', 'edit')->name("admin.announcementEdit");
+        Route::patch('/{announcement}', 'update')->name("admin.announcementUpdate");
     });
 });
 
