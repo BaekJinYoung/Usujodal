@@ -13,6 +13,20 @@ class AnnouncementController extends Controller
         $this->Announcement = $announcement;
     }
 
+//    public function index(Request $request) {
+//        $query = $this->Announcement->query();
+//        $search = $request->input('search', '');
+//
+//        if (!empty($search)) {
+//            $query->where('title', 'like', '%' . $search . '%');
+//        }
+//
+//        $perPage = $request->query('perPage', 10);
+//        $announcements = $query->latest()->paginate($perPage);
+//
+//        return view('admin.announcementIndex', compact('announcements', 'perPage', 'search'));
+//    }
+
     public function index(Request $request) {
         $query = $this->Announcement->query();
         $search = $request->input('search', '');
@@ -22,9 +36,9 @@ class AnnouncementController extends Controller
         }
 
         $perPage = $request->query('perPage', 10);
-        $announcements = $query->latest()->paginate($perPage);
+        $announcements = $query->latest()->simplePaginate($perPage);
 
-        return view('admin.announcementIndex', compact('announcements', 'perPage', 'search'));
+        return compact('announcements', 'perPage', 'search');
     }
 
     public function create()

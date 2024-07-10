@@ -12,6 +12,20 @@ class CompanyController extends Controller
         $this->Company = $company;
     }
 
+//    public function index(Request $request) {
+//        $query = $this->Company->query();
+//        $search = $request->input('search', '');
+//
+//        if (!empty($search)) {
+//            $query->where('title', 'like', '%' . $search . '%');
+//        }
+//
+//        $perPage = $request->query('perPage', 8);
+//        $companies = $query->latest()->paginate($perPage);
+//
+//        return view('admin.companyIndex', compact('companies', 'perPage', 'search'));
+//    }
+
     public function index(Request $request) {
         $query = $this->Company->query();
         $search = $request->input('search', '');
@@ -21,9 +35,9 @@ class CompanyController extends Controller
         }
 
         $perPage = $request->query('perPage', 8);
-        $companies = $query->latest()->paginate($perPage);
+        $companies = $query->latest()->simplePaginate($perPage);
 
-        return view('admin.companyIndex', compact('companies', 'perPage', 'search'));
+        return compact('companies', 'perPage', 'search');
     }
 
     public function create() {
