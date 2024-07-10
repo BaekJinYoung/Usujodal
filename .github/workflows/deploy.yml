@@ -3,7 +3,7 @@ name: Laravel Deploy
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
@@ -73,8 +73,8 @@ jobs:
             git init
             git remote add origin https://BaekJinYoung:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/BaekJinYoung/Example.git
             git fetch
-            git checkout master
-            git pull origin master
+            git checkout main
+            git pull origin main
 
             # install.sh 실행
             sudo -u ${{ secrets.SERVER_USER }} bash /home/${{ secrets.SERVER_USER }}/install.sh
