@@ -12,6 +12,20 @@ class ShareController extends Controller {
         $this->Share = $share;
     }
 
+//    public function index(Request $request) {
+//        $query = $this->Share->query();
+//        $search = $request->input('search', '');
+//
+//        if (!empty($search)) {
+//            $query->where('title', 'like', '%' . $search . '%');
+//        }
+//
+//        $perPage = $request->query('perPage', 10);
+//        $shares = $query->latest()->paginate($perPage);
+//
+//        return view('admin.shareIndex', compact('shares', 'perPage', 'search'));
+//    }
+
     public function index(Request $request) {
         $query = $this->Share->query();
         $search = $request->input('search', '');
@@ -20,10 +34,9 @@ class ShareController extends Controller {
             $query->where('title', 'like', '%' . $search . '%');
         }
 
-        $perPage = $request->query('perPage', 10);
-        $shares = $query->latest()->paginate($perPage);
+        $shares = $query->simplePaginate(10);
 
-        return view('admin.shareIndex', compact('shares', 'perPage', 'search'));
+        return compact('shares', 'search');
     }
 
     public function create() {
