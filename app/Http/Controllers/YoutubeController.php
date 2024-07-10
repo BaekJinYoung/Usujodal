@@ -21,10 +21,24 @@ class YoutubeController extends Controller
         }
 
         $perPage = $request->query('perPage', 10);
-        $youtubes = $query->latest()->paginate($perPage);
+        $youtubes = $query->latest()->simplePaginate($perPage);
 
-        return view('admin.youtubeIndex', compact('youtubes', 'perPage', 'search'));
+        return compact('youtubes', 'perPage', 'search');
     }
+
+//    public function index(Request $request) {
+//        $query = $this->Youtube->query();
+//        $search = $request->input('search', '');
+//
+//        if (!empty($search)) {
+//            $query->where('title', 'like', '%' . $search . '%');
+//        }
+//
+//        $perPage = $request->query('perPage', 10);
+//        $youtubes = $query->latest()->paginate($perPage);
+//
+//        return view('admin.youtubeIndex', compact('youtubes', 'perPage', 'search'));
+//    }
 
     public function create() {
         return view('admin.youtubeCreate');

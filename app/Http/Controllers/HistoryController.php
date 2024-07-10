@@ -22,12 +22,28 @@ class HistoryController extends Controller
             $histories->whereYear('date', $selectedYear);
         }
 
-        $histories = $histories->paginate($perPage);
+        $histories = $histories->simplePaginate($perPage);
 
         $years = $this->History->selectRaw('YEAR(date) as year')->distinct()->pluck('year')->toArray();
 
-        return view('admin.historyIndex', compact('histories', 'perPage', 'years', 'selectedYear'));
+        return compact('histories', 'perPage', 'years', 'selectedYear');
     }
+
+//    public function index(Request $request) {
+//        $perPage = $request->query('perPage', 8);
+//        $selectedYear = $request->query('yearFilter', '');
+//        $histories = $this->History->query();
+//
+//        if ($selectedYear) {
+//            $histories->whereYear('date', $selectedYear);
+//        }
+//
+//        $histories = $histories->paginate($perPage);
+//
+//        $years = $this->History->selectRaw('YEAR(date) as year')->distinct()->pluck('year')->toArray();
+//
+//        return view('admin.historyIndex', compact('histories', 'perPage', 'years', 'selectedYear'));
+//    }
 
     public function create(){
         return view('admin.historyCreate');

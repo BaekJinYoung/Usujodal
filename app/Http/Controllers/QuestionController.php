@@ -21,10 +21,24 @@ class QuestionController extends Controller
         }
 
         $perPage = $request->query('perPage', 10);
-        $questions = $query->latest()->paginate($perPage);
+        $questions = $query->latest()->simplePaginate($perPage);
 
-        return view('admin.questionIndex', compact('questions', 'perPage', 'search'));
+        return compact('questions', 'perPage', 'search');
     }
+
+//    public function index(Request $request) {
+//        $query = $this->Question->query();
+//        $search = $request->input('search', '');
+//
+//        if (!empty($search)) {
+//            $query->where('title', 'like', '%' . $search . '%');
+//        }
+//
+//        $perPage = $request->query('perPage', 10);
+//        $questions = $query->latest()->paginate($perPage);
+//
+//        return view('admin.questionIndex', compact('questions', 'perPage', 'search'));
+//    }
 
     public function create() {
         return view('admin.questionCreate');
