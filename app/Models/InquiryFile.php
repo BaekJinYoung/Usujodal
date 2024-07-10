@@ -5,20 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Inquiry extends Model
+class InquiryFile extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'contact',
-        'company',
-        'email',
-        'message',
+        'inquiry_id',
+        'file_path',
     ];
 
-    public function files()
+    public function inquiry()
     {
-        return $this->hasMany(InquiryFile::class);
+        return $this->belongsTo(Inquiry::class);
     }
 }

@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Contact Us</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script>
         function validateForm() {
             var checkbox = document.getElementById('agreeCheckbox');
@@ -14,7 +15,7 @@
     </script>
 </head>
 <body>
-<form id="contactForm">
+<form id="contactForm" enctype="multipart/form-data">
     @csrf
     <label for="name">성함:</label>
     <input type="text" id="name" name="name" required><br><br>
@@ -26,6 +27,8 @@
     <input type="email" id="email" name="email"><br><br>
     <label for="message">문의내용:</label>
     <textarea id="message" name="message" required></textarea><br><br>
+    <label for="file">Files:</label>
+    <input type="file" id="file" name="files[]" multiple><br><br>
     <label>
         <input type="checkbox" id="agreeCheckbox"> 개인정보 수집 및 이용에 대한 동의(필수)
     </label>

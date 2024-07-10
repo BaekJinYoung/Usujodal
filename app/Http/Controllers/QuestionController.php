@@ -8,8 +8,7 @@ use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
-    public function __construct(Question $question)
-    {
+    public function __construct(Question $question) {
         $this->Question = $question;
     }
 
@@ -27,13 +26,11 @@ class QuestionController extends Controller
         return view('admin.questionIndex', compact('questions', 'perPage', 'search'));
     }
 
-    public function create()
-    {
+    public function create() {
         return view('admin.questionCreate');
     }
 
-    public function store(QuestionRequest $request)
-    {
+    public function store(QuestionRequest $request) {
         $store = $request->validated();
 
         $this->Question->create($store);
@@ -45,15 +42,13 @@ class QuestionController extends Controller
         return redirect()->route('admin.questionIndex');
     }
 
-    public function edit($id)
-    {
+    public function edit($id) {
         $question = $this->Question->find($id);
 
         return view('admin.questionEdit', compact('question'));
     }
 
-    public function update(QuestionRequest $request, Question $question)
-    {
+    public function update(QuestionRequest $request, Question $question) {
         $update = $request->validated();
 
         $question->update($update);
@@ -61,8 +56,7 @@ class QuestionController extends Controller
         return redirect()->route('admin.questionIndex');
     }
 
-    public function delete(Question $question)
-    {
+    public function delete(Question $question) {
         $question->delete();
         return redirect()->route('admin.questionIndex');
     }
