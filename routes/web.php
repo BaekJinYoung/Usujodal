@@ -12,6 +12,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::view('/inquiry', 'client.inquiry');
+
 Route::prefix('announcement')->group(function () {
     Route::controller(AnnouncementController::class)->group(function () {
         Route::get('/', 'index')->name("admin.announcementIndex");
