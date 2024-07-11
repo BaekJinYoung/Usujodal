@@ -14,6 +14,7 @@ Route::get('/', function () {
 });
 
 Route::controller(ClientController::class)->group(function () {
+    Route::get('/history', 'history');
     Route::get('/company', 'company');
     Route::get('/youtube', 'youtube');
     Route::get('/announcement', 'announcement');

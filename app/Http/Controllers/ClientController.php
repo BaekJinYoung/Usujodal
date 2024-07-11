@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Announcement;
 use App\Models\Company;
+use App\Models\History;
 use App\Models\Question;
 use App\Models\Share;
 use App\Models\Youtube;
@@ -11,6 +12,12 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
+    public function history(Request $request) {
+        $histories = History::latest()->simplePaginate(10);
+
+        return compact('histories');
+    }
+
     public function company(Request $request) {
         $companies = Company::latest()->simplePaginate(10);
 
