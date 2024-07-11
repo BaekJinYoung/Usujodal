@@ -18,6 +18,7 @@ Route::controller(ClientController::class)->group(function () {
     Route::get('/youtube', 'youtube');
     Route::get('/announcement', 'announcement');
     Route::get('/share', 'share');
+    Route::get('/question', 'question');
 });
 
 Route::prefix('admin')->group(function () {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Announcement;
 use App\Models\Company;
+use App\Models\Question;
 use App\Models\Share;
 use App\Models\Youtube;
 use Illuminate\Http\Request;
@@ -57,4 +58,17 @@ class ClientController extends Controller
 
         return compact('shares', 'search');
     }
+
+    public function question(Request $request) {
+        $questions = Question::latest()->simplePaginate(10);
+
+        $search = $request->input('search', '');
+
+        if (!empty($search)) {
+            $questions->where('title', 'like', '%' . $search . '%');
+        }
+
+        return compact('questions', 'search');
+    }
+
 }
