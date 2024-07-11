@@ -19,7 +19,8 @@ class ClientController extends Controller
     }
 
     public function company(Request $request) {
-        $companies = Company::latest()->simplePaginate(10);
+        $companies = Company::select('main_image', 'title', 'filter', 'created_at')
+        ->latest()->simplePaginate(10);
 
         $search = $request->input('search', '');
 
@@ -31,7 +32,8 @@ class ClientController extends Controller
     }
 
     public function youtube(Request $request) {
-        $youtubes = Youtube::latest()->simplePaginate(10);
+        $youtubes = Youtube::select('main_image', 'title', 'created_at')
+        ->latest()->simplePaginate(10);
 
         $search = $request->input('search', '');
 
@@ -43,7 +45,8 @@ class ClientController extends Controller
     }
 
     public function announcement(Request $request) {
-        $announcements = Announcement::latest()->simplePaginate(10);
+        $announcements = Announcement::select('is_featured', 'title', 'created_at')
+        ->latest()->simplePaginate(10);
 
         $search = $request->input('search', '');
 
@@ -55,7 +58,8 @@ class ClientController extends Controller
     }
 
     public function share(Request $request) {
-        $shares = Share::latest()->simplePaginate(10);
+        $shares = Share::select('is_featured', 'title', 'created_at')
+        ->latest()->simplePaginate(10);
 
         $search = $request->input('search', '');
 
@@ -67,7 +71,8 @@ class ClientController extends Controller
     }
 
     public function question(Request $request) {
-        $questions = Question::latest()->simplePaginate(10);
+        $questions = Question::select('title')
+        ->latest()->simplePaginate(10);
 
         $search = $request->input('search', '');
 
