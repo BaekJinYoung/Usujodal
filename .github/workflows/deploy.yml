@@ -83,6 +83,9 @@ jobs:
 #            sudo find /home/${{ secrets.SERVER_USER }}/laravel -type f -exec chmod 644 {} \;
 #            sudo find /home/${{ secrets.SERVER_USER }}/laravel -type d -exec chmod 755 {} \;
 
+      - name: Test SSH connection
+        run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} -i ${{ secrets.SSH_PRIVATE_KEY }} "echo Connected successfully"
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@master
         with:
