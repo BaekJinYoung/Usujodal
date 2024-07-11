@@ -54,20 +54,20 @@ jobs:
           script: |
             echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
 
-            export MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
-            bash /home/${{ secrets.SERVER_USER }}/install.sh "$MYSQL_ROOT_PASSWORD"
-            export LARAVEL_PROJECT_PATH=/home/${{ secrets.SERVER_USER }}/laravel
-            bash /home/${{ secrets.SERVER_USER }}/install.sh "LARAVEL_PROJECT_PATH"
+#            export MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
+#            bash /home/${{ secrets.SERVER_USER }}/install.sh "$MYSQL_ROOT_PASSWORD"
+#            export LARAVEL_PROJECT_PATH=/home/${{ secrets.SERVER_USER }}/laravel
+#            bash /home/${{ secrets.SERVER_USER }}/install.sh "LARAVEL_PROJECT_PATH"
 
-            # 필요한 패키지 설치
-            sudo apt-get update
-            sudo apt upgrade -y
-            sudo apt --fix-broken install
+#            # 필요한 패키지 설치
+#            sudo apt-get update
+#            sudo apt upgrade -y
+#            sudo apt --fix-broken install
 
-            # Laravel 프로젝트 설정
-            sudo mkdir -p /home/${{ secrets.SERVER_USER }}/laravel
-            sudo chown -R $USER:$USER /home/${{ secrets.SERVER_USER }}/laravel
-            cd /home/${{ secrets.SERVER_USER }}/laravel
+#            # Laravel 프로젝트 설정
+#            sudo mkdir -p /home/${{ secrets.SERVER_USER }}/laravel
+#            sudo chown -R $USER:$USER /home/${{ secrets.SERVER_USER }}/laravel
+#            cd /home/${{ secrets.SERVER_USER }}/laravel
 
             # Git 초기화 및 소스 코드 다운로드
             git init
@@ -76,10 +76,10 @@ jobs:
             git checkout main
             git pull origin main
 
-            # install.sh 실행
-            sudo -u ${{ secrets.SERVER_USER }} bash /home/${{ secrets.SERVER_USER }}/install.sh
+#            # install.sh 실행
+#            sudo -u ${{ secrets.SERVER_USER }} bash /home/${{ secrets.SERVER_USER }}/install.sh
 
-            # 파일 권한 설정
-            sudo find /home/${{ secrets.SERVER_USER }}/laravel -type f -exec chmod 644 {} \;
-            sudo find /home/${{ secrets.SERVER_USER }}/laravel -type d -exec chmod 755 {} \;
+#            # 파일 권한 설정
+#            sudo find /home/${{ secrets.SERVER_USER }}/laravel -type f -exec chmod 644 {} \;
+#            sudo find /home/${{ secrets.SERVER_USER }}/laravel -type d -exec chmod 755 {} \;
 
