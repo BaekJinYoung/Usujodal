@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ApiResponse;
 use App\Models\Announcement;
 use App\Models\Company;
 use App\Models\Question;
@@ -11,46 +12,33 @@ use Illuminate\Http\Request;
 
 class DetailController extends Controller
 {
+    private function detailRespond($model, $selectColumns, $id, $incrementViews = false) {
+        $detail = $model::select($selectColumns)->findOrFail($id);
+
+        if ($incrementViews) {
+            $detail->increment('views');
+        }
+
+        return ApiResponse::success($detail);
+    }
+
     public function company_detail($id) {
-        $company = Company::select('id', 'main_image', 'views', 'content')
-            ->findOrFail($id);
-
-        $company->increment('views');
-
-        return compact('company');
+        return $this->detailRespond(Company::class, ['id', 'main_image', 'views', 'content'], $id, true);
     }
 
     public function youtube_detail($id) {
-        $youtube = Youtube::select('id', 'title', 'created_at', 'views', 'link', 'content')
-            ->findOrFail($id);
-
-        $youtube->increment('views');
-
-        return compact('youtube');
+        return $this->detailRespond(Youtube::class, ['id', 'title', 'created_at', 'views', 'link', 'content'], $id, true);
     }
 
     public function announcement_detail($id) {
-        $announcement = Announcement::select('id', 'views', 'content')
-            ->findOrFail($id);
-
-        $announcement->increment('views');
-
-        return compact('announcement');
+        return $this->detailRespond(Announcement::class, ['id', 'views', 'content'], $id, true);
     }
 
     public function share_detail($id) {
-        $share = Share::select('id', 'views', 'content')
-            ->findOrFail($id);
-
-        $share->increment('views');
-
-        return compact('share');
+        return $this->detailRespond(Share::class, ['id', 'views', 'content'], $id, true);
     }
 
     public function question_detail($id) {
-        $question = Question::select('id', 'content')
-            ->findOrFail($id);
-
-        return compact('question');
+        return $this->detailRespond(Question::class, ['id', 'content'], $id);
     }
 }

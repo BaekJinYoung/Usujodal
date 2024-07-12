@@ -26,7 +26,7 @@ class IndexController extends Controller
         $data = $query->simplePaginate(10);
 
         if ($data->isEmpty()) {
-            return ApiResponse::success([], '검색 결과가 없습니다');
+            return ApiResponse::success([], '게시물이 없습니다');
         }
 
         return ApiResponse::success(compact('data', 'searchValue'));
