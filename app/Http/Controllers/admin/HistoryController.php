@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
 use App\Http\Requests\HistoryRequest;
 use App\Models\History;
 use Carbon\Carbon;
+use function App\Http\Controllers\create;
 
 class HistoryController extends BaseController {
 

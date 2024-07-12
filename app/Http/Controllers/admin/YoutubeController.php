@@ -1,49 +1,45 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
-use App\Http\Requests\CompanyRequest;
-use App\Models\Company;
+use App\Http\Requests\YoutubeRequest;
+use App\Models\Youtube;
 
-class CompanyController extends BaseController {
+class YoutubeController extends BaseController {
 
-    public function __construct(Company $company) {
-        parent::__construct($company);
+    public function __construct(Youtube $youtube) {
+        parent::__construct($youtube);
     }
 
-    public function store(CompanyRequest $request) {
+    public function store(YoutubeRequest $request) {
         $store = $request->validated();
 
         if ($request->hasFile('main_image')) {
             $fileName = $request->file('main_image')->getClientOriginalName();
             $path = $request->file('main_image')->storeAs('images', time() . '_' . $fileName, 'public');
             $store['main_image'] = $path;
-        } else {
-            $store['main_image'] = null;
         }
 
         $this->model->create($store);
 
         if ($request->filled('continue')) {
-            return redirect()->route('admin.companyCreate');
+            return redirect()->route('admin.youtubeIndex');
         }
 
-        return redirect()->route('admin.companyIndex');
+        return redirect()->route('admin.youtubeIndex');
     }
 
-    public function update(CompanyRequest $request, Company $company) {
+    public function update(YoutubeRequest $request, Youtube $youtube) {
         $update = $request->validated();
 
         if ($request->hasFile('main_image')) {
             $fileName = $request->file('main_image')->getClientOriginalName();
             $path = $request->file('main_image')->storeAs('images', time() . '_' . $fileName, 'public');
             $update['main_image'] = $path;
-        } else {
-            $update['main_image'] = null;
         }
 
-        $company->update($update);
+        $youtube->update($update);
 
-        return redirect()->route('admin.companyIndex');
+        return redirect()->route('admin.youtubeIndex');
     }
 }

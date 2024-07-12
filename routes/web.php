@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\admin\AnnouncementController;
+use App\Http\Controllers\admin\CompanyController;
+use App\Http\Controllers\admin\HistoryController;
+use App\Http\Controllers\admin\QuestionController;
+use App\Http\Controllers\admin\ShareController;
+use App\Http\Controllers\admin\YoutubeController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\IndexController;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\HistoryController;
-use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\ShareController;
-use App\Http\Controllers\YoutubeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
