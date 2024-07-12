@@ -31,6 +31,15 @@ class ClientController extends Controller
         return compact('companies', 'search');
     }
 
+    public function company_detail($id) {
+        $company = Company::select('id', 'main_image', 'title', 'filter', 'created_at', 'content', 'views')
+            ->find($id);
+
+        $company->increment('views');
+
+        return compact('company');
+    }
+
     public function youtube(Request $request) {
         $youtubes = Youtube::select('main_image', 'title', 'created_at')
         ->latest()->simplePaginate(10);
