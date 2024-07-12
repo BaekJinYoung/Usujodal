@@ -19,7 +19,7 @@ class ClientController extends Controller
     }
 
     public function company(Request $request) {
-        $companies = Company::select('main_image', 'title', 'filter', 'created_at')
+        $companies = Company::select('id', 'main_image', 'title', 'filter', 'created_at')
         ->latest()->simplePaginate(10);
 
         $search = $request->input('search', '');
@@ -32,7 +32,7 @@ class ClientController extends Controller
     }
 
     public function company_detail($id) {
-        $company = Company::select('id', 'main_image', 'title', 'filter', 'created_at', 'content', 'views')
+        $company = Company::select('id', 'main_image', 'views', 'content')
             ->find($id);
 
         $company->increment('views');
@@ -41,7 +41,7 @@ class ClientController extends Controller
     }
 
     public function youtube(Request $request) {
-        $youtubes = Youtube::select('main_image', 'title', 'created_at')
+        $youtubes = Youtube::select('id', 'main_image', 'title', 'created_at')
         ->latest()->simplePaginate(10);
 
         $search = $request->input('search', '');
@@ -53,8 +53,17 @@ class ClientController extends Controller
         return compact('youtubes', 'search');
     }
 
+    public function youtube_detail($id) {
+        $youtube = Youtube::select('id', 'title', 'created_at', 'views', 'link', 'content')
+            ->find($id);
+
+        $youtube->increment('views');
+
+        return compact('youtube');
+    }
+
     public function announcement(Request $request) {
-        $announcements = Announcement::select('is_featured', 'title', 'created_at')
+        $announcements = Announcement::select('id', 'is_featured', 'title', 'created_at')
         ->latest()->simplePaginate(10);
 
         $search = $request->input('search', '');
@@ -66,8 +75,17 @@ class ClientController extends Controller
         return compact('announcements', 'search');
     }
 
+    public function announcement_detail($id) {
+        $announcement = Announcement::select('id', 'views', 'content')
+            ->find($id);
+
+        $announcement->increment('views');
+
+        return compact('announcement');
+    }
+
     public function share(Request $request) {
-        $shares = Share::select('is_featured', 'title', 'created_at')
+        $shares = Share::select('id', 'is_featured', 'title', 'created_at')
         ->latest()->simplePaginate(10);
 
         $search = $request->input('search', '');
@@ -79,8 +97,17 @@ class ClientController extends Controller
         return compact('shares', 'search');
     }
 
+    public function share_detail($id) {
+        $share = Share::select('id', 'views', 'content')
+            ->find($id);
+
+        $share->increment('views');
+
+        return compact('share');
+    }
+
     public function question(Request $request) {
-        $questions = Question::select('title')
+        $questions = Question::select('id', 'title')
         ->latest()->simplePaginate(10);
 
         $search = $request->input('search', '');
@@ -92,4 +119,11 @@ class ClientController extends Controller
         return compact('questions', 'search');
     }
 
+    public function question_detail($id) {
+        $question = Question::select('id', 'content')
+            ->find($id);
+
+        return compact('question');
+
+    }
 }

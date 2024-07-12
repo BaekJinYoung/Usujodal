@@ -18,9 +18,13 @@ Route::controller(ClientController::class)->group(function () {
     Route::get('/company', 'company');
     Route::get('/company/{id}', 'company_detail');
     Route::get('/youtube', 'youtube');
+    Route::get('/youtube/{id}', 'youtube_detail');
     Route::get('/announcement', 'announcement');
+    Route::get('/announcement/{id}', 'announcement_detail');
     Route::get('/share', 'share');
+    Route::get('/share/{id}', 'share_detail');
     Route::get('/question', 'question');
+    Route::get('/question/{id}', 'question_detail');
 });
 
 Route::prefix('admin')->group(function () {
