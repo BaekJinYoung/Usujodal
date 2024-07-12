@@ -26,49 +26,40 @@
             @endif
             <div class="title-wrap col-group">
                 <h2 class="main-title">
-                    공지사항 수정
+                    컨설턴트 소개
                 </h2>
             </div>
-            <form action="{{route("admin.announcementUpdate", $item)}}" method="post" enctype="multipart/form-data">
+            <form action="{{route("admin.consultantUpdate", $item)}}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('patch')
                 <div class="form-wrap row-group">
                     <div class="form-item row-group">
-                        <p>조회수: {{ $item->views }}</p>
                         <p class="item-default">
-                            상단 공지
+                            이름
                             <span class="red">*</span>
                         </p>
-                        <div class="radio-wrap">
-                            <div class="label-wrap col-group">
-                                <label for="radio_item_1" class="radio-item">
-                                    <input type="radio" name="is_featured" id="radio_item_1" value="1" class="form-radio" {{ !$item->is_featured==0 ? 'checked' : '' }}>
-                                    <div class="checked-item col-group">
-                                        <span class="radio-icon"></span>
-                                        Y
-                                    </div>
-                                </label>
-                                <label for="radio_item_2" class="radio-item">
-                                    <input type="radio" name="is_featured" id="radio_item_2" value="0" class="form-radio" {{ !$item->is_featured==1 ? 'checked' : '' }}>
-                                    <div class="checked-item col-group">
-                                        <span class="radio-icon"></span>
-                                        N
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
+                        <input type="text" name="name" class="form-input" id="name" value="{{old('name', $item->name)}}"
+                               placeholder="이름을 작성해주세요.">
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
-                            제목
+                            부서
                             <span class="red">*</span>
                         </p>
-                        <input type="text" name="title" class="form-input" id="title" value="{{old('title', $item->title)}}"
-                               placeholder="제목을 작성해주세요.">
+                        <input type="text" name="Department" class="form-input" id="Department" value="{{old('Department', $item->Department)}}"
+                               placeholder="부서를 작성해주세요.">
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
-                            내용
+                            직급
+                            <span class="red">*</span>
+                        </p>
+                        <input type="text" name="rank" class="form-input" id="rank" value="{{old('rank', $item->rank)}}"
+                               placeholder="직급을 작성해주세요.">
+                    </div>
+                    <div class="form-item row-group">
+                        <p class="item-default">
+                            컨설팅분야 소개
                             <span class="red">*</span>
                         </p>
                         <textarea rows="5" name="content" id="content"
@@ -77,9 +68,6 @@
                 </div>
 
                 <div class="form-btn-wrap col-group">
-                    <a href="{{route("admin.announcementIndex")}}" class="form-prev-btn">
-                        목록으로
-                    </a>
                     <button class="form-prev-btn" type="submit">
                         수정
                     </button>
@@ -88,5 +76,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>

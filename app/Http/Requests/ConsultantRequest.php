@@ -5,14 +5,14 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class InquiryRequest extends FormRequest
+class ConsultantRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -23,11 +23,11 @@ class InquiryRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'name' => 'required|string',
-            'contact' => 'required|string',
-            'company' => 'nullable|string',
-            'email' => 'nullable|string',
-            'message' => 'required',
+            'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'name' => 'required',
+            'Department' => 'required',
+            'rank' => 'required',
+            'content' => 'required',
         ];
 
         return $rules;
