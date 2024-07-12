@@ -90,9 +90,13 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            sudo chown -R $(whoami) /home/${{ secrets.SERVER_USER }}/laravel
+            chmod -R u+rwX /home/${{ secrets.SERVER_USER }}/laravel
+
             cd /home/${{ secrets.SERVER_USER }}/laravel
             git init
             git remote add origin https://BaekJinYoung:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/BaekJinYoung/Usujodal.git
+            git config --global --add safe.directory /home/${{ secrets.SERVER_USER }}/laravel
             git fetch
             git checkout main
             git pull origin main
