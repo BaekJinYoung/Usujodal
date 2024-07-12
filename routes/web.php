@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DetailController;
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\QuestionController;
@@ -13,17 +14,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::controller(ClientController::class)->group(function () {
+Route::controller(IndexController::class)->group(function () {
     Route::get('/history', 'history');
     Route::get('/company', 'company');
-    Route::get('/company/{id}', 'company_detail');
     Route::get('/youtube', 'youtube');
-    Route::get('/youtube/{id}', 'youtube_detail');
     Route::get('/announcement', 'announcement');
-    Route::get('/announcement/{id}', 'announcement_detail');
     Route::get('/share', 'share');
-    Route::get('/share/{id}', 'share_detail');
     Route::get('/question', 'question');
+});
+
+Route::controller(DetailController::class)->group(function () {
+    Route::get('/company/{id}', 'company_detail');
+    Route::get('/youtube/{id}', 'youtube_detail');
+    Route::get('/announcement/{id}', 'announcement_detail');
+    Route::get('/share/{id}', 'share_detail');
     Route::get('/question/{id}', 'question_detail');
 });
 
