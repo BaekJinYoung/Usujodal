@@ -37,7 +37,7 @@ class ClientController extends Controller
 
         $company->increment('views');
 
-        return response()->json(['company' => $company]);
+        return compact('company');
     }
 
     public function youtube(Request $request) {

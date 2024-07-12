@@ -99,6 +99,7 @@ jobs:
             git config --global --add safe.directory /home/${{ secrets.SERVER_USER }}/laravel
             git fetch
             git checkout main
+            git stash
             git pull origin main
             composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
             php artisan migrate --force
