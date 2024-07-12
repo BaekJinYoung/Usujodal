@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ApiResponse;
 use App\Models\Announcement;
 use App\Models\Company;
 use App\Models\History;
@@ -13,55 +14,50 @@ use Illuminate\Http\Request;
 class IndexController extends Controller
 {
     // 공통 메서드: 데이터 조회 및 검색
-    private function fetchData($model, $selectColumns, $searchField, $searchValue)
+    private function fetchDataAndRespond($model, $selectColumns, $searchField, Request $request)
     {
-        $query = $model::select(...$selectColumns)->latest()->simplePaginate(10);
+        $searchValue = $request->input('search', '');
+        $query = $model::select($selectColumns)->latest();
 
         if (!empty($searchValue)) {
             $query->where($searchField, 'like', '%' . $searchValue . '%');
         }
 
-        return $query;
-    }
+        $data = $query->simplePaginate(10);
 
+        if ($data->isEmpty()) {
+            return ApiResponse::success([], '검색 결과가 없습니다');
+        }
+
+        return ApiResponse::success(compact('data', 'searchValue'));
+    }
     public function history(Request $request) {
         $histories = History::latest()->simplePaginate(10);
 
-        return compact('histories');
+        if ($histories->isEmpty()) {
+            return $this->apiResponse->error('No histories found', 404);
+        }
+
+        return $this->apiResponse->success(compact('histories'));
     }
 
     public function company(Request $request) {
-        $search = $request->input('search', '');
-        $companies = $this->fetchData(Company::class, ['id', 'main_image', 'title', 'filter', 'created_at'], 'title', $search);
-
-        return compact('companies', 'search');
+        return $this->fetchDataAndRespond(Company::class, ['id', 'main_image', 'title', 'filter', 'created_at'], 'title', $request);
     }
 
     public function youtube(Request $request) {
-        $search = $request->input('search', '');
-        $youtubes = $this->fetchData(Youtube::class, ['id', 'main_image', 'title', 'created_at'], 'title', $search);
-
-        return compact('youtubes', 'search');
+        return $this->fetchDataAndRespond(Youtube::class, ['id', 'main_image', 'title', 'created_at'], 'title', $request);
     }
 
     public function announcement(Request $request) {
-        $search = $request->input('search', '');
-        $announcements = $this->fetchData(Announcement::class, ['id', 'is_featured', 'title', 'created_at'], 'title', $search);
-
-        return compact('announcements', 'search');
+        return $this->fetchDataAndRespond(Announcement::class, ['id', 'is_featured', 'title', 'created_at'], 'title', $request);
     }
 
     public function share(Request $request) {
-        $search = $request->input('search', '');
-        $shares = $this->fetchData(Share::class, ['id', 'is_featured', 'title', 'created_at'], 'title', $search);
-
-        return compact('shares', 'search');
+        return $this->fetchDataAndRespond(Share::class, ['id', 'is_featured', 'title', 'created_at'], 'title', $request);
     }
 
     public function question(Request $request) {
-        $search = $request->input('search', '');
-        $questions = $this->fetchData(Question::class, ['id', 'title'], 'title', $search);
-
-        return compact('questions', 'search');
+        return $this->fetchDataAndRespond(Question::class, ['id', 'title'], 'title', $request);
     }
 }
