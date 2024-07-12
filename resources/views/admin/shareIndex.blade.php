@@ -56,7 +56,7 @@
                 </tr>
                 </thead>
                 <tbody class="admin-tbody">
-                @if($shares->isEmpty())
+                @if($items->isEmpty())
                     <tr>
                         <td colspan="9">
                             <p class="null-txt">
@@ -65,18 +65,18 @@
                         </td>
                     </tr>
                 @else
-                    @foreach($shares as $key => $share)
+                    @foreach($items as $key => $item)
                         <tr class="admin-tr">
-                            <td class="admin-td">{{$share->is_featured}}</td>
-                            <td class="admin-td">{{$share->title}}</td>
-                            <td class="admin-td">{{date('Y-m-d', strtotime($share->created_at))}}</td>
+                            <td class="admin-td">{{$item->is_featured}}</td>
+                            <td class="admin-td">{{$item->title}}</td>
+                            <td class="admin-td">{{date('Y-m-d', strtotime($item->created_at))}}</td>
                             <td class="admin-td"></td>
                             <td class="admin-td">
                                 <div class="btn-wrap col-group">
-                                    <a href="{{route("admin.shareEdit", $share->id)}}" class="btn">
+                                    <a href="{{route("admin.shareEdit", $item->id)}}" class="btn">
                                         상세
                                     </a>
-                                    <form action="{{route("admin.shareDelete", $share->id)}}" method="post">
+                                    <form action="{{route("admin.shareDelete", $item->id)}}" method="post">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn del-btn">
@@ -90,7 +90,7 @@
                 @endif
                 </tbody>
             </table>
-            @include('admin.components.pagination', ['paginator' => $shares])
+            @include('admin.components.pagination', ['paginator' => $items])
         </div>
     </div>
 </div>

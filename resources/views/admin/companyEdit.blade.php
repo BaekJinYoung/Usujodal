@@ -29,18 +29,18 @@
                     인증성공업체 수정
                 </h2>
             </div>
-            <form action="{{route("admin.companyUpdate", $company)}}" method="post" enctype="multipart/form-data">
+            <form action="{{route("admin.companyUpdate", $item)}}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('patch')
                 <div class="form-wrap row-group">
-                    <p>조회수: {{ $company->views }}</p>
+                    <p>조회수: {{ $item->views }}</p>
                     <div class="form-item row-group">
                         <p class="item-default">
                             제목
                             <span class="red">*</span>
                         </p>
                         <input type="text" id="title" name="title" class="form-input"
-                               value="{{old('title', $company->title)}}" placeholder="제목을 입력하세요">
+                               value="{{old('title', $item->title)}}" placeholder="제목을 입력하세요">
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
@@ -48,7 +48,7 @@
                             <span class="red">*</span>
                         </p>
                         <textarea rows="5" name="content" id="content"
-                                  placeholder="내용을 작성해주세요.">{{old('content', $company->content)}}</textarea>
+                                  placeholder="내용을 작성해주세요.">{{old('content', $item->content)}}</textarea>
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
@@ -64,10 +64,10 @@
                                 320*440px 비율 고해상도 사진 등록
                             </span>
                             <div class="file-preview" id="image-preview"
-                                 @if(!$company->main_image) style="display: none" @endif>
+                                 @if(!$item->main_image) style="display: none" @endif>
                                 <p class="file-name" id="image-filename">
-                                    @if($company->main_image)
-                                        {{$company->main_image}}
+                                    @if($item->main_image)
+                                        {{$item->main_image}}
                                     @endif
                                 </p>
                                 <button type="button" class="file-del-btn" id="remove-image-btn">
@@ -81,16 +81,16 @@
                         <div class="form-group">
                             <label for="filter">필터 선택</label>
                             <select id="filter" name="filter" class="form-control">
-                                <option value="조달인증" {{ old('filter', $company->filter) == '조달인증' ? 'selected' : '' }}>
+                                <option value="조달인증" {{ old('filter', $item->filter) == '조달인증' ? 'selected' : '' }}>
                                     조달인증
                                 </option>
-                                <option value="품질인증" {{ old('filter', $company->filter) == '품질인증' ? 'selected' : '' }}>
+                                <option value="품질인증" {{ old('filter', $item->filter) == '품질인증' ? 'selected' : '' }}>
                                     품질인증
                                 </option>
-                                <option value="기술인증" {{ old('filter', $company->filter) == '기술인증' ? 'selected' : '' }}>
+                                <option value="기술인증" {{ old('filter', $item->filter) == '기술인증' ? 'selected' : '' }}>
                                     기술인증
                                 </option>
-                                <option value="경영인증" {{ old('filter', $company->filter) == '경영인증' ? 'selected' : '' }}>
+                                <option value="경영인증" {{ old('filter', $item->filter) == '경영인증' ? 'selected' : '' }}>
                                     경영인증
                                 </option>
                             </select>

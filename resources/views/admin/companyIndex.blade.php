@@ -39,27 +39,27 @@
                 </div>
             </div>
             <div class="board-wrap col-group">
-                @if($companies->isEmpty())
+                @if($items->isEmpty())
                     <div class="null-txt">
                         등록된 게시물이 없습니다.
                     </div>
                 @else
-                    @foreach($companies as $key => $company)
+                    @foreach($items as $key => $item)
                         <div class="board-item">
                             <div class="img-box">
-                                @if($company->main_image)
-                                    <img src="{{asset('storage/'.$company->main_image)}}" alt="">
+                                @if($item->main_image)
+                                    <img src="{{asset('storage/'.$item->main_image)}}" alt="">
                                 @else
                                     <img src="{{asset('images/certificate.png')}}" alt="">
                                 @endif
                             </div>
                             <div class="txt-box row-group">
-                                <p class="title">{{$company->title}}</p>
+                                <p class="title">{{$item->title}}</p>
                                 <div class="btn-wrap col-group">
-                                    <a href="{{route("admin.companyEdit", $company->id)}}" class="btn">
+                                    <a href="{{route("admin.companyEdit", $item->id)}}" class="btn">
                                         수정
                                     </a>
-                                    <form action="{{route("admin.companyDelete", $company->id)}}" method="post">
+                                    <form action="{{route("admin.companyDelete", $item->id)}}" method="post">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn del-btn">
@@ -72,7 +72,7 @@
                     @endforeach
                 @endif
             </div>
-            @include('admin.components.pagination', ['paginator' => $companies])
+            @include('admin.components.pagination', ['paginator' => $items])
         </div>
     </div>
 </div>

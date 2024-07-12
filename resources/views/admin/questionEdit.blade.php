@@ -29,7 +29,7 @@
                     자주하는 질문 등록
                 </h2>
             </div>
-            <form action="{{route("admin.questionUpdate", $question)}}" method="post" enctype="multipart/form-data">
+            <form action="{{route("admin.questionUpdate", $item)}}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('patch')
                 <div class="form-wrap row-group">
@@ -38,7 +38,7 @@
                             제목
                             <span class="red">*</span>
                         </p>
-                        <input type="text" name="title" class="form-input" id="title" value="{{old('title', $question->title)}}"
+                        <input type="text" name="title" class="form-input" id="title" value="{{old('title', $item->title)}}"
                                placeholder="제목을 작성해주세요.">
                     </div>
                     <div class="form-item row-group">
@@ -47,7 +47,7 @@
                             <span class="red">*</span>
                         </p>
                         <textarea rows="5" name="content" id="details"
-                                  placeholder="내용을 작성해주세요.">{{old('content', $question->content)}}</textarea>
+                                  placeholder="내용을 작성해주세요.">{{old('content', $item->content)}}</textarea>
                     </div>
                 </div>
 

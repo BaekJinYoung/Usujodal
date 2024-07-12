@@ -39,27 +39,27 @@
                 </div>
             </div>
             <div class="board-wrap col-group">
-                @if($youtubes->isEmpty())
+                @if($items->isEmpty())
                     <div class="null-txt">
                         등록된 게시물이 없습니다.
                     </div>
                 @else
-                    @foreach($youtubes as $key => $youtube)
+                    @foreach($items as $key => $item)
                         <div class="board-item">
                             <div class="img-box">
-                                @if($youtube->main_image)
-                                    <img src="{{asset('storage/'.$youtube->main_image)}}" alt="">
+                                @if($item->main_image)
+                                    <img src="{{asset('storage/'.$item->main_image)}}" alt="">
                                 @else
                                     <img src="{{asset('images/certificate.png')}}" alt="">
                                 @endif
                             </div>
                             <div class="txt-box row-group">
-                                <p class="title">{{$youtube->title}}</p>
+                                <p class="title">{{$item->title}}</p>
                                 <div class="btn-wrap col-group">
-                                    <a href="{{route("admin.youtubeEdit", $youtube->id)}}" class="btn">
+                                    <a href="{{route("admin.youtubeEdit", $item->id)}}" class="btn">
                                         수정
                                     </a>
-                                    <form action="{{route("admin.youtubeDelete", $youtube->id)}}" method="post">
+                                    <form action="{{route("admin.youtubeDelete", $item->id)}}" method="post">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn del-btn">
@@ -72,7 +72,7 @@
                     @endforeach
                 @endif
             </div>
-            @include('admin.components.pagination', ['paginator' => $youtubes])
+            @include('admin.components.pagination', ['paginator' => $items])
         </div>
     </div>
 </div>

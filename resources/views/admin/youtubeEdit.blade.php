@@ -29,17 +29,17 @@
                     유튜브 등록
                 </h2>
             </div>
-            <form action="{{route("admin.youtubeUpdate", $youtube)}}" method="post" enctype="multipart/form-data">
+            <form action="{{route("admin.youtubeUpdate", $item)}}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('patch')
                 <div class="form-wrap row-group">
-                    <p>조회수: {{ $youtube->views }}</p>
+                    <p>조회수: {{ $item->views }}</p>
                     <div class="form-item row-group">
                         <p class="item-default">
                             제목
                             <span class="red">*</span>
                         </p>
-                        <input type="text" id="title" name="title" class="form-input" value="{{old('title', $youtube->title)}}" placeholder="제목을 입력하세요">
+                        <input type="text" id="title" name="title" class="form-input" value="{{old('title', $item->title)}}" placeholder="제목을 입력하세요">
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
@@ -47,14 +47,14 @@
                             <span class="red">*</span>
                         </p>
                         <textarea rows="5" name="content" id="content"
-                                  placeholder="내용을 작성해주세요.">{{old('content', $youtube->content)}}</textarea>
+                                  placeholder="내용을 작성해주세요.">{{old('content', $item->content)}}</textarea>
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
                             유튜브 링크
                             <span class="red">*</span>
                         </p>
-                        <input type="text" name="link" id="link" class="form-input" value="{{old('link', $youtube->link)}}"
+                        <input type="text" name="link" id="link" class="form-input" value="{{old('link', $item->link)}}"
                                placeholder="https://www.youtube.com/watch?v=">
                     </div>
                     <div class="form-item row-group">
@@ -70,10 +70,10 @@
                                 320*440px 비율 고해상도 사진 등록
                             </span>
                             <div class="file-preview" id="image-preview"
-                                 @if(!$youtube->main_image) style="display: none" @endif>
+                                 @if(!$item->main_image) style="display: none" @endif>
                                 <p class="file-name" id="image-filename">
-                                    @if($youtube->main_image)
-                                        {{$youtube->main_image}}
+                                    @if($item->main_image)
+                                        {{$item->main_image}}
                                     @endif
                                 </p>
                                 <button type="button" class="file-del-btn" id="remove-image-btn">

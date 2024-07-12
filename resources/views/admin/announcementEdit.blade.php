@@ -29,12 +29,12 @@
                     공지사항 수정
                 </h2>
             </div>
-            <form action="{{route("admin.announcementUpdate", $announcement)}}" method="post" enctype="multipart/form-data">
+            <form action="{{route("admin.announcementUpdate", $item)}}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('patch')
                 <div class="form-wrap row-group">
                     <div class="form-item row-group">
-                        <p>조회수: {{ $announcement->views }}</p>
+                        <p>조회수: {{ $item->views }}</p>
                         <p class="item-default">
                             상단 공지
                             <span class="red">*</span>
@@ -42,14 +42,14 @@
                         <div class="radio-wrap">
                             <div class="label-wrap col-group">
                                 <label for="radio_item_1" class="radio-item">
-                                    <input type="radio" name="is_featured" id="radio_item_1" value="1" class="form-radio" {{ !$announcement->is_featured==0 ? 'checked' : '' }}>
+                                    <input type="radio" name="is_featured" id="radio_item_1" value="1" class="form-radio" {{ !$item->is_featured==0 ? 'checked' : '' }}>
                                     <div class="checked-item col-group">
                                         <span class="radio-icon"></span>
                                         Y
                                     </div>
                                 </label>
                                 <label for="radio_item_2" class="radio-item">
-                                    <input type="radio" name="is_featured" id="radio_item_2" value="0" class="form-radio" {{ !$announcement->is_featured==1 ? 'checked' : '' }}>
+                                    <input type="radio" name="is_featured" id="radio_item_2" value="0" class="form-radio" {{ !$item->is_featured==1 ? 'checked' : '' }}>
                                     <div class="checked-item col-group">
                                         <span class="radio-icon"></span>
                                         N
@@ -63,7 +63,7 @@
                             제목
                             <span class="red">*</span>
                         </p>
-                        <input type="text" name="title" class="form-input" id="title" value="{{old('title', $announcement->title)}}"
+                        <input type="text" name="title" class="form-input" id="title" value="{{old('title', $item->title)}}"
                                placeholder="제목을 작성해주세요.">
                     </div>
                     <div class="form-item row-group">
@@ -72,7 +72,7 @@
                             <span class="red">*</span>
                         </p>
                         <textarea rows="5" name="content" id="details"
-                                  placeholder="내용을 작성해주세요.">{{old('content', $announcement->content)}}</textarea>
+                                  placeholder="내용을 작성해주세요.">{{old('content', $item->content)}}</textarea>
                     </div>
                 </div>
 

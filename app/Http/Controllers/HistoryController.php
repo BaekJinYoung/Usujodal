@@ -5,32 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\HistoryRequest;
 use App\Models\History;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
-class HistoryController extends Controller
-{
+class HistoryController extends BaseController {
+
     public function __construct(History $history) {
-        $this->History = $history;
-    }
-
-    public function index(Request $request) {
-        $perPage = $request->query('perPage', 8);
-        $selectedYear = $request->query('yearFilter', '');
-        $histories = $this->History->query();
-
-        if ($selectedYear) {
-            $histories->whereYear('date', $selectedYear);
-        }
-
-        $histories = $histories->paginate($perPage);
-
-        $years = $this->History->selectRaw('YEAR(date) as year')->distinct()->pluck('year')->toArray();
-
-        return view('admin.historyIndex', compact('histories', 'perPage', 'years', 'selectedYear'));
-    }
-
-    public function create(){
-        return view('admin.historyCreate');
+        parent::__construct($history);
     }
 
     public function store(HistoryRequest $request) {
@@ -47,19 +26,13 @@ class HistoryController extends Controller
             $store['date'] = $date->format('Y-m-d');
         }
 
-        $this->History->create($store);
+        $this->model-create($store);
 
         if ($request->filled('continue')) {
             return redirect()->route('admin.historyIndex');
         }
 
         return redirect()->route('admin.historyIndex');
-    }
-
-    public function edit($id) {
-        $history = $this->History->find($id);
-
-        return view('admin.historyEdit', compact('history'));
     }
 
     public function update(HistoryRequest $request, History $history) {
@@ -78,11 +51,6 @@ class HistoryController extends Controller
 
         $history->update($update);
 
-        return redirect()->route('admin.historyIndex');
-    }
-
-    public function delete(History $history) {
-        $history->delete();
         return redirect()->route('admin.historyIndex');
     }
 }

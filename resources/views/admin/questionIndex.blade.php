@@ -56,7 +56,7 @@
                 </tr>
                 </thead>
                 <tbody class="admin-tbody">
-                @if($questions->isEmpty())
+                @if($items->isEmpty())
                     <tr>
                         <td colspan="9">
                             <p class="null-txt">
@@ -65,18 +65,18 @@
                         </td>
                     </tr>
                 @else
-                    @foreach($questions as $key => $question)
+                    @foreach($items as $key => $item)
                         <tr class="admin-tr">
                             <td class="admin-td"></td>
-                            <td class="admin-td">{{$question->title}}</td>
+                            <td class="admin-td">{{$item->title}}</td>
                             <td class="admin-td"></td>
                             <td class="admin-td"></td>
                             <td class="admin-td">
                                 <div class="btn-wrap col-group">
-                                    <a href="{{route("admin.questionEdit", $question->id)}}" class="btn">
+                                    <a href="{{route("admin.questionEdit", $item->id)}}" class="btn">
                                         상세
                                     </a>
-                                    <form action="{{route("admin.questionDelete", $question->id)}}" method="post">
+                                    <form action="{{route("admin.questionDelete", $item->id)}}" method="post">
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn del-btn">
@@ -90,7 +90,7 @@
                 @endif
                 </tbody>
             </table>
-            @include('admin.components.pagination', ['paginator' => $questions])
+            @include('admin.components.pagination', ['paginator' => $items])
         </div>
     </div>
 </div>
