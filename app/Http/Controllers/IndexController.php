@@ -16,20 +16,20 @@ class IndexController extends Controller
     // 공통 메서드: 데이터 조회 및 검색
     private function fetchDataAndRespond($model, $selectColumns, $searchField, Request $request)
     {
-        $searchValue = $request->input('search', '');
+        $search = $request->input('search', '');
         $query = $model::select($selectColumns)->latest();
 
-        if (!empty($searchValue)) {
-            $query->where($searchField, 'like', '%' . $searchValue . '%');
+        if (!empty($search)) {
+            $query->where($searchField, 'like', '%' . $search . '%');
         }
 
-        $data = $query->simplePaginate(10);
+        $index = $query->simplePaginate(10);
 
-        if ($data->isEmpty()) {
+        if ($index->isEmpty()) {
             return ApiResponse::success([], '게시물이 없습니다');
         }
 
-        return ApiResponse::success(compact('data', 'searchValue'));
+        return ApiResponse::success(compact('index', 'search'));
     }
     public function history(Request $request) {
         $histories = History::latest()->simplePaginate(10);
