@@ -12,7 +12,7 @@ class Consultant extends Model
     protected $fillable = [
         'main_image',
         'name',
-        'Department',
+        'department',
         'rank',
         'content',
     ];

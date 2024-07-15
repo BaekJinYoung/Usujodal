@@ -69,7 +69,7 @@ class IndexController extends Controller
     }
 
     public function consultant(Request $request) {
-        return $this->fetchDataAndRespond(Consultant::class, ['id', 'main_image', 'name', 'Department', 'rank', 'content'], 'title', 0, $request);
+        return $this->fetchDataAndRespond(Consultant::class, ['id', 'main_image', 'name', 'department', 'rank', 'content'], 'title', 0, $request);
     }
 
     public function announcement(Request $request) {
