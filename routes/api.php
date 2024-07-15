@@ -1,14 +1,9 @@
 <?php
 
-//use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\DetailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-//Route::controller(InquiryController::class)->group(function () {
-//    Route::post('/inquiry', 'store');
-//});
 
 Route::get('/user', function (Request $request) {
     return $request->user();
