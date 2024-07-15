@@ -41,7 +41,13 @@ class IndexController extends Controller
             return $item;
         });
 
-        return ApiResponse::success(compact('index', 'search'));
+        $responseData = $index;
+
+        if (!empty($search)) {
+            $responseData['search'] = $search;
+        }
+
+        return ApiResponse::success($responseData);
     }
 
     public function history(Request $request) {
