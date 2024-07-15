@@ -61,7 +61,7 @@ class IndexController extends Controller
     }
 
     public function company(Request $request) {
-        return $this->fetchDataAndRespond(Company::class, ['id', 'main_image', 'title', 'filter', 'file_path', 'created_at'], 'title', 10, $request);
+        return $this->fetchDataAndRespond(Company::class, ['id', 'main_image', 'title', 'filter', 'created_at'], 'title', 10, $request);
     }
 
     public function youtube(Request $request) {

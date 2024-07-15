@@ -42,7 +42,7 @@ class DetailController extends Controller
     }
 
     public function company_detail($id) {
-        return $this->detailRespond(Company::class, ['id', 'main_image', 'views', 'content'], $id, true);
+        return $this->detailRespond(Company::class, ['id', 'title', 'main_image', 'views', 'content', 'file_path', 'created_at'], $id, true, true);
     }
 
     public function youtube_detail($id) {
