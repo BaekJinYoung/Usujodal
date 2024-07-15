@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\AnnouncementController;
 use App\Http\Controllers\admin\CompanyController;
+use App\Http\Controllers\admin\ConsultantController;
 use App\Http\Controllers\admin\HistoryController;
 use App\Http\Controllers\admin\QuestionController;
 use App\Http\Controllers\admin\ShareController;
@@ -18,6 +19,7 @@ Route::controller(IndexController::class)->group(function () {
     Route::get('/history', 'history');
     Route::get('/company', 'company');
     Route::get('/youtube', 'youtube');
+    Route::get('/consultant', 'consultant');
     Route::get('/announcement', 'announcement');
     Route::get('/share', 'share');
     Route::get('/question', 'question');
@@ -95,6 +97,17 @@ Route::prefix('admin')->group(function () {
             Route::get('/{youtube}/edit', 'edit')->name("admin.youtubeEdit");
             Route::patch('/{youtube}', 'update')->name("admin.youtubeUpdate");
             Route::delete('/{youtube}', 'delete')->name("admin.youtubeDelete");
+        });
+    });
+
+    Route::prefix('consultant')->group(function () {
+        Route::controller(ConsultantController::class)->group(function () {
+            Route::get('/', 'index')->name("admin.consultantIndex");
+            Route::get('/create', 'create')->name("admin.consultantCreate");
+            Route::post('/store', 'store')->name("admin.consultantStore");
+            Route::get('/{consultant}/edit', 'edit')->name("admin.consultantEdit");
+            Route::patch('/{consultant}', 'update')->name("admin.consultantUpdate");
+            Route::delete('/{consultant}', 'delete')->name("admin.consultantDelete");
         });
     });
 });

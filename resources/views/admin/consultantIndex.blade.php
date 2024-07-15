@@ -1,81 +1,71 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
 @include('admin.components.head')
 <body>
-
 <div id="wrap">
     <div class="admin-container">
         <header id="header">
             @include('admin.components.snb')
         </header>
-        <div class="admin-wrap">
-            @if ($errors->any())
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
+        <div class="admin-wrap admin_photo_gallery">
             <div class="title-wrap col-group">
-                <h2 class="main-title">
-                    컨설턴트 소개
-                </h2>
+                <div class="main-title-wrap col-group">
+                    <h2 class="main-title">
+                        컨설턴트 소개
+                    </h2>
+                    <div class="top-btn-wrap">
+                        <a href="{{route("admin.consultantCreate")}}" class="top-btn">
+                            등록
+                        </a>
+                    </div>
+                </div>
             </div>
-            <form action="{{route("admin.consultantUpdate", $item)}}" method="post" enctype="multipart/form-data">
-                @csrf
-                @method('patch')
-                <div class="form-wrap row-group">
-                    <div class="form-item row-group">
-                        <p class="item-default">
-                            이름
-                            <span class="red">*</span>
-                        </p>
-                        <input type="text" name="name" class="form-input" id="name" value="{{old('name', $item->name)}}"
-                               placeholder="이름을 작성해주세요.">
+            <div class="board-wrap col-group">
+                @if($items->isEmpty())
+                    <div class="null-txt">
+                        등록된 게시물이 없습니다.
                     </div>
-                    <div class="form-item row-group">
-                        <p class="item-default">
-                            부서
-                            <span class="red">*</span>
-                        </p>
-                        <input type="text" name="Department" class="form-input" id="Department" value="{{old('Department', $item->Department)}}"
-                               placeholder="부서를 작성해주세요.">
-                    </div>
-                    <div class="form-item row-group">
-                        <p class="item-default">
-                            직급
-                            <span class="red">*</span>
-                        </p>
-                        <input type="text" name="rank" class="form-input" id="rank" value="{{old('rank', $item->rank)}}"
-                               placeholder="직급을 작성해주세요.">
-                    </div>
-                    <div class="form-item row-group">
-                        <p class="item-default">
-                            컨설팅분야 소개
-                            <span class="red">*</span>
-                        </p>
-                        <textarea rows="5" name="content" id="content"
-                                  placeholder="내용을 작성해주세요.">{{old('content', $item->content)}}</textarea>
-                    </div>
-                </div>
-
-                <div class="form-btn-wrap col-group">
-                    <button class="form-prev-btn" type="submit">
-                        수정
-                    </button>
-                </div>
-            </form>
+                @else
+                    @foreach($items as $key => $item)
+                        <div class="board-item">
+                            <div class="img-box">
+                                @if($item->main_image)
+                                    <img src="{{asset('storage/'.$item->main_image)}}" alt="">
+                                @else
+                                    <img src="{{asset('images/certificate.png')}}" alt="">
+                                @endif
+                            </div>
+                            <div class="txt-box row-group">
+                                <p class="title">{{$item->rank}}</p>
+                                <p class="title">{{$item->name}}</p>
+                                <p class="title">{{$item->Department}}</p>
+                                <p class="title">{{$item->content}}</p>
+                                <div class="btn-wrap col-group">
+                                    <a href="{{route("admin.consultantEdit", $item->id)}}" class="btn">
+                                        수정
+                                    </a>
+                                    <form action="{{route("admin.consultantDelete", $item->id)}}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn del-btn">
+                                            삭제
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
+            @include('admin.components.pagination', ['paginator' => $items])
         </div>
     </div>
 </div>
-
+<script>
+    function updatePageCount() {
+        var pageCount = document.getElementById('pageCount').value;
+        window.location.href = '?perPage=' + pageCount;
+    }
+</script>
 </body>
 </html>

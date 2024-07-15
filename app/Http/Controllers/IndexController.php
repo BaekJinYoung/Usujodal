@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ApiResponse;
 use App\Models\Announcement;
 use App\Models\Company;
+use App\Models\Consultant;
 use App\Models\History;
 use App\Models\Question;
 use App\Models\Share;
@@ -24,7 +25,9 @@ class IndexController extends Controller
             $query->where($searchField, 'like', '%' . $search . '%');
         }
 
-        $index = $query->simplePaginate($page);
+        $paginationEnabled = ($page > 0);
+
+        $index = $paginationEnabled ? $query->simplePaginate($page) : $query->get();
 
         if ($index->isEmpty()) {
             return ApiResponse::success([], '게시물이 없습니다');
@@ -57,6 +60,10 @@ class IndexController extends Controller
 
     public function youtube(Request $request) {
         return $this->fetchDataAndRespond(Youtube::class, ['id', 'main_image', 'title', 'created_at'], 'title', 9, $request);
+    }
+
+    public function consultant(Request $request) {
+        return $this->fetchDataAndRespond(Consultant::class, ['id', 'main_image', 'name', 'Department', 'rank', 'content'], 'title', 0, $request);
     }
 
     public function announcement(Request $request) {
