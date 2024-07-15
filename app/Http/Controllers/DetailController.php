@@ -35,13 +35,8 @@ class DetailController extends Controller
             $detail->next = $nextDetail ? $nextDetail : null;
         }
 
-        $detail->transform(function ($item) {
-            if (isset($item->created_at)) {
-                $item->created_at_formatted = Carbon::parse($item->created_at)->format('Y-m-d');
-                unset($item->created_at);
-            }
-            return $item;
-        });
+        $detail['created_at_formatted'] = Carbon::parse($detail['created_at'])->format('Y-m-d');
+        unset($detail['created_at']);
 
         return ApiResponse::success($detail);
     }
