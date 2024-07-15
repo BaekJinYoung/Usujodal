@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class IndexController extends Controller
 {
     // 공통 메서드: 데이터 조회 및 검색
-    private function fetchDataAndRespond($model, $selectColumns, $searchField, Request $request)
+    private function fetchDataAndRespond($model, $selectColumns, $searchField, $page, Request $request)
     {
         $search = $request->input('search', '');
         $query = $model::select($selectColumns)->latest();
@@ -23,7 +23,7 @@ class IndexController extends Controller
             $query->where($searchField, 'like', '%' . $search . '%');
         }
 
-        $index = $query->simplePaginate(10);
+        $index = $query->simplePaginate($page);
 
         if ($index->isEmpty()) {
             return ApiResponse::success([], '게시물이 없습니다');
@@ -42,22 +42,22 @@ class IndexController extends Controller
     }
 
     public function company(Request $request) {
-        return $this->fetchDataAndRespond(Company::class, ['id', 'main_image', 'title', 'filter', 'created_at'], 'title', $request);
+        return $this->fetchDataAndRespond(Company::class, ['id', 'main_image', 'title', 'filter', 'created_at'], 'title', 10, $request);
     }
 
     public function youtube(Request $request) {
-        return $this->fetchDataAndRespond(Youtube::class, ['id', 'main_image', 'title', 'created_at'], 'title', $request);
+        return $this->fetchDataAndRespond(Youtube::class, ['id', 'main_image', 'title', 'created_at'], 'title', 9, $request);
     }
 
     public function announcement(Request $request) {
-        return $this->fetchDataAndRespond(Announcement::class, ['id', 'is_featured', 'title', 'created_at'], 'title', $request);
+        return $this->fetchDataAndRespond(Announcement::class, ['id', 'is_featured', 'title', 'created_at'], 'title', 10, $request);
     }
 
     public function share(Request $request) {
-        return $this->fetchDataAndRespond(Share::class, ['id', 'is_featured', 'title', 'created_at'], 'title', $request);
+        return $this->fetchDataAndRespond(Share::class, ['id', 'is_featured', 'title', 'created_at'], 'title', 10, $request);
     }
 
     public function question(Request $request) {
-        return $this->fetchDataAndRespond(Question::class, ['id', 'title'], 'title', $request);
+        return $this->fetchDataAndRespond(Question::class, ['id', 'title'], 'title', 10, $request);
     }
 }
