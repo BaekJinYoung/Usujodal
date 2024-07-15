@@ -16,8 +16,8 @@ class YoutubeController extends BaseController {
 
         if ($request->hasFile('main_image')) {
             $fileName = $request->file('main_image')->getClientOriginalName();
-            $path = $request->file('main_image')->storeAs('images', time() . '_' . $fileName, 'public');
-            $store['main_image'] = $path;
+            $path = $request->file('main_image')->storeAs('images', time() . '.' . $fileName, 'public');
+            $store['main_image'] = asset('storage/' . $path);;
         }
 
         $this->model->create($store);
