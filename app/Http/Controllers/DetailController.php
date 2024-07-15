@@ -9,6 +9,7 @@ use App\Models\Question;
 use App\Models\Share;
 use App\Models\Youtube;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class DetailController extends Controller
 {
@@ -33,6 +34,14 @@ class DetailController extends Controller
             $detail->prev = $prevDetail ? $prevDetail : null;
             $detail->next = $nextDetail ? $nextDetail : null;
         }
+
+        $detail->transform(function ($item) {
+            if (isset($item->created_at)) {
+                $item->created_at_formatted = Carbon::parse($item->created_at)->format('Y-m-d');
+                unset($item->created_at);
+            }
+            return $item;
+        });
 
         return ApiResponse::success($detail);
     }
