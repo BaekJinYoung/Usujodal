@@ -10,6 +10,7 @@ use App\Models\Question;
 use App\Models\Share;
 use App\Models\Youtube;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class IndexController extends Controller
 {
@@ -17,7 +18,7 @@ class IndexController extends Controller
     private function fetchDataAndRespond($model, $selectColumns, $searchField, $page, Request $request)
     {
         $search = $request->input('search', '');
-        $query = $model::select($selectColumns)->latest();
+        $query = $model::select($selectColumns)->orderBy('id', 'desc');
 
         if (!empty($search)) {
             $query->where($searchField, 'like', '%' . $search . '%');
@@ -29,8 +30,17 @@ class IndexController extends Controller
             return ApiResponse::success([], '게시물이 없습니다');
         }
 
+        $index->transform(function ($item) {
+            if (isset($item->created_at)) {
+                $item->created_at_formatted = Carbon::parse($item->created_at)->format('Y.m.d');
+                unset($item->created_at);
+            }
+            return $item;
+        });
+
         return ApiResponse::success(compact('index', 'search'));
     }
+
     public function history(Request $request) {
         $histories = History::latest()->simplePaginate(10);
 
