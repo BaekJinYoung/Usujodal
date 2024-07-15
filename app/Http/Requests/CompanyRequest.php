@@ -26,9 +26,11 @@ class CompanyRequest extends FormRequest
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'filter' => 'required|string|max:255',
-            'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'file' => 'nullable|file|max:10240',
         ];
 
         return $rules;
     }
+
 }

@@ -17,6 +17,7 @@ class Company extends Model
         'filter',
         'main_image',
         'views',
+        'file_path'
     ];
 
     protected $dates = ['deleted_at'];

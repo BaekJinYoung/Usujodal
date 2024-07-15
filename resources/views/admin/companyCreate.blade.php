@@ -68,6 +68,10 @@
                         </div>
                     </div>
                     <div class="form-item row-group">
+                        <label for="file">파일 첨부</label>
+                        <input type="file" id="file" name="file">
+                    </div>
+                    <div class="form-item row-group">
                         <div class="form-group">
                             <label for="filter">필터 선택</label>
                             <select id="filter" name="filter" class="form-control">
