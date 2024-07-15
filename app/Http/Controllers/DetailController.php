@@ -46,7 +46,7 @@ class DetailController extends Controller
     }
 
     public function youtube_detail($id) {
-        return $this->detailRespond(Youtube::class, ['id', 'title', 'created_at', 'views', 'link', 'content'], $id, true);
+        return $this->detailRespond(Youtube::class, ['id', 'title', 'created_at', 'views', 'link', 'content'], $id, true, true);
     }
 
     public function announcement_detail($id) {
