@@ -21,13 +21,10 @@ class IndexController extends Controller
         $search = $request->input('search', '');
         $query = $model::select($selectColumns)->orderBy('id', 'desc');
 
+        // searchField가 설정된 경우 검색 기능이 있는 것으로 간주
         $hasSearchField = !is_null($searchField);
 
-        if ($hasSearchField) {
-            $responseData['search'] = $search;
-        }
-
-        if (!empty($search)) {
+        if ($hasSearchField && !empty($search)) {
             $query->where($searchField, 'like', '%' . $search . '%');
         }
 
@@ -48,6 +45,11 @@ class IndexController extends Controller
         });
 
         $responseData = $index;
+
+        // 검색 기능이 있는 페이지의 응답 데이터에 항상 search 값을 포함
+        if ($hasSearchField) {
+            $responseData['search'] = $search;
+        }
 
         return ApiResponse::success($responseData);
     }
