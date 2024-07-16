@@ -23,6 +23,10 @@ class IndexController extends Controller
 
         $hasSearchField = !is_null($searchField);
 
+        if ($hasSearchField) {
+            $responseData['search'] = $search;
+        }
+
         if (!empty($search)) {
             $query->where($searchField, 'like', '%' . $search . '%');
         }
@@ -44,10 +48,6 @@ class IndexController extends Controller
         });
 
         $responseData = $index;
-
-        if ($hasSearchField) {
-            $responseData['search'] = $search;
-        }
 
         return ApiResponse::success($responseData);
     }
