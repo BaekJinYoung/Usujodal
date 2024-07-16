@@ -21,6 +21,8 @@ class IndexController extends Controller
         $search = $request->input('search', '');
         $query = $model::select($selectColumns)->orderBy('id', 'desc');
 
+        $hasSearchField = !is_null($searchField);
+
         if (!empty($search)) {
             $query->where($searchField, 'like', '%' . $search . '%');
         }
@@ -43,7 +45,7 @@ class IndexController extends Controller
 
         $responseData = $index;
 
-        if (!empty($search)) {
+        if ($hasSearchField) {
             $responseData['search'] = $search;
         }
 
@@ -69,7 +71,7 @@ class IndexController extends Controller
     }
 
     public function consultant(Request $request) {
-        return $this->fetchDataAndRespond(Consultant::class, ['id', 'main_image', 'name', 'department', 'rank', 'content'], 'title', 0, $request);
+        return $this->fetchDataAndRespond(Consultant::class, ['id', 'main_image', 'name', 'department', 'rank', 'content'], null, 0, $request);
     }
 
     public function announcement(Request $request) {
