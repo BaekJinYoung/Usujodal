@@ -20,4 +20,9 @@ class Announcement extends Model
     ];
 
     protected $dates = ['deleted_at'];
+
+    public function scopeWithBooleanFormatted($query) {
+        return $query->select(['id', 'title', 'is_featured', 'created_at'])
+                ->selectRaw('IF(is_featured, "true", "false") AS is_featured');
+    }
 }

@@ -28,6 +28,8 @@ class IndexController extends Controller
             $query->where($searchField, 'like', '%' . $search . '%');
         }
 
+        $query->withBooleanFormatted();
+
         $paginationEnabled = ($page > 0);
 
         $index = $paginationEnabled ? $query->simplePaginate($page) : $query->get();
