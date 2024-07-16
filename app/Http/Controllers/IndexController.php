@@ -58,14 +58,35 @@ class IndexController extends Controller
         return ApiResponse::success($responseData);
     }
 
-    public function history(Request $request) {
-        $histories = History::latest()->simplePaginate(10);
+    function history(Request $request) {
+        $histories = History::orderBy('date', 'asc')->get();
 
-        if ($histories->isEmpty()) {
-            return $this->apiResponse->error('No histories found', 404);
+        $historiesByYear = $histories->groupBy(function ($item) {
+            return Carbon::parse($item->date)->format('Y');
+        })->sortKeysDesc();
+
+        foreach ($historiesByYear as $year => $yearGroup) {
+            $historiesWithImages = $yearGroup->filter(function ($history) {
+                return !is_null($history->image);
+            });
+
+            $image = $historiesWithImages->first();
+
+            $formattedHistory = [
+                'year' => $year,
+                'image' => $image ? $image->image : null,
+                'histories' => $yearGroup->map(function ($history) {
+                    return [
+                        'id' => $history->id,
+                        'content' => $history->content,
+                    ];
+                })->values()->all(),
+            ];
+
+            $formattedHistories[] = $formattedHistory;
         }
 
-        return $this->apiResponse->success(compact('histories'));
+        return ApiResponse::success($formattedHistories);
     }
 
     public function company(Request $request) {

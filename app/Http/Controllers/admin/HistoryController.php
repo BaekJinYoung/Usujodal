@@ -5,7 +5,6 @@ namespace App\Http\Controllers\admin;
 use App\Http\Requests\HistoryRequest;
 use App\Models\History;
 use Carbon\Carbon;
-use function App\Http\Controllers\create;
 
 class HistoryController extends BaseController {
 
@@ -27,7 +26,7 @@ class HistoryController extends BaseController {
             $store['date'] = $date->format('Y-m-d');
         }
 
-        $this->model-create($store);
+        $this->model->create($store);
 
         if ($request->filled('continue')) {
             return redirect()->route('admin.historyIndex');

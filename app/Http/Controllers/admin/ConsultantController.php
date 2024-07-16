@@ -31,7 +31,7 @@ class ConsultantController extends BaseController {
             $update['main_image'] = $path;
         }
 
-        $consultant->update($consultant);
+        $consultant->update($update);
 
         return redirect()->route('admin.consultantIndex');
     }
