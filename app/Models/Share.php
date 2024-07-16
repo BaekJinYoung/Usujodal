@@ -16,6 +16,8 @@ class Share extends Model
         'content',
         'is_featured',
         'views',
+        'image',
+        'file_path',
     ];
 
     protected $dates = ['deleted_at'];

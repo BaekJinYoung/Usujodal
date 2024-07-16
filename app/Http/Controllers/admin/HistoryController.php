@@ -18,7 +18,7 @@ class HistoryController extends BaseController {
 
         if ($request->hasFile('image')) {
             $fileName = $request->file('image')->getClientOriginalName();
-            $path = $request->file('image')->storeAs('images', time() . '_' . $fileName, 'public');
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
             $store['image'] = $path;
         }
 
@@ -41,7 +41,7 @@ class HistoryController extends BaseController {
 
         if ($request->hasFile('image')) {
             $fileName = $request->file('image')->getClientOriginalName();
-            $path = $request->file('image')->storeAs('images', time() . '_' . $fileName, 'public');
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
             $update['image'] = $path;
         }
 

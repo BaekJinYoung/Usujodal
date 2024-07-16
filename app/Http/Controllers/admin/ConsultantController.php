@@ -14,7 +14,7 @@ class ConsultantController extends BaseController {
         $store = $request->validated();
 
         $fileName = $request->file('main_image')->getClientOriginalName();
-        $path = $request->file('main_image')->storeAs('images', time() . '_' . $fileName, 'public');
+        $path = $request->file('main_image')->storeAs('images', $fileName, 'public');
         $store['main_image'] = $path;
 
         $this->model->create($store);
@@ -27,7 +27,7 @@ class ConsultantController extends BaseController {
 
         if ($request->hasFile('main_image')) {
             $fileName = $request->file('main_image')->getClientOriginalName();
-            $path = $request->file('main_image')->storeAs('images', time() . '_' . $fileName, 'public');
+            $path = $request->file('main_image')->storeAs('images', $fileName, 'public');
             $update['main_image'] = $path;
         }
 
