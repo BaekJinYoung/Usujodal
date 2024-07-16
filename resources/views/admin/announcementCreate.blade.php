@@ -73,6 +73,26 @@
                                   placeholder="내용을 작성해주세요.">{{old('content')}}</textarea>
                     </div>
                     <div class="form-item row-group">
+                        <p class="item-default">
+                            대표사진
+                        </p>
+                        <div class="file-upload-wrap">
+                            <input type='file' id='image_upload' accept="image/*" name="image" style="display: none;">
+                            <label for="image_upload" class="file-upload-btn">
+                                파일 업로드
+                            </label>
+                            <span class="guide-txt">
+                                320*440px 비율 고해상도 사진 등록
+                            </span>
+                            <div class="file-preview" id="image-preview" style="display: none">
+                                <p class="file-name" id="image-filename"></p>
+                                <button type="button" class="file-del-btn" id="remove-image-btn">
+                                    <i class="xi-close"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item row-group">
                         <label for="file">파일 첨부</label>
                         <input type="file" id="file" name="file">
                     </div>

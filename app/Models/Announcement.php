@@ -16,6 +16,7 @@ class Announcement extends Model
         'content',
         'is_featured',
         'views',
+        'image',
         'file_path',
     ];
 

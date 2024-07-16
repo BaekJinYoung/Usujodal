@@ -14,6 +14,12 @@ class AnnouncementController extends BaseController {
     public function store(AnnouncementRequest $request) {
         $store = $request->validated();
 
+        if ($request->hasFile('image')) {
+            $fileName = $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
+            $store['image'] = $path;
+        }
+
         if ($request->hasFile('file')) {
             $fileName = $request->file('file')->getClientOriginalName();
             $filePath = $request->file('file')->storeAs('uploads', $fileName, 'public');
@@ -35,9 +41,15 @@ class AnnouncementController extends BaseController {
     }
 
     public function Update(AnnouncementRequest $request, Announcement $announcement) {
-        $validatedData = $request->validated();
+        $update = $request->validated();
 
-        $announcement->update($validatedData);
+        if ($request->hasFile('image')) {
+            $fileName = $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
+            $update['image'] = $path;
+        }
+
+        $announcement->update($update);
 
         return redirect()->route('admin.announcementIndex');
     }

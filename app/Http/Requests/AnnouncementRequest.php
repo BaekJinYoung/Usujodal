@@ -26,6 +26,7 @@ class AnnouncementRequest extends FormRequest
             'title' => 'required',
             'content' => 'required',
             'is_featured' => 'required|boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'file' => 'nullable|file|max:10240',
         ];
 
