@@ -72,6 +72,10 @@
                         <textarea rows="5" name="content" id="details"
                                   placeholder="내용을 작성해주세요.">{{old('content')}}</textarea>
                     </div>
+                    <div class="form-item row-group">
+                        <label for="file">파일 첨부</label>
+                        <input type="file" id="file" name="file">
+                    </div>
                 </div>
 
                 <div class="form-btn-wrap col-group">

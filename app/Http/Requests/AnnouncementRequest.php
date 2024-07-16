@@ -26,6 +26,7 @@ class AnnouncementRequest extends FormRequest
             'title' => 'required',
             'content' => 'required',
             'is_featured' => 'required|boolean',
+            'file' => 'nullable|file|max:10240',
         ];
 
         return $rules;

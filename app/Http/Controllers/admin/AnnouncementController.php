@@ -14,6 +14,14 @@ class AnnouncementController extends BaseController {
     public function store(AnnouncementRequest $request) {
         $store = $request->validated();
 
+        if ($request->hasFile('file')) {
+            $fileName = $request->file('file')->getClientOriginalName();
+            $filePath = $request->file('file')->storeAs('uploads', $fileName, 'public');
+            $store['file_path'] = $filePath;
+        } else {
+            $store['file_path'] = null;
+        }
+
         $isFeatured = $request->input('is_featured');
         $store['is_featured'] = $isFeatured;
 
