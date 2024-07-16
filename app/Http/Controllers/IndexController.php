@@ -28,7 +28,9 @@ class IndexController extends Controller
             $query->where($searchField, 'like', '%' . $search . '%');
         }
 
-        $query->withBooleanFormatted();
+        if (method_exists($model, 'scopeWithBooleanFormatted')) {
+            $query->withBooleanFormatted();
+        }
 
         $paginationEnabled = ($page > 0);
 
@@ -87,6 +89,6 @@ class IndexController extends Controller
     }
 
     public function question(Request $request) {
-        return $this->fetchDataAndRespond(Question::class, ['id', 'title'], 'title', 10, $request);
+        return $this->fetchDataAndRespond(Question::class, ['id', 'title', 'content'], 'title', 10, $request);
     }
 }

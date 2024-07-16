@@ -56,8 +56,4 @@ class DetailController extends Controller
     public function share_detail($id) {
         return $this->detailRespond(Share::class, ['id', 'title', 'views', 'content', 'image', 'file_path', 'created_at'], $id, true, true);
     }
-
-    public function question_detail($id) {
-        return $this->detailRespond(Question::class, ['id', 'content'], $id);
-    }
 }
