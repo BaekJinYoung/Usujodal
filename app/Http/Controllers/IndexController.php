@@ -58,7 +58,7 @@ class IndexController extends Controller
         return ApiResponse::success($responseData);
     }
 
-    public function history($request) {
+    public function history($request = false) {
         $histories = History::orderBy('date', 'asc')->get();
 
         $historiesByYear = $histories->groupBy(function ($item) {
@@ -73,24 +73,19 @@ class IndexController extends Controller
             return $decade;
         })->sortKeysDesc();
 
-        $selectedDecade = $request;
+        $formattedYears = [];
 
         foreach ($historiesByDecade as $decade => $yearGroups) {
-            if ($decade == $selectedDecade) {
-
-                $formattedYears = [];
-
+            if ($request === false || $decade == $request) {
                 foreach ($yearGroups as $year => $yearGroup) {
                     $historiesWithImages = collect($yearGroup)->filter(function ($history) {
                         return !is_null($history['image']);
                     });
 
-                    $years = collect($yearGroup)->map(function ($history) {
+                    $year = collect($yearGroup)->map(function ($history) {
                         return substr($history['date'], 0, 4);
-                    });
-
+                    })->first();
                     $image = $historiesWithImages->first();
-                    $year = $years->first();
 
                     $formattedYears[] = [
                         'year' => $year,
