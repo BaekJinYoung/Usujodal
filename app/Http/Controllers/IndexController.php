@@ -58,35 +58,55 @@ class IndexController extends Controller
         return ApiResponse::success($responseData);
     }
 
-    function history(Request $request) {
+    public function history($request) {
         $histories = History::orderBy('date', 'asc')->get();
 
         $historiesByYear = $histories->groupBy(function ($item) {
             return Carbon::parse($item->date)->format('Y');
+        });
+
+        $historiesByYear = $historiesByYear->toArray();
+        krsort($historiesByYear);
+
+        $historiesByDecade = collect($historiesByYear)->groupBy(function ($yearGroup, $year) {
+            $decade = floor($year / 10) * 10;
+            return $decade;
         })->sortKeysDesc();
 
-        foreach ($historiesByYear as $year => $yearGroup) {
-            $historiesWithImages = $yearGroup->filter(function ($history) {
-                return !is_null($history->image);
-            });
+        $selectedDecade = $request;
 
-            $image = $historiesWithImages->first();
+        foreach ($historiesByDecade as $decade => $yearGroups) {
+            if ($decade == $selectedDecade) {
 
-            $formattedHistory = [
-                'year' => $year,
-                'image' => $image ? $image->image : null,
-                'histories' => $yearGroup->map(function ($history) {
-                    return [
-                        'id' => $history->id,
-                        'content' => $history->content,
+                $formattedYears = [];
+
+                foreach ($yearGroups as $year => $yearGroup) {
+                    $historiesWithImages = collect($yearGroup)->filter(function ($history) {
+                        return !is_null($history['image']);
+                    });
+
+                    $years = collect($yearGroup)->map(function ($history) {
+                        return substr($history['date'], 0, 4);
+                    });
+
+                    $image = $historiesWithImages->first();
+                    $year = $years->first();
+
+                    $formattedYears[] = [
+                        'year' => $year,
+                        'image' => $image ? $image['image'] : null,
+                        'histories' => collect($yearGroup)->map(function ($history) {
+                            return [
+                                'id' => $history['id'],
+                                'content' => $history['content'],
+                            ];
+                        })->values()->all(),
                     ];
-                })->values()->all(),
-            ];
-
-            $formattedHistories[] = $formattedHistory;
+                }
+            }
         }
 
-        return ApiResponse::success($formattedHistories);
+        return ApiResponse::success($formattedYears);
     }
 
     public function company(Request $request) {
