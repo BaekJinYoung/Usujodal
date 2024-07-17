@@ -15,13 +15,11 @@ use Illuminate\Support\Carbon;
 
 class IndexController extends Controller
 {
-    // 공통 메서드: 데이터 조회 및 검색
     private function fetchDataAndRespond($model, $selectColumns, $searchField, $page, Request $request)
     {
         $search = $request->input('search', '');
         $query = $model::select($selectColumns)->orderBy('id', 'desc');
 
-        // searchField가 설정된 경우 검색 기능이 있는 것으로 간주
         $hasSearchField = !is_null($searchField);
 
         if ($hasSearchField && !empty($search)) {
@@ -50,7 +48,6 @@ class IndexController extends Controller
 
         $responseData = $index;
 
-        // 검색 기능이 있는 페이지의 응답 데이터에 항상 search 값을 포함
         if ($hasSearchField) {
             $responseData['search'] = $search;
         }
@@ -58,7 +55,7 @@ class IndexController extends Controller
         return ApiResponse::success($responseData);
     }
 
-    public function history($request = false) {
+    public function history($decade = null) {
         $histories = History::orderBy('date', 'asc')->get();
 
         $historiesByYear = $histories->groupBy(function ($item) {
@@ -73,10 +70,8 @@ class IndexController extends Controller
             return $decade;
         })->sortKeysDesc();
 
-        $formattedYears = [];
-
-        foreach ($historiesByDecade as $decade => $yearGroups) {
-            if ($request === false || $decade == $request) {
+        foreach ($historiesByDecade as $decades => $yearGroups) {
+            if ($decade === null || $decades == $decade) {
                 foreach ($yearGroups as $year => $yearGroup) {
                     $historiesWithImages = collect($yearGroup)->filter(function ($history) {
                         return !is_null($history['image']);
@@ -87,7 +82,7 @@ class IndexController extends Controller
                     })->first();
                     $image = $historiesWithImages->first();
 
-                    $formattedYears[] = [
+                    $years[] = [
                         'year' => $year,
                         'image' => $image ? $image['image'] : null,
                         'histories' => collect($yearGroup)->map(function ($history) {
@@ -101,7 +96,7 @@ class IndexController extends Controller
             }
         }
 
-        return ApiResponse::success($formattedYears);
+        return ApiResponse::success(compact('decade', 'years'));
     }
 
     public function company(Request $request) {
