@@ -8,6 +8,7 @@ use App\Models\Banner;
 use App\Models\Company;
 use App\Models\Consultant;
 use App\Models\History;
+use App\Models\Popup;
 use App\Models\Question;
 use App\Models\Share;
 use App\Models\Youtube;
@@ -77,6 +78,11 @@ class IndexController extends Controller
     }
 
     public function mainRespond() {
+        $popup = $this->fetchAndFormat(Popup::class, ['id',
+            'title',
+            'image',
+            'link',
+            'created_at'], 0);
         $banner = $this->fetchAndFormat(Banner::class, ['id',
             'title',
             'image',
@@ -88,6 +94,7 @@ class IndexController extends Controller
         $youtubes = $this->fetchAndFormat(Youtube::class, ['id', 'title', 'main_image', 'created_at'], 9, true);
 
         $main[] = [
+            'popup' => $popup,
             'banner' => $banner,
             'notice' => $notice,
             'news' => $news,
