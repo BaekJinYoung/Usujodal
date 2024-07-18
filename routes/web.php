@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\ConsultantController;
 use App\Http\Controllers\admin\HistoryController;
+use App\Http\Controllers\admin\PopupController;
 use App\Http\Controllers\admin\QuestionController;
 use App\Http\Controllers\admin\ShareController;
 use App\Http\Controllers\admin\YoutubeController;
@@ -35,6 +36,17 @@ Route::controller(DetailController::class)->group(function () {
 });
 
 Route::prefix('admin')->group(function () {
+    Route::prefix('popup')->group(function () {
+        Route::controller(PopupController::class)->group(function () {
+            Route::get('/', 'index')->name("admin.popupIndex");
+            Route::get('/create', 'create')->name("admin.popupCreate");
+            Route::post('/store', 'store')->name("admin.popupStore");
+            Route::get('/{popup}/edit', 'edit')->name("admin.popupEdit");
+            Route::patch('/{popup}', 'update')->name("admin.popupUpdate");
+            Route::delete('/{popup}', 'delete')->name("admin.popupDelete");
+        });
+    });
+
     Route::prefix('banner')->group(function () {
         Route::controller(BannerController::class)->group(function () {
             Route::get('/', 'index')->name("admin.bannerIndex");
