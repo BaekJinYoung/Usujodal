@@ -47,7 +47,11 @@ class IndexController extends Controller
         $index = $paginationEnabled ? $query->simplePaginate($page) : $query->get();
 
         if ($index->isEmpty()) {
-            return ApiResponse::success([], '게시물이 없습니다');
+            if (!empty($search)) {
+                return ApiResponse::success([], '검색 결과가 없습니다. 검색어: ' . $search);
+            } else {
+                return ApiResponse::success([], '게시물이 없습니다.');
+            }
         }
 
         if ($paginationEnabled) {
