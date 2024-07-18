@@ -10,7 +10,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::controller(IndexController::class)->group(function () {
-    Route::get('/main', 'main');
+    Route::get('/main', 'mainRespond');
     Route::get('/history', 'history');
     Route::get('/history/{year}', 'history');
     Route::get('/company', 'company');

@@ -60,14 +60,29 @@ class IndexController extends Controller
         return ApiResponse::success($responseData);
     }
 
+    private function fetchAndFormat($model, $selectColumns, $limit, $isFeatured = false)
+    {
+        $query = $model::select($selectColumns)
+            ->orderBy('created_at', 'desc')
+            ->limit($limit);
 
-    public function main() {
-        $announcements = Announcement::select('id', 'title', 'content', 'created_at')
-        ->orderBy('created_at', 'desc')->limit(9)->get();
+        if ($isFeatured ) {
+            $query->where('is_featured', true);
+        }
 
-        $announcements = $this->formatCreatedAt($announcements);
+        $data = $query->get();
+
+        return $this->formatCreatedAt($data);
+    }
+
+    public function mainRespond() {
+        $announcementNotice = $this->fetchAndFormat(Announcement::class, ['id', 'title', 'content', 'created_at'], 9, true);
+        $announcements = $this->fetchAndFormat(Announcement::class, ['id', 'title', 'content', 'created_at'], 9);
+        $youtubes = $this->fetchAndFormat(Youtube::class, ['id', 'title', 'main_image', 'created_at'], 9);
 
         $main[] = [
+            'announcementNotice' => $announcementNotice,
+            'youtubes' => $youtubes,
             'announcements' => $announcements,
         ];
 
