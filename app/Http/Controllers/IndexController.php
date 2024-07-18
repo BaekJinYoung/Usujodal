@@ -76,12 +76,14 @@ class IndexController extends Controller
     }
 
     public function mainRespond() {
-        $announcementNotice = $this->fetchAndFormat(Announcement::class, ['id', 'title', 'content', 'created_at'], 9, true);
+        $notice = $this->fetchAndFormat(Announcement::class, ['id', 'title'], 5, true);
+        $news = $this->fetchAndFormat(Share::class, ['id', 'title'], 5, true);
         $announcements = $this->fetchAndFormat(Announcement::class, ['id', 'title', 'content', 'created_at'], 9);
         $youtubes = $this->fetchAndFormat(Youtube::class, ['id', 'title', 'main_image', 'created_at'], 9);
 
         $main[] = [
-            'announcementNotice' => $announcementNotice,
+            'notice' => $notice,
+            'news' => $news,
             'youtubes' => $youtubes,
             'announcements' => $announcements,
         ];
