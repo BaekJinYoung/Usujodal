@@ -14,13 +14,8 @@ return new class extends Migration
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('mobile_title');
-            $table->string('subtitle');
-            $table->string('mobile_subtitle');
-            $table->string('details');
-            $table->string('mobile_details');
             $table->string('image');
-            $table->string('mobile_image');
+            $table->string('content');
             $table->timestamps();
         });
     }

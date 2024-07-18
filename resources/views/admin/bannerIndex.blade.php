@@ -35,13 +35,8 @@
                                 <div class="img_wrap">
                                     <img src="{{asset('storage/'.$item->image)}}" alt="">
                                 </div>
-                                <div class="img_wrap">
-                                    <img src="{{asset('storage/'.$item->mobile_image)}}" alt="">
-                                </div>
                                 <div class="item_txt_wrap">
                                     <p class="title_p">{{$item->title}}</p>
-                                    <p class="title_p">{{$item->mobile_title}}</p>
-                                    <p class="subtitle_p">{{$item->subtitle}}</p>
                                     <div class="btn-wrap col-group">
                                         <a href="{{route("admin.bannerEdit", $item->id)}}" class="btn">
                                             수정

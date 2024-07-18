@@ -79,13 +79,8 @@ class IndexController extends Controller
     public function mainRespond() {
         $banner = $this->fetchAndFormat(Banner::class, ['id',
             'title',
-            'mobile_title',
-            'subtitle',
-            'mobile_subtitle',
-            'details',
-            'mobile_details',
             'image',
-            'mobile_image',
+            'content',
             'created_at'], 0);
         $notice = $this->fetchAndFormat(Announcement::class, ['id', 'title'], 5, true);
         $news = $this->fetchAndFormat(Share::class, ['id', 'title'], 5, true);

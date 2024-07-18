@@ -19,10 +19,6 @@ class BannerController extends BaseController
         $path = $request->file('image')->storeAs('images', $fileName, 'public');
         $store['image'] = $path;
 
-        $mobile_fileName = $request->file('mobile_image')->getClientOriginalName();
-        $mobile_path = $request->file('mobile_image')->storeAs('images', $mobile_fileName, 'public');
-        $store['mobile_image'] = $mobile_path;
-
         $this->model->create($store);
 
         if ($request->filled('continue')) {
