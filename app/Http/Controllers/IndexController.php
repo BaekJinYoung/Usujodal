@@ -85,6 +85,10 @@ class IndexController extends Controller
 
         $data = $query->get();
 
+        if ($data->isEmpty()) {
+            return ApiResponse::success([], '게시물이 없습니다.');
+        }
+
         return $this->formatCollection($data);
     }
 
