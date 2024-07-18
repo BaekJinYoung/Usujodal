@@ -20,6 +20,9 @@ class YoutubeController extends BaseController {
             $store['main_image'] = $path;
         }
 
+        $isFeatured = $request->input('is_featured');
+        $store['is_featured'] = $isFeatured;
+
         $this->model->create($store);
 
         if ($request->filled('continue')) {

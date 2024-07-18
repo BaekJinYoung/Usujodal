@@ -79,7 +79,7 @@ class IndexController extends Controller
         $notice = $this->fetchAndFormat(Announcement::class, ['id', 'title'], 5, true);
         $news = $this->fetchAndFormat(Share::class, ['id', 'title'], 5, true);
         $announcements = $this->fetchAndFormat(Announcement::class, ['id', 'title', 'content', 'created_at'], 9);
-        $youtubes = $this->fetchAndFormat(Youtube::class, ['id', 'title', 'main_image', 'created_at'], 9);
+        $youtubes = $this->fetchAndFormat(Youtube::class, ['id', 'title', 'main_image', 'created_at'], 9, true);
 
         $main[] = [
             'notice' => $notice,

@@ -14,6 +14,7 @@ class Youtube extends Model
     protected $fillable = [
         'title',
         'content',
+        'is_featured',
         'main_image',
         'link',
         'views',

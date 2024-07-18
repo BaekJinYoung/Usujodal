@@ -34,6 +34,30 @@
                 <div class="form-wrap row-group">
                     <div class="form-item row-group">
                         <p class="item-default">
+                            상단 공지
+                            <span class="red">*</span>
+                        </p>
+                        <div class="radio-wrap">
+                            <div class="label-wrap col-group">
+                                <label for="radio_item_1" class="radio-item">
+                                    <input type="radio" name="is_featured" id="radio_item_1" value="1" class="form-radio">
+                                    <div class="checked-item col-group">
+                                        <span class="radio-icon"></span>
+                                        Y
+                                    </div>
+                                </label>
+                                <label for="radio_item_2" class="radio-item">
+                                    <input type="radio" name="is_featured" id="radio_item_2" value="0" class="form-radio">
+                                    <div class="checked-item col-group">
+                                        <span class="radio-icon"></span>
+                                        N
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item row-group">
+                        <p class="item-default">
                             제목
                             <span class="red">*</span>
                         </p>
