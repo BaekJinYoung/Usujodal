@@ -15,6 +15,17 @@ use Illuminate\Support\Carbon;
 
 class IndexController extends Controller
 {
+    private function formatCreatedAt($collection)
+    {
+        return $collection->transform(function ($item) {
+            if (isset($item->created_at)) {
+                $item->created_at_formatted = Carbon::parse($item->created_at)->format('Y.m.d');
+                unset($item->created_at);
+            }
+            return $item;
+        });
+    }
+
     private function fetchDataAndRespond($model, $selectColumns, $searchField, $page, Request $request)
     {
         $search = $request->input('search', '');
@@ -38,13 +49,7 @@ class IndexController extends Controller
             return ApiResponse::success([], '게시물이 없습니다');
         }
 
-        $index->transform(function ($item) {
-            if (isset($item->created_at)) {
-                $item->created_at_formatted = Carbon::parse($item->created_at)->format('Y.m.d');
-                unset($item->created_at);
-            }
-            return $item;
-        });
+        $index = $this->formatCreatedAt($index);
 
         $responseData = $index;
 
@@ -53,6 +58,20 @@ class IndexController extends Controller
         }
 
         return ApiResponse::success($responseData);
+    }
+
+
+    public function main() {
+        $announcements = Announcement::select('id', 'title', 'content', 'created_at')
+        ->orderBy('created_at', 'desc')->limit(9)->get();
+
+        $announcements = $this->formatCreatedAt($announcements);
+
+        $main[] = [
+            'announcements' => $announcements,
+        ];
+
+        return ApiResponse::success($main);
     }
 
     public function history($decade = null) {
