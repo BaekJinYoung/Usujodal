@@ -81,13 +81,11 @@ class IndexController extends Controller
         $popup = $this->fetchAndFormat(Popup::class, ['id',
             'title',
             'image',
-            'link',
-            'created_at'], 0);
+            'link'], 0);
         $banner = $this->fetchAndFormat(Banner::class, ['id',
             'title',
             'image',
-            'content',
-            'created_at'], 0);
+            'content'], 0);
         $notice = $this->fetchAndFormat(Announcement::class, ['id', 'title'], 5, true);
         $news = $this->fetchAndFormat(Share::class, ['id', 'title'], 5, true);
         $announcements = $this->fetchAndFormat(Announcement::class, ['id', 'title', 'content', 'created_at'], 9);
