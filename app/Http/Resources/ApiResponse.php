@@ -7,10 +7,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ApiResponse
 {
-    public static function success($data = [], $status = 200)
+    public static function success($data = [], $message = 'Success', $status = 200)
     {
         return response()->json([
             'success' => true,
+            'message' => $message,
             'data' => $data,
         ], $status);
     }
