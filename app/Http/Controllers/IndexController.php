@@ -17,13 +17,17 @@ use Illuminate\Support\Carbon;
 
 class IndexController extends Controller
 {
-    private function formatCreatedAt($collection) {
+    private function formatItem($item) {
+        if (isset($item->created_at)) {
+            $item->created_at_formatted = Carbon::parse($item->created_at)->format('Y.m.d');
+            unset($item->created_at);
+        }
+        return $item;
+    }
+
+    private function formatCollection($collection) {
         return $collection->transform(function ($item) {
-            if (isset($item->created_at)) {
-                $item->created_at_formatted = Carbon::parse($item->created_at)->format('Y.m.d');
-                unset($item->created_at);
-            }
-            return $item;
+            return $this->formatItem($item);
         });
     }
 
@@ -31,9 +35,7 @@ class IndexController extends Controller
         $search = $request->input('search', '');
         $query = $model::select($selectColumns)->orderBy('id', 'desc');
 
-        $hasSearchField = !is_null($searchField);
-
-        if ($hasSearchField && !empty($search)) {
+        if (!is_null($searchField) && !empty($search)) {
             $query->where($searchField, 'like', '%' . $search . '%');
         }
 
@@ -42,18 +44,23 @@ class IndexController extends Controller
         }
 
         $paginationEnabled = ($page > 0);
-
         $index = $paginationEnabled ? $query->simplePaginate($page) : $query->get();
 
         if ($index->isEmpty()) {
             return ApiResponse::success([], '게시물이 없습니다');
         }
 
-        $index = $this->formatCreatedAt($index);
+        if ($paginationEnabled) {
+            $index->getCollection()->transform(function ($item) {
+                return $this->formatItem($item);
+            });
+        } else {
+            $index = $this->formatCollection($index);
+        }
 
         $responseData = $index;
 
-        if ($hasSearchField) {
+        if (!is_null($searchField)) {
             $responseData['search'] = $search;
         }
 
@@ -74,7 +81,7 @@ class IndexController extends Controller
 
         $data = $query->get();
 
-        return $this->formatCreatedAt($data);
+        return $this->formatCollection($data);
     }
 
     public function mainRespond() {
