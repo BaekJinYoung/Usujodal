@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AnnouncementController;
+use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\ConsultantController;
 use App\Http\Controllers\admin\HistoryController;
@@ -34,6 +35,17 @@ Route::controller(DetailController::class)->group(function () {
 });
 
 Route::prefix('admin')->group(function () {
+    Route::prefix('banner')->group(function () {
+        Route::controller(BannerController::class)->group(function () {
+            Route::get('/', 'index')->name("admin.bannerIndex");
+            Route::get('/create', 'create')->name("admin.bannerCreate");
+            Route::post('/store', 'store')->name("admin.bannerStore");
+            Route::get('/{banner}/edit', 'edit')->name("admin.bannerEdit");
+            Route::patch('/{banner}', 'update')->name("admin.bannerUpdate");
+            Route::delete('/{banner}', 'delete')->name("admin.bannerDelete");
+        });
+    });
+
     Route::prefix('announcement')->group(function () {
         Route::controller(AnnouncementController::class)->group(function () {
             Route::get('/', 'index')->name("admin.announcementIndex");

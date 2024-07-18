@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ApiResponse;
 use App\Models\Announcement;
+use App\Models\Banner;
 use App\Models\Company;
 use App\Models\Consultant;
 use App\Models\History;
@@ -15,8 +16,7 @@ use Illuminate\Support\Carbon;
 
 class IndexController extends Controller
 {
-    private function formatCreatedAt($collection)
-    {
+    private function formatCreatedAt($collection) {
         return $collection->transform(function ($item) {
             if (isset($item->created_at)) {
                 $item->created_at_formatted = Carbon::parse($item->created_at)->format('Y.m.d');
@@ -26,8 +26,7 @@ class IndexController extends Controller
         });
     }
 
-    private function fetchDataAndRespond($model, $selectColumns, $searchField, $page, Request $request)
-    {
+    private function fetchDataAndRespond($model, $selectColumns, $searchField, $page, Request $request) {
         $search = $request->input('search', '');
         $query = $model::select($selectColumns)->orderBy('id', 'desc');
 
@@ -60,14 +59,16 @@ class IndexController extends Controller
         return ApiResponse::success($responseData);
     }
 
-    private function fetchAndFormat($model, $selectColumns, $limit, $isFeatured = false)
-    {
+    private function fetchAndFormat($model, $selectColumns, $limit, $isFeatured = false) {
         $query = $model::select($selectColumns)
-            ->orderBy('created_at', 'desc')
-            ->limit($limit);
+            ->orderBy('created_at', 'desc');
 
         if ($isFeatured ) {
             $query->where('is_featured', true);
+        }
+
+        if ($limit > 0) {
+            $query->limit($limit);
         }
 
         $data = $query->get();
@@ -76,16 +77,27 @@ class IndexController extends Controller
     }
 
     public function mainRespond() {
+        $banner = $this->fetchAndFormat(Banner::class, ['id',
+            'title',
+            'mobile_title',
+            'subtitle',
+            'mobile_subtitle',
+            'details',
+            'mobile_details',
+            'image',
+            'mobile_image',
+            'created_at'], 0);
         $notice = $this->fetchAndFormat(Announcement::class, ['id', 'title'], 5, true);
         $news = $this->fetchAndFormat(Share::class, ['id', 'title'], 5, true);
         $announcements = $this->fetchAndFormat(Announcement::class, ['id', 'title', 'content', 'created_at'], 9);
         $youtubes = $this->fetchAndFormat(Youtube::class, ['id', 'title', 'main_image', 'created_at'], 9, true);
 
         $main[] = [
+            'banner' => $banner,
             'notice' => $notice,
             'news' => $news,
-            'youtubes' => $youtubes,
-            'announcements' => $announcements,
+            'youtube' => $youtubes,
+            'announcement' => $announcements,
         ];
 
         return ApiResponse::success($main);
