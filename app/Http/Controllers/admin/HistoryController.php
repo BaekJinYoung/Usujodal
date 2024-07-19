@@ -78,7 +78,7 @@ class HistoryController extends BaseController {
 
         $year = Carbon::parse($item->date)->format('Y');
         $yearlyImage = YearlyImage::where('year', $year)->first();
-        $item->image = $yearlyImage->image_path;
+        $item->image = $yearlyImage ? asset('storage/' . $yearlyImage->image_path) : null;
 
         return view($this->getViewName('edit'), compact('item'));
     }
