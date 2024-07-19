@@ -72,7 +72,7 @@ class IndexController extends Controller
 
         $index->getCollection()->transform(function ($item) {
                 return $this->formatItemWithImage($item);
-            });
+        });
 
         $responseData = $index;
 
@@ -96,6 +96,12 @@ class IndexController extends Controller
         }
 
         $data = $query->get();
+
+        $data = $data->transform(function ($item) {
+            return $this->formatItemWithImage($item);
+        });
+
+        $data = $this->formatCollection($data);
 
         if ($data->isEmpty()) {
             return ApiResponse::success([], '게시물이 없습니다.');

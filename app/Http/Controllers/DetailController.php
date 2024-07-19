@@ -38,6 +38,8 @@ class DetailController extends Controller
         $detail['created_at_formatted'] = Carbon::parse($detail['created_at'])->format('Y-m-d');
         unset($detail['created_at']);
 
+        $detail->image_url = asset('storage/' . $detail->image);
+
         return ApiResponse::success($detail);
     }
 
