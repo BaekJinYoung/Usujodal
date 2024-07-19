@@ -49,7 +49,7 @@ class HistoryController extends BaseController {
 
         if ($request->filled('date')) {
             $date = Carbon::parse($request->input('date'));
-            $validated['date'] = $date->format('Y-m-d');
+            $store['date'] = $date->format('Y-m-d');
         }
 
         $year = Carbon::parse($store->date)->format('Y');
@@ -60,14 +60,9 @@ class HistoryController extends BaseController {
                 Storage::delete('public/' . $yearlyImage->image_path);
             }
             $fileName = $request->file('image')->getClientOriginalName();
-            $path = $request->file('image')->store('images', $fileName, 'public');
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
             $yearlyImage->image_path = $path;
             $yearlyImage->save();
-        }
-
-        if ($request->filled('date')) {
-            $date = Carbon::parse($request->input('date'));
-            $store['date'] = $date->format('Y-m-d');
         }
 
         $this->model->create($store);
