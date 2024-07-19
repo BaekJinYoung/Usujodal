@@ -22,10 +22,6 @@ class ConsultantController extends BaseController {
         return redirect()->route('admin.consultantIndex');
     }
 
-    public function edit($id, $incrementViews = false) {
-        return parent::edit($id, false);
-    }
-
     public function update(ConsultantRequest $request, Consultant $consultant) {
         $update = $request->validated();
 

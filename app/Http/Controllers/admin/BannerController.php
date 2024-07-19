@@ -28,10 +28,6 @@ class BannerController extends BaseController
         return redirect()->route('admin.bannerIndex');
     }
 
-    public function edit($id, $incrementViews = false) {
-        return parent::edit($id, false);
-    }
-
     public function update(BannerRequest $request, Banner $banner) {
         $update = $request->validated();
 

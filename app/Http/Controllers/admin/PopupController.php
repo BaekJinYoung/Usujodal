@@ -29,10 +29,6 @@ class PopupController extends BaseController
         return redirect()->route('admin.popupIndex');
     }
 
-    public function edit($id, $incrementViews = false) {
-        return parent::edit($id, false);
-    }
-
     public function update(PopupRequest $request, Popup $popup) {
         $update = $request->validated();
 

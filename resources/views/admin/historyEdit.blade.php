@@ -30,7 +30,7 @@
                     연혁 등록
                 </h2>
             </div>
-            <form action="{{route("admin.historyUpdate", $history)}}" method="post" enctype="multipart/form-data">
+            <form action="{{route("admin.historyUpdate", $item)}}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('patch')
                 <div class="form-wrap row-group">
@@ -40,7 +40,7 @@
                             <span class="red">*</span>
                         </p>
                         <input type="month" class="form-input w-560" id="date" name="date"
-                               value="{{old('date', date('Y-m', strtotime($history->date)))}}">
+                               value="{{old('date', date('Y-m', strtotime($item->date)))}}">
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
@@ -48,7 +48,7 @@
                             <span class="red">*</span>
                         </p>
                         <textarea rows="5" name="content" id="content"
-                                  placeholder="내용을 작성해주세요.">{{old('content', $history->content)}}</textarea>
+                                  placeholder="내용을 작성해주세요.">{{old('content', $item->content)}}</textarea>
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
@@ -63,10 +63,10 @@
                                 320*440px 비율 고해상도 사진 등록
                             </span>
                             <div class="file-preview" id="image-preview"
-                                 @if(!$history->image) style="display: none" @endif>
+                                 @if(!$item->image) style="display: none" @endif>
                                 <p class="file-name" id="image-filename">
-                                    @if($history->image)
-                                        {{$history->image}}
+                                    @if($item->image)
+                                        {{$item->image}}
                                     @endif
                                 </p>
                                 <button type="button" class="file-del-btn" id="remove-image-btn">

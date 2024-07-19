@@ -10,10 +10,6 @@ class QuestionController extends BaseController {
         parent::__construct($question);
     }
 
-    public function edit($id, $incrementViews = false) {
-        return parent::edit($id, false);
-    }
-
     public function store(QuestionRequest $request) {
         $store = $request->validated();
 

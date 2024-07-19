@@ -30,12 +30,8 @@ class BaseController extends Controller {
         return view($this->getViewName('create'));
     }
 
-    public function edit($id, $incrementViews = true) {
+    public function edit($id) {
         $item = $this->model->find($id);
-
-        if ($incrementViews) {
-            $item->increment('views');
-        }
 
         return view($this->getViewName('edit'), compact('item'));
     }
