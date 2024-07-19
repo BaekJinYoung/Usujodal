@@ -38,7 +38,7 @@
                             <div class="txt-box row-group">
                                 <p class="title">{{$item->rank}}</p>
                                 <p class="title">{{$item->name}}</p>
-                                <p class="title">{{$item->Department}}</p>
+                                <p class="title">{{$item->department}}</p>
                                 <p class="title">{{$item->content}}</p>
                                 <div class="btn-wrap col-group">
                                     <a href="{{route("admin.consultantEdit", $item->id)}}" class="btn">

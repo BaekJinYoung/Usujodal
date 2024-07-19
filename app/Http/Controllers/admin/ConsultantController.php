@@ -13,9 +13,11 @@ class ConsultantController extends BaseController {
     public function store(ConsultantRequest $request) {
         $store = $request->validated();
 
-        $fileName = $request->file('main_image')->getClientOriginalName();
-        $path = $request->file('main_image')->storeAs('images', $fileName, 'public');
-        $store['main_image'] = $path;
+        if ($request->hasFile('image')) {
+            $fileName = $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
+            $store['image'] = $path;
+        }
 
         $this->model->create($store);
 
@@ -25,10 +27,10 @@ class ConsultantController extends BaseController {
     public function update(ConsultantRequest $request, Consultant $consultant) {
         $update = $request->validated();
 
-        if ($request->hasFile('main_image')) {
-            $fileName = $request->file('main_image')->getClientOriginalName();
-            $path = $request->file('main_image')->storeAs('images', $fileName, 'public');
-            $update['main_image'] = $path;
+        if ($request->hasFile('image')) {
+            $fileName = $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
+            $update['image'] = $path;
         }
 
         $consultant->update($update);

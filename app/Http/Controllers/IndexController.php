@@ -27,7 +27,7 @@ class IndexController extends Controller
     }
 
     private function formatItemWithImage($item) {
-        if (isset($item->image) && Storage::exists('public/' . $item->image)) {
+        if (isset($item->image)) {
             $item->image = asset('storage/' . $item->image);
         }
         return $item;
@@ -71,12 +71,9 @@ class IndexController extends Controller
             });
         } else {
             $index = $this->formatCollection($index);
-
-            if (isset($index->image) && Storage::exists('public/' . $index->image)) {
-                $index->image = asset('storage/' . $index->image);
-            } else {
-                $index->image = null;
-            }
+            $index = $index->transform(function ($item) {
+                return $this->formatItemWithImage($item);
+            });
         }
 
         $responseData = $index;
