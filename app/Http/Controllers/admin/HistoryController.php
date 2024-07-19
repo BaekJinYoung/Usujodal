@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\History;
 use App\Models\YearlyImage;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class HistoryController extends BaseController {
 
@@ -86,16 +87,22 @@ class HistoryController extends BaseController {
     public function update(HistoryRequest $request, History $history) {
         $update = $request->validated();
 
+        $year = Carbon::parse($history->date)->format('Y');
+        $yearlyImage = YearlyImage::firstOrNew(['year' => $year]);
+
         if ($request->hasFile('image')) {
-            $fileName = $request->file('image')->getClientOriginalName();
-            $imagePath = $request->file('image')->storeAs('yearly_images', $fileName, 'public');
-
-            $year = substr($request->input('date'), 0, 4);
-
-            YearlyImage::updateOrCreate(
-                ['year' => $year],
-                ['image_path' => $imagePath]
-            );
+            if ($yearlyImage->exists && $yearlyImage->image_path) {
+                Storage::delete('public/' . $yearlyImage->image_path);
+            }
+            $path = $request->file('image')->store('images', 'public');
+            $yearlyImage->image_path = $path;
+            $yearlyImage->save();
+        } elseif ($request->input('remove_image') == 1) {
+            if ($yearlyImage->exists && $yearlyImage->image_path) {
+                Storage::delete('public/' . $yearlyImage->image_path);
+                $yearlyImage->image_path = null;
+                $yearlyImage->save();
+            }
         }
 
         if ($request->filled('date')) {
@@ -103,7 +110,7 @@ class HistoryController extends BaseController {
             $update['date'] = $date->format('Y-m-d');
         }
 
-        $history->update($update);
+        $history->save();
 
         return redirect()->route('admin.historyIndex');
     }
