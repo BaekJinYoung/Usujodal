@@ -112,7 +112,9 @@ class IndexController extends Controller
         return ApiResponse::success($main);
     }
 
-    public function history($decade = null) {
+    public function history(Request $request) {
+        $decade = $request->input('decade');
+
         $histories = History::orderBy('date', 'asc')->get();
 
         $historiesByYear = $histories->groupBy(function ($item) {
@@ -123,9 +125,10 @@ class IndexController extends Controller
         krsort($historiesByYear);
 
         $historiesByDecade = collect($historiesByYear)->groupBy(function ($yearGroup, $year) {
-            $decade = floor($year / 10) * 10;
-            return $decade;
+            return floor($year / 10) * 10;
         })->sortKeysDesc();
+
+        $years = [];
 
         foreach ($historiesByDecade as $decades => $yearGroups) {
             if ($decade === null || $decades == $decade) {

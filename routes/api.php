@@ -12,7 +12,6 @@ Route::get('/user', function (Request $request) {
 Route::controller(IndexController::class)->group(function () {
     Route::get('/main', 'mainRespond');
     Route::get('/history', 'history');
-    Route::get('/history/{year}', 'history');
     Route::get('/company', 'company');
     Route::get('/youtube', 'youtube');
     Route::get('/consultant', 'consultant');
