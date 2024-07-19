@@ -66,13 +66,18 @@ class IndexController extends Controller
             $index->getCollection()->transform(function ($item) {
                 return $this->formatItem($item);
             });
+            $index->getCollection()->transform(function ($item) {
+                return $this->formatItemWithImage($item);
+            });
         } else {
             $index = $this->formatCollection($index);
-        }
 
-        $index->getCollection()->transform(function ($item) {
-                return $this->formatItemWithImage($item);
-        });
+            if (isset($index->image) && Storage::exists('public/' . $index->image)) {
+                $index->image = asset('storage/' . $index->image);
+            } else {
+                $index->image = null;
+            }
+        }
 
         $responseData = $index;
 
