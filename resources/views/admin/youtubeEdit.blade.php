@@ -26,7 +26,7 @@
             @endif
             <div class="title-wrap col-group">
                 <h2 class="main-title">
-                    유튜브 등록
+                    유튜브 상세
                 </h2>
             </div>
             <form action="{{route("admin.youtubeUpdate", $item)}}" method="post" enctype="multipart/form-data">

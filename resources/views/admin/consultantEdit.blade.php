@@ -26,41 +26,40 @@
             @endif
             <div class="title-wrap col-group">
                 <h2 class="main-title">
-                    컨설턴트 등록
+                    컨설턴트 상세
                 </h2>
             </div>
-            <form action="{{route('admin.consultantStore')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route("admin.consultantUpdate", $item)}}" method="post" enctype="multipart/form-data">
                 @csrf
+                @method('patch')
                 <div class="form-wrap row-group">
                     <div class="form-item row-group">
                         <p class="item-default">
                             이름
                             <span class="red">*</span>
                         </p>
-                        <input type="text" id="name" name="name" class="form-input" value="{{old('name')}}" placeholder="이름을 입력하세요">
+                        <input type="text" id="name" name="name" class="form-input" value="{{old('name', $item->name)}}" placeholder="이름을 입력하세요">
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
                             직급
                             <span class="red">*</span>
                         </p>
-                        <input type="text" id="rank" name="rank" class="form-input" value="{{old('rank')}}" placeholder="직급을 입력하세요">
+                        <input type="text" id="rank" name="rank" class="form-input" value="{{old('rank', $item->rank)}}" placeholder="직급을 입력하세요">
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
                             컨설팅분야
-                            <span class="red">*</span>
                         </p>
                         <textarea rows="5" name="department" id="department"
-                                  placeholder="내용을 작성해주세요.">{{old('department')}}</textarea>
+                                  placeholder="내용을 작성해주세요.">{{old('department', $item->department)}}</textarea>
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
                             약력 소개
-                            <span class="red">*</span>
                         </p>
                         <textarea rows="5" name="content" id="content"
-                                  placeholder="내용을 작성해주세요.">{{old('content')}}</textarea>
+                                  placeholder="내용을 작성해주세요.">{{old('content', $item->content)}}</textarea>
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
@@ -74,14 +73,20 @@
                             <span class="guide-txt">
                                 320*440px 비율 고해상도 사진 등록
                             </span>
-                            <div class="file-preview" id="image-preview" style="display: none">
-                                <p class="file-name" id="image-filename"></p>
+                            <div class="file-preview" id="image-preview"
+                                 @if(!$item->main_image) style="display: none" @endif>
+                                <p class="file-name" id="image-filename">
+                                    @if($item->main_image)
+                                        {{$item->main_image}}
+                                    @endif
+                                </p>
                                 <button type="button" class="file-del-btn" id="remove-image-btn">
                                     <i class="xi-close"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" name="remove_image" id="remove_image" value="0">
                 </div>
 
                 <div class="form-btn-wrap col-group">
@@ -89,10 +94,7 @@
                         목록으로
                     </a>
                     <button class="form-prev-btn" type="submit">
-                        등록
-                    </button>
-                    <button class="form-submit-btn" name="continue" type="submit" value="1">
-                        등록 후 계속
+                        수정
                     </button>
                 </div>
             </form>
