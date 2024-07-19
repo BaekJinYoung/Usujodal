@@ -34,7 +34,7 @@
                 <div class="form-wrap row-group">
                     <div class="form-item row-group">
                         <p class="item-default">
-                            상단 공지
+                            메인 노출
                             <span class="red">*</span>
                         </p>
                         <div class="radio-wrap">
@@ -65,7 +65,7 @@
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
-                            내용
+                            텍스트
                             <span class="red">*</span>
                         </p>
                         <textarea rows="5" name="content" id="content"

@@ -33,7 +33,30 @@
                 @csrf
                 @method('patch')
                 <div class="form-wrap row-group">
-                    <p>조회수: {{ $item->views }}</p>
+                    <div class="form-item row-group">
+                        <p class="item-default">
+                            메인 노출
+                            <span class="red">*</span>
+                        </p>
+                        <div class="radio-wrap">
+                            <div class="label-wrap col-group">
+                                <label for="radio_item_1" class="radio-item">
+                                    <input type="radio" name="is_featured" id="radio_item_1" value="1" class="form-radio" {{ !$item->is_featured==0 ? 'checked' : '' }}>
+                                    <div class="checked-item col-group">
+                                        <span class="radio-icon"></span>
+                                        Y
+                                    </div>
+                                </label>
+                                <label for="radio_item_2" class="radio-item">
+                                    <input type="radio" name="is_featured" id="radio_item_2" value="0" class="form-radio" {{ !$item->is_featured==1 ? 'checked' : '' }}>
+                                    <div class="checked-item col-group">
+                                        <span class="radio-icon"></span>
+                                        N
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-item row-group">
                         <p class="item-default">
                             제목
@@ -43,7 +66,7 @@
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
-                            내용
+                            텍스트
                             <span class="red">*</span>
                         </p>
                         <textarea rows="5" name="content" id="content"

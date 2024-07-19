@@ -93,14 +93,8 @@ class IndexController extends Controller
     }
 
     public function mainRespond() {
-        $popup = $this->fetchAndFormat(Popup::class, ['id',
-            'title',
-            'image',
-            'link'], 0);
-        $banner = $this->fetchAndFormat(Banner::class, ['id',
-            'title',
-            'image',
-            'content'], 0);
+        $popup = $this->fetchAndFormat(Popup::class, ['id', 'title', 'image','link'], 0);
+        $banner = $this->fetchAndFormat(Banner::class, ['id', 'title', 'image', 'content'], 0);
         $notice = $this->fetchAndFormat(Announcement::class, ['id', 'title'], 5, true);
         $news = $this->fetchAndFormat(Share::class, ['id', 'title'], 5, true);
         $announcements = $this->fetchAndFormat(Announcement::class, ['id', 'title', 'content', 'created_at'], 9);

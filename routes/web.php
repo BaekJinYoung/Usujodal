@@ -17,24 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::controller(IndexController::class)->group(function () {
-    Route::get('/history', 'history');
-    Route::get('/company', 'company');
-    Route::get('/youtube', 'youtube');
-    Route::get('/consultant', 'consultant');
-    Route::get('/announcement', 'announcement');
-    Route::get('/share', 'share');
-    Route::get('/question', 'question');
-});
-
-Route::controller(DetailController::class)->group(function () {
-    Route::get('/company/{id}', 'company_detail');
-    Route::get('/youtube/{id}', 'youtube_detail');
-    Route::get('/announcement/{id}', 'announcement_detail');
-    Route::get('/share/{id}', 'share_detail');
-    Route::get('/question/{id}', 'question_detail');
-});
-
 Route::prefix('admin')->group(function () {
     Route::prefix('popup')->group(function () {
         Route::controller(PopupController::class)->group(function () {
