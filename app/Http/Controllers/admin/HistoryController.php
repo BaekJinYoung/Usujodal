@@ -47,6 +47,11 @@ class HistoryController extends BaseController {
     public function store(HistoryRequest $request) {
         $store = $request->validated();
 
+        if ($request->filled('date')) {
+            $date = Carbon::parse($request->input('date'));
+            $validated['date'] = $date->format('Y-m-d');
+        }
+
         $year = Carbon::parse($store->date)->format('Y');
         $yearlyImage = YearlyImage::firstOrNew(['year' => $year]);
 
