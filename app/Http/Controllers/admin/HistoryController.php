@@ -47,16 +47,17 @@ class HistoryController extends BaseController {
     public function store(HistoryRequest $request) {
         $store = $request->validated();
 
+        $year = Carbon::parse($store->date)->format('Y');
+        $yearlyImage = YearlyImage::firstOrNew(['year' => $year]);
+
         if ($request->hasFile('image')) {
+            if ($yearlyImage->exists && $yearlyImage->image_path) {
+                Storage::delete('public/' . $yearlyImage->image_path);
+            }
             $fileName = $request->file('image')->getClientOriginalName();
-            $imagePath = $request->file('image')->storeAs('yearly_images', $fileName, 'public');
-
-            $year = substr($request->input('date'), 0, 4);
-
-            YearlyImage::updateOrCreate(
-                ['year' => $year],
-                ['image_path' => $imagePath]
-            );
+            $path = $request->file('image')->store('images', $fileName, 'public');
+            $yearlyImage->image_path = $path;
+            $yearlyImage->save();
         }
 
         if ($request->filled('date')) {
@@ -94,7 +95,8 @@ class HistoryController extends BaseController {
             if ($yearlyImage->exists && $yearlyImage->image_path) {
                 Storage::delete('public/' . $yearlyImage->image_path);
             }
-            $path = $request->file('image')->store('images', 'public');
+            $fileName = $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
             $yearlyImage->image_path = $path;
             $yearlyImage->save();
         } elseif ($request->input('remove_image') == 1) {
