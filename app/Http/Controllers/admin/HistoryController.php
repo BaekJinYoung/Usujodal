@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\History;
 use App\Models\YearlyImage;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 class HistoryController extends BaseController {
@@ -76,7 +77,7 @@ class HistoryController extends BaseController {
         }
 
         // 이미지 정보를 제외한 데이터만 저장
-        $dataToStore = array_except($validated, ['image']);
+        $dataToStore = Arr::except($validated, ['image']);
 
         // 연혁 항목 저장
         $this->model->create($dataToStore);
