@@ -11,6 +11,7 @@ use App\Models\History;
 use App\Models\Popup;
 use App\Models\Question;
 use App\Models\Share;
+use App\Models\YearlyImage;
 use App\Models\Youtube;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -153,17 +154,13 @@ class IndexController extends Controller
         foreach ($historiesByDecade as $decades => $yearGroups) {
             if ($decade === null || $decades == $decade) {
                 foreach ($yearGroups as $year => $yearGroup) {
-                    $historiesWithImages = collect($yearGroup)->filter(function ($history) {
-                        return !is_null($history['image']);
-                    });
 
                     $year = collect($yearGroup)->map(function ($history) {
                         return substr($history['date'], 0, 4);
                     })->first();
 
-                    $image = $historiesWithImages->map(function ($history) {
-                        return asset('storage/' . $history['image']);
-                    })->first();
+                    $yearlyImage = YearlyImage::where('year', $year)->first();
+                    $image = $yearlyImage ? asset('storage/' . $yearlyImage->image_path) : null;
 
                     $years[] = [
                         'year' => $year,

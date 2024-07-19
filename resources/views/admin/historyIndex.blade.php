@@ -26,13 +26,13 @@
                             <option value="16" {{ $perPage == 16 ? 'selected' : '' }}>1페이지에 16개까지</option>
                             <option value="24" {{ $perPage == 24 ? 'selected' : '' }}>1페이지에 24개까지</option>
                         </select>
-{{--                        <select id="yearFilter">--}}
-{{--                            <option value="">전체보기</option>--}}
-{{--                            @foreach($years as $year)--}}
-{{--                                <option--}}
-{{--                                    value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>{{ $year }}</option>--}}
-{{--                            @endforeach--}}
-{{--                        </select>--}}
+                        <select id="yearFilter">
+                            <option value="">전체보기</option>
+                            @foreach($years as $year)
+                                <option
+                                    value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>{{ $year }}</option>
+                            @endforeach
+                        </select>
                         <div class="search-wrap col-group">
                             <button class="search-btn" onclick="filterHistories()">
                                 <i class="xi-search"></i>
@@ -51,10 +51,10 @@
                         <div class="board-item">
                             <div class="img-box">
                                 @if($item->image)
-                                    <img src="{{asset('storage/'.$item->image)}}" alt="">
+                                    <img src="{{$item->image}}" alt="">
                                 @endif
                             </div>
-                            <div class="txt-box row-group" data-year="{{ date('Y', strtotime($item->date)) }}">
+                            <div class="txt-box row-group" data-year="{{date('Y', strtotime($item->date)) }}">
                                 <p class="title">{{date('Y-m', strtotime($item->date))}}</p>
                                 <p class="title">{{$item->title}}</p>
                                 <div class="btn-wrap col-group">
