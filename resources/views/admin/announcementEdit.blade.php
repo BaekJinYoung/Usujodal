@@ -34,7 +34,6 @@
                 @method('patch')
                 <div class="form-wrap row-group">
                     <div class="form-item row-group">
-                        <p>조회수: {{ $item->views }}</p>
                         <p class="item-default">
                             상단 공지
                             <span class="red">*</span>
