@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ApiResponse;
 use App\Models\Announcement;
 use App\Models\Company;
-use App\Models\Question;
 use App\Models\Share;
 use App\Models\Youtube;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class DetailController extends Controller
 {
@@ -38,7 +37,17 @@ class DetailController extends Controller
         $detail['created_at_formatted'] = Carbon::parse($detail['created_at'])->format('Y-m-d');
         unset($detail['created_at']);
 
-        $detail->image_url = asset('storage/' . $detail->image);
+        if (isset($detail->image) && Storage::exists('public/' . $detail->image)) {
+            $detail->image = asset('storage/' . $detail->image);
+        } else {
+            $detail->image = null;
+        }
+
+        if (isset($detail->file_path) && Storage::exists('public/' . $detail->file_path)) {
+            $detail->file_path = asset('storage/' . $detail->file_path);
+        } else {
+            $detail->file_path = null;
+        }
 
         return ApiResponse::success($detail);
     }

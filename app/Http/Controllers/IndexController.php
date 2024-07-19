@@ -28,7 +28,7 @@ class IndexController extends Controller
 
     private function formatItemWithImage($item) {
         if (isset($item->image) && Storage::exists('public/' . $item->image)) {
-            $item->image_url = asset('storage/' . $item->image);
+            $item->image = asset('storage/' . $item->image);
         }
         return $item;
     }
