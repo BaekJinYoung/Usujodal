@@ -18,16 +18,12 @@ class CompanyController extends BaseController {
             $fileName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
             $store['image'] = $path;
-        } else {
-            $store['image'] = null;
         }
 
         if ($request->hasFile('file')) {
             $fileName = $request->file('file')->getClientOriginalName();
             $filePath = $request->file('file')->storeAs('uploads', $fileName, 'public');
             $store['file_path'] = $filePath;
-        } else {
-            $store['file_path'] = null;
         }
 
         $this->model->create($store);
@@ -46,8 +42,6 @@ class CompanyController extends BaseController {
             $fileName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
             $update['image'] = $path;
-        } else {
-            $update['image'] = null;
         }
 
         $company->update($update);

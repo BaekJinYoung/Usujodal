@@ -24,8 +24,6 @@ class ShareController extends BaseController {
             $fileName = $request->file('file')->getClientOriginalName();
             $filePath = $request->file('file')->storeAs('uploads', $fileName, 'public');
             $store['file_path'] = $filePath;
-        } else {
-            $store['file_path'] = null;
         }
 
         $isFeatured = $request->input('is_featured');
@@ -47,6 +45,12 @@ class ShareController extends BaseController {
             $fileName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
             $update['image'] = $path;
+        }
+
+        if ($request->hasFile('file')) {
+            $fileName = $request->file('file')->getClientOriginalName();
+            $filePath = $request->file('file')->storeAs('uploads', $fileName, 'public');
+            $update['file_path'] = $filePath;
         }
 
         $share->update($update);

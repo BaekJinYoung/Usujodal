@@ -73,6 +73,44 @@
                         <textarea rows="5" name="content" id="content"
                                   placeholder="내용을 작성해주세요.">{{old('content', $item->content)}}</textarea>
                     </div>
+                    <div class="form-item row-group">
+                        <p class="item-default">
+                            이미지
+                            <span class="red">*</span>
+                        </p>
+                        <div class="file-upload-wrap">
+                            <input type='file' id='pc_file_upload' accept="image/*" name="image"
+                                   onchange="displayFileName(this, 'fileName')">
+                            <label for="pc_file_upload" class="file-upload-btn">
+                                파일 업로드
+                            </label>
+                            <span class="guide-txt">
+                                800*800px 비율 고해상도 사진 등록
+                            </span>
+                            <div class="file-preview">
+                                <p class="file-name" id="fileName">{{$item->image}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item row-group">
+                        <p class="item-default">
+                            첨부파일
+                            <span class="red">*</span>
+                        </p>
+                        <div class="file-upload-wrap">
+                            <input type='file' id='mb_file_upload' accept="image/*" name="file"
+                                   onchange="displayFileName(this, 'mobile_fileName')">
+                            <label for="mb_file_upload" class="file-upload-btn">
+                                파일 업로드
+                            </label>
+                            <span class="guide-txt">
+                                800*800px 비율 고해상도 사진 등록
+                            </span>
+                            <div class="file-preview">
+                                <p class="file-name" id="mobile_fileName">{{$item->file_path}}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-btn-wrap col-group">
@@ -87,5 +125,11 @@
         </div>
     </div>
 </div>
+<script>
+    function displayFileName(input, fileNameElementId) {
+        var fileName = input.files[0].name;
+        document.getElementById(fileNameElementId).textContent = fileName;
+    }
+</script>
 </body>
 </html>

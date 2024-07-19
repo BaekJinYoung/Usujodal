@@ -74,27 +74,39 @@
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
-                            대표사진
+                            이미지
                         </p>
                         <div class="file-upload-wrap">
-                            <input type='file' id='image_upload' accept="image/*" name="image" style="display: none;">
-                            <label for="image_upload" class="file-upload-btn">
+                            <input type='file' id='pc_file_upload' accept="image/*" name="image"
+                                   onchange="displayFileName(this, 'fileName')">
+                            <label for="pc_file_upload" class="file-upload-btn">
                                 파일 업로드
                             </label>
                             <span class="guide-txt">
-                                320*440px 비율 고해상도 사진 등록
+                                800*800px 비율 고해상도 사진 등록
                             </span>
-                            <div class="file-preview" id="image-preview" style="display: none">
-                                <p class="file-name" id="image-filename"></p>
-                                <button type="button" class="file-del-btn" id="remove-image-btn">
-                                    <i class="xi-close"></i>
-                                </button>
+                            <div class="file-preview">
+                                <p class="file-name" id="fileName"></p>
                             </div>
                         </div>
                     </div>
                     <div class="form-item row-group">
-                        <label for="file">파일 첨부</label>
-                        <input type="file" id="file" name="file">
+                        <p class="item-default">
+                            파일 첨부
+                        </p>
+                        <div class="file-upload-wrap">
+                            <input type='file' id='mb_file_upload' accept="image/*" name="file"
+                                   onchange="displayFileName(this, 'mobile_fileName')">
+                            <label for="mb_file_upload" class="file-upload-btn">
+                                파일 업로드
+                            </label>
+                            <span class="guide-txt">
+                                800*800px 비율 고해상도 사진 등록
+                            </span>
+                            <div class="file-preview">
+                                <p class="file-name" id="mobile_fileName"></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -114,5 +126,11 @@
     </div>
 </div>
 
+<script>
+    function displayFileName(input, fileNameElementId) {
+        var fileName = input.files[0].name;
+        document.getElementById(fileNameElementId).textContent = fileName;
+    }
+</script>
 </body>
 </html>
