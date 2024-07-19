@@ -46,16 +46,16 @@
                                     @endif
                                 </p>
                                 <div class="btn-wrap col-group">
-{{--                                    <a href="{{route("admin.popupEdit", $item->id)}}" class="btn">--}}
-{{--                                        수정--}}
-{{--                                    </a>--}}
-{{--                                    <form action="{{route("admin.popupDelete", $item->id)}}" method="post">--}}
-{{--                                        @csrf--}}
-{{--                                        @method('delete')--}}
-{{--                                        <button type="submit" class="btn del-btn">--}}
-{{--                                            삭제--}}
-{{--                                        </button>--}}
-{{--                                    </form>--}}
+                                    <a href="{{route("admin.popupEdit", $item->id)}}" class="btn">
+                                        수정
+                                    </a>
+                                    <form action="{{route("admin.popupDelete", $item->id)}}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn del-btn">
+                                            삭제
+                                        </button>
+                                    </form>
                                 </div>
                                 <div class="order_btn_wrap">
 {{--                                    <form--}}

@@ -28,4 +28,22 @@ class PopupController extends BaseController
 
         return redirect()->route('admin.popupIndex');
     }
+
+    public function edit($id, $incrementViews = false) {
+        return parent::edit($id, false);
+    }
+
+    public function update(PopupRequest $request, Popup $popup) {
+        $update = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $fileName = $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
+            $update['image'] = $path;
+        }
+
+        $popup->update($update);
+
+        return redirect()->route('admin.popupIndex');
+    }
 }
