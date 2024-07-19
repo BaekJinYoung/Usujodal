@@ -14,12 +14,12 @@ class CompanyController extends BaseController {
     public function store(CompanyRequest $request) {
         $store = $request->validated();
 
-        if ($request->hasFile('main_image')) {
-            $fileName = $request->file('main_image')->getClientOriginalName();
-            $path = $request->file('main_image')->storeAs('images', $fileName, 'public');
-            $store['main_image'] = $path;
+        if ($request->hasFile('image')) {
+            $fileName = $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
+            $store['image'] = $path;
         } else {
-            $store['main_image'] = null;
+            $store['image'] = null;
         }
 
         if ($request->hasFile('file')) {
@@ -42,12 +42,12 @@ class CompanyController extends BaseController {
     public function update(CompanyRequest $request, Company $company) {
         $update = $request->validated();
 
-        if ($request->hasFile('main_image')) {
-            $fileName = $request->file('main_image')->getClientOriginalName();
-            $path = $request->file('main_image')->storeAs('images', $fileName, 'public');
-            $update['main_image'] = $path;
+        if ($request->hasFile('image')) {
+            $fileName = $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
+            $update['image'] = $path;
         } else {
-            $update['main_image'] = null;
+            $update['image'] = null;
         }
 
         $company->update($update);

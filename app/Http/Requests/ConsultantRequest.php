@@ -23,7 +23,7 @@ class ConsultantRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'name' => 'required',
             'department' => 'nullable',
             'rank' => 'required',

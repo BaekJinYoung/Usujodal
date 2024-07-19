@@ -12,7 +12,7 @@ class Consultant extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'main_image',
+        'image',
         'name',
         'department',
         'rank',

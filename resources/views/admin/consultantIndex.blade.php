@@ -29,8 +29,8 @@
                     @foreach($items as $key => $item)
                         <div class="board-item">
                             <div class="img-box">
-                                @if($item->main_image)
-                                    <img src="{{asset('storage/'.$item->main_image)}}" alt="">
+                                @if($item->image)
+                                    <img src="{{asset('storage/'.$item->image)}}" alt="">
                                 @else
                                     <img src="{{asset('images/certificate.png')}}" alt="">
                                 @endif

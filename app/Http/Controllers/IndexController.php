@@ -14,6 +14,7 @@ use App\Models\Share;
 use App\Models\Youtube;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class IndexController extends Controller
 {
@@ -21,6 +22,13 @@ class IndexController extends Controller
         if (isset($item->created_at)) {
             $item->created_at_formatted = Carbon::parse($item->created_at)->format('Y.m.d');
             unset($item->created_at);
+        }
+        return $item;
+    }
+
+    private function formatItemWithImage($item) {
+        if (isset($item->image) && Storage::exists('public/' . $item->image)) {
+            $item->image_url = asset('storage/' . $item->image);
         }
         return $item;
     }
@@ -62,6 +70,10 @@ class IndexController extends Controller
             $index = $this->formatCollection($index);
         }
 
+        $index->getCollection()->transform(function ($item) {
+                return $this->formatItemWithImage($item);
+            });
+
         $responseData = $index;
 
         if (!is_null($searchField)) {
@@ -98,7 +110,7 @@ class IndexController extends Controller
         $notice = $this->fetchAndFormat(Announcement::class, ['id', 'title'], 5, true);
         $news = $this->fetchAndFormat(Share::class, ['id', 'title'], 5, true);
         $announcements = $this->fetchAndFormat(Announcement::class, ['id', 'title', 'content', 'created_at'], 9);
-        $youtubes = $this->fetchAndFormat(Youtube::class, ['id', 'title', 'main_image', 'created_at'], 9, true);
+        $youtubes = $this->fetchAndFormat(Youtube::class, ['id', 'title', 'image', 'created_at'], 9, true);
 
         $main[] = [
             'popup' => $popup,
@@ -140,11 +152,14 @@ class IndexController extends Controller
                     $year = collect($yearGroup)->map(function ($history) {
                         return substr($history['date'], 0, 4);
                     })->first();
-                    $image = $historiesWithImages->first();
+
+                    $image = $historiesWithImages->map(function ($history) {
+                        return asset('storage/' . $history['image']);
+                    })->first();
 
                     $years[] = [
                         'year' => $year,
-                        'image' => $image ? $image['image'] : null,
+                        'image' => $image ? $image : null,
                         'histories' => collect($yearGroup)->map(function ($history) {
                             return [
                                 'id' => $history['id'],
@@ -160,15 +175,15 @@ class IndexController extends Controller
     }
 
     public function company(Request $request) {
-        return $this->fetchDataAndRespond(Company::class, ['id', 'main_image', 'title', 'filter', 'created_at'], 'title', 10, $request);
+        return $this->fetchDataAndRespond(Company::class, ['id', 'image', 'title', 'filter', 'created_at'], 'title', 10, $request);
     }
 
     public function youtube(Request $request) {
-        return $this->fetchDataAndRespond(Youtube::class, ['id', 'main_image', 'title', 'created_at'], 'title', 9, $request);
+        return $this->fetchDataAndRespond(Youtube::class, ['id', 'image', 'title', 'created_at'], 'title', 9, $request);
     }
 
     public function consultant(Request $request) {
-        return $this->fetchDataAndRespond(Consultant::class, ['id', 'main_image', 'name', 'department', 'rank', 'content'], null, 0, $request);
+        return $this->fetchDataAndRespond(Consultant::class, ['id', 'image', 'name', 'department', 'rank', 'content'], null, 0, $request);
     }
 
     public function announcement(Request $request) {

@@ -54,7 +54,7 @@
                             이미지 (특허증 or 인증서)
                         </p>
                         <div class="file-upload-wrap">
-                            <input type='file' id='image_upload' accept="image/*" name="main_image"
+                            <input type='file' id='image_upload' accept="image/*" name="image"
                                    style="display: none;">
                             <label for="image_upload" class="file-upload-btn">
                                 파일 업로드
@@ -63,10 +63,10 @@
                                 320*440px 비율 고해상도 사진 등록
                             </span>
                             <div class="file-preview" id="image-preview"
-                                 @if(!$item->main_image) style="display: none" @endif>
+                                 @if(!$item->image) style="display: none" @endif>
                                 <p class="file-name" id="image-filename">
-                                    @if($item->main_image)
-                                        {{$item->main_image}}
+                                    @if($item->image)
+                                        {{$item->image}}
                                     @endif
                                 </p>
                                 <button type="button" class="file-del-btn" id="remove-image-btn">

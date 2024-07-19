@@ -52,7 +52,7 @@
                             이미지 (특허증 or 인증서)
                         </p>
                         <div class="file-upload-wrap">
-                            <input type='file' id='image_upload' accept="image/*" name="main_image" style="display: none;">
+                            <input type='file' id='image_upload' accept="image/*" name="image" style="display: none;">
                             <label for="image_upload" class="file-upload-btn">
                                 파일 업로드
                             </label>

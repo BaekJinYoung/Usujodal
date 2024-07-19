@@ -14,10 +14,10 @@ class YoutubeController extends BaseController {
     public function store(YoutubeRequest $request) {
         $store = $request->validated();
 
-        if ($request->hasFile('main_image')) {
-            $fileName = $request->file('main_image')->getClientOriginalName();
-            $path = $request->file('main_image')->storeAs('images', $fileName, 'public');
-            $store['main_image'] = $path;
+        if ($request->hasFile('image')) {
+            $fileName = $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
+            $store['image'] = $path;
         }
 
         $isFeatured = $request->input('is_featured');
@@ -35,10 +35,10 @@ class YoutubeController extends BaseController {
     public function update(YoutubeRequest $request, Youtube $youtube) {
         $update = $request->validated();
 
-        if ($request->hasFile('main_image')) {
-            $fileName = $request->file('main_image')->getClientOriginalName();
-            $path = $request->file('main_image')->storeAs('images', $fileName, 'public');
-            $update['main_image'] = $path;
+        if ($request->hasFile('image')) {
+            $fileName = $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
+            $update['image'] = $path;
         }
 
         $youtube->update($update);

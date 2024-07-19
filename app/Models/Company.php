@@ -15,7 +15,7 @@ class Company extends Model
         'title',
         'content',
         'filter',
-        'main_image',
+        'image',
         'views',
         'file_path'
     ];
