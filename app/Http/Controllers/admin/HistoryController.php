@@ -75,8 +75,11 @@ class HistoryController extends BaseController {
             $yearlyImage->save();
         }
 
+        // 이미지 정보를 제외한 데이터만 저장
+        $dataToStore = array_except($validated, ['image']);
+
         // 연혁 항목 저장
-        $this->model->create($validated);
+        $this->model->create($dataToStore);
 
         // 리다이렉션
         return redirect()->route('admin.historyIndex')->with('success', 'History created successfully');
