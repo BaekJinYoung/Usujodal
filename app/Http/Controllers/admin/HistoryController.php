@@ -20,11 +20,6 @@ class HistoryController extends BaseController {
     {
         $query = $this->model->query();
         $selectedYear = $request->query('yearFilter', '');
-        $search = $request->input('search', '');
-
-        if (!empty($search)) {
-            $query->where('title', 'like', '%' . $search . '%');
-        }
 
         if ($selectedYear) {
             $query->whereYear('date', $selectedYear);
@@ -47,28 +42,23 @@ class HistoryController extends BaseController {
 
     public function store(HistoryRequest $request)
     {
-        // 유효성 검사를 통과한 데이터
         $validated = $request->validated();
 
-        // 날짜 변환
         if (isset($validated['date'])) {
             $date = Carbon::parse($validated['date']);
             $validated['date'] = $date->format('Y-m-d');
         }
 
-        // 연도 추출
         $year = Carbon::parse($validated['date'])->format('Y');
 
-        // YearlyImage 처리
         $yearlyImage = YearlyImage::firstOrNew(['year' => $year]);
 
         if ($request->hasFile('image')) {
-            // 기존 이미지 삭제
+
             if ($yearlyImage->exists && $yearlyImage->image_path) {
                 Storage::delete('public/' . $yearlyImage->image_path);
             }
 
-            // 이미지 저장
             $file = $request->file('image');
             $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
             $path = $file->storeAs('images', $fileName, 'public');
@@ -76,14 +66,11 @@ class HistoryController extends BaseController {
             $yearlyImage->save();
         }
 
-        // 이미지 정보를 제외한 데이터만 저장
         $dataToStore = Arr::except($validated, ['image']);
 
-        // 연혁 항목 저장
         $this->model->create($dataToStore);
 
-        // 리다이렉션
-        return redirect()->route('admin.historyIndex')->with('success', 'History created successfully');
+        return redirect()->route('admin.historyIndex');
     }
 
     public function edit($id)
@@ -92,7 +79,7 @@ class HistoryController extends BaseController {
 
         $year = Carbon::parse($item->date)->format('Y');
         $yearlyImage = YearlyImage::where('year', $year)->first();
-        $item->image = $yearlyImage ? asset('storage/' . $yearlyImage->image_path) : null;
+        $item->image = $yearlyImage ? $yearlyImage->image_path : null;
 
         return view($this->getViewName('edit'), compact('item'));
     }
