@@ -10,9 +10,7 @@
         <header id="header">
             @include('admin.components.snb')
         </header>
-
         <div class="admin-wrap">
-
             @if ($errors->any())
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <ul>
@@ -27,56 +25,61 @@
             @endif
             <div class="title-wrap col-group">
                 <h2 class="main-title">
-                    배너 등록
+                    메인 배너 수정
                 </h2>
             </div>
-            <form action="{{route('admin.bannerStore')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route("admin.bannerUpdate", $item)}}" method="post" enctype="multipart/form-data">
                 @csrf
+                @method('patch')
                 <div class="form-wrap row-group">
                     <div class="form-item row-group">
                         <p class="item-default">
                             제목
                             <span class="red">*</span>
                         </p>
-                        <textarea rows="2" name="title" id="title"  placeholder="제목을 입력하세요">{{old('title')}}</textarea>
+                        <textarea rows="2" name="title" placeholder="제목을 작성해주세요.">{{'title', old($item->title)}}</textarea>
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
                             내용
                             <span class="red">*</span>
                         </p>
-                        <textarea rows="3" name="content" id="content" placeholder="내용을 작성해주세요.">{{old('content')}}</textarea>
+                        <textarea rows="3" name="content" id="content" placeholder="내용을 작성해주세요.">{{old('content', $item->content)}}</textarea>
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
                             사진 or 동영상
                         </p>
                         <div class="file-upload-wrap">
-                            <input type='file' id='image_upload' accept="image/*" name="image" style="display: none;">
+                            <input type='file' id='image_upload' accept="image/*" name="main_image" style="display: none;">
                             <label for="image_upload" class="file-upload-btn">
                                 파일 업로드
                             </label>
                             <span class="guide-txt">
                                 320*440px 비율 고해상도 사진 등록
                             </span>
-                            <div class="file-preview" id="image-preview" style="display: none">
-                                <p class="file-name" id="image-filename"></p>
+                            <div class="file-preview" id="image-preview"
+                                 @if(!$item->image) style="display: none" @endif>
+                                <p class="file-name" id="image-filename">
+                                    @if($item->image)
+                                        {{$item->image}}
+                                    @endif
+                                </p>
                                 <button type="button" class="file-del-btn" id="remove-image-btn">
                                     <i class="xi-close"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" name="remove_image" id="remove_image" value="0">
                 </div>
+
                 <div class="form-btn-wrap col-group">
                     <a href="{{route("admin.bannerIndex")}}" class="form-prev-btn">
                         목록으로
                     </a>
-                    <button class="form-prev-btn" type="submit">
-                        등록
-                    </button>
-                    <button class="form-submit-btn" name="continue" type="submit" value="1">
-                        등록 후 계속
+                    <button class="form-submit-btn" type="submit">
+                        수정
                     </button>
                 </div>
             </form>

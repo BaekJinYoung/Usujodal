@@ -27,4 +27,22 @@ class BannerController extends BaseController
 
         return redirect()->route('admin.bannerIndex');
     }
+
+    public function edit($id, $incrementViews = false) {
+        return parent::edit($id, false);
+    }
+
+    public function update(BannerRequest $request, Banner $banner) {
+        $update = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $fileName = $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
+            $update['image'] = $path;
+        }
+
+        $banner->update($update);
+
+        return redirect()->route('admin.bannerIndex');
+    }
 }

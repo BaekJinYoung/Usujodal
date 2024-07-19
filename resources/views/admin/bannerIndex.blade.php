@@ -41,20 +41,20 @@
                                         <a href="{{route("admin.bannerEdit", $item->id)}}" class="btn">
                                             수정
                                         </a>
-{{--                                        <form action="{{route("admin.bannerDelete", $banner->id)}}" method="post">--}}
-{{--                                            @csrf--}}
-{{--                                            @method('delete')--}}
-{{--                                            <button type="submit" class="btn del-btn">--}}
-{{--                                                삭제--}}
-{{--                                            </button>--}}
-{{--                                        </form>--}}
+                                        <form action="{{route("admin.bannerDelete", $item->id)}}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn del-btn">
+                                                삭제
+                                            </button>
+                                        </form>
                                     </div>
                                     <div class="order_btn_wrap">
-{{--                                        <form action="{{route("admin.bannerMove", ['banner' => $banner->id, 'direction' => 'up'])}}" method="post">--}}
+{{--                                        <form action="{{route("admin.bannerMove", ['banner' => $item->id, 'direction' => 'up'])}}" method="post">--}}
 {{--                                            @csrf--}}
 {{--                                            <button type="submit"><i class="xi-arrow-up"></i></button>--}}
 {{--                                        </form>--}}
-{{--                                        <form action="{{route("admin.bannerMove", ['banner' => $banner->id, 'direction' => 'down'])}}" method="post">--}}
+{{--                                        <form action="{{route("admin.bannerMove", ['banner' => $item->id, 'direction' => 'down'])}}" method="post">--}}
 {{--                                            @csrf--}}
 {{--                                            <button type="submit"><i class="xi-arrow-down"></i></button>--}}
 {{--                                        </form>--}}
