@@ -45,14 +45,14 @@ class HistoryController extends BaseController {
     }
 
     public function store(HistoryRequest $request) {
-        $store = $request->validated();
+        $validated = $request->validated();
 
-        if ($request->filled('date')) {
-            $date = Carbon::parse($request->input('date'));
-            $store['date'] = $date->format('Y-m-d');
+        if (isset($validated['date'])) {
+            $date = Carbon::parse($validated['date']);
+            $validated['date'] = $date->format('Y-m-d');
         }
 
-        $year = Carbon::parse($store->date)->format('Y');
+        $year = Carbon::parse($validated['date'])->format('Y');
         $yearlyImage = YearlyImage::firstOrNew(['year' => $year]);
 
         if ($request->hasFile('image')) {
@@ -65,7 +65,7 @@ class HistoryController extends BaseController {
             $yearlyImage->save();
         }
 
-        $this->model->create($store);
+        $this->model->create($validated);
 
         if ($request->filled('continue')) {
             return redirect()->route('admin.historyIndex');
