@@ -44,34 +44,42 @@ class HistoryController extends BaseController {
         return view('admin.historyIndex', compact('items', 'perPage', 'years', 'selectedYear'));
     }
 
-    public function store(HistoryRequest $request) {
+    public function store(HistoryRequest $request)
+    {
+        // 유효성 검사를 통과한 데이터
         $validated = $request->validated();
 
+        // 날짜 변환
         if (isset($validated['date'])) {
             $date = Carbon::parse($validated['date']);
             $validated['date'] = $date->format('Y-m-d');
         }
 
+        // 연도 추출
         $year = Carbon::parse($validated['date'])->format('Y');
+
+        // YearlyImage 처리
         $yearlyImage = YearlyImage::firstOrNew(['year' => $year]);
 
         if ($request->hasFile('image')) {
+            // 기존 이미지 삭제
             if ($yearlyImage->exists && $yearlyImage->image_path) {
                 Storage::delete('public/' . $yearlyImage->image_path);
             }
-            $fileName = $request->file('image')->getClientOriginalName();
-            $path = $request->file('image')->storeAs('images', $fileName, 'public');
+
+            // 이미지 저장
+            $file = $request->file('image');
+            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('images', $fileName, 'public');
             $yearlyImage->image_path = $path;
             $yearlyImage->save();
         }
 
+        // 연혁 항목 저장
         $this->model->create($validated);
 
-        if ($request->filled('continue')) {
-            return redirect()->route('admin.historyIndex');
-        }
-
-        return redirect()->route('admin.historyIndex');
+        // 리다이렉션
+        return redirect()->route('admin.historyIndex')->with('success', 'History created successfully');
     }
 
     public function edit($id)
