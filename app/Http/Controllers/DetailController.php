@@ -37,19 +37,52 @@ class DetailController extends Controller
         $detail['created_at_formatted'] = Carbon::parse($detail['created_at'])->format('Y-m-d');
         unset($detail['created_at']);
 
-        if (isset($detail->image) && Storage::exists('public/' . $detail->image)) {
-            $detail->image = asset('storage/' . $detail->image);
+        if (array_key_exists('image', $detail->toArray())) {
+            $fileExists = isset($detail->image) && Storage::exists('public/' . $detail->image);
+
+            if ($fileExists) {
+                $detail['image'] = asset('storage/' . $detail->image);
+            } else {
+                $detail['image'] = null;
+            }
         } else {
-            $detail->image = null;
+            unset($detail['image']);
         }
 
-        if (isset($detail->file_path) && Storage::exists('public/' . $detail->file_path)) {
-            $detail->file_path = asset('storage/' . $detail->file_path);
+        if (array_key_exists('file_path', $detail->toArray())) {
+            $fileExists = isset($detail->file_path) && Storage::exists('public/' . $detail->file_path);
+
+            if ($fileExists) {
+                $detail['file_name'] = pathinfo($detail->file_path, PATHINFO_FILENAME) . '.' . pathinfo($detail->file_path, PATHINFO_EXTENSION);
+                $detail['file_path'] = asset('storage/' . $detail->file_path);
+            } else {
+                $detail['file_name'] = null;
+                $detail['file_path'] = null;
+            }
         } else {
-            $detail->file_path = null;
+            unset($detail['file_name']);
+            unset($detail['file_path']);
         }
 
-        return ApiResponse::success($detail);
+        $fieldsOrder = [
+            'id',
+            'title',
+            'created_at_formatted',
+            'image',
+            'file_name',
+            'file_path',
+            'prev',
+            'next'
+        ];
+
+        $orderedDetail = [];
+        foreach ($fieldsOrder as $field) {
+            if (array_key_exists($field, $detail->toArray())) {
+                $orderedDetail[$field] = $detail[$field];
+            }
+        }
+
+        return ApiResponse::success($orderedDetail);
     }
 
     public function company_detail($id) {
