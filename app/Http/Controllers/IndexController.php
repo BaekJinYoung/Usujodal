@@ -57,7 +57,7 @@ class IndexController extends Controller
 
         if ($index->isEmpty()) {
             if (!empty($search)) {
-                return ApiResponse::success([], '검색 결과가 없습니다. 검색어: ' . $search);
+                return ApiResponse::success([], '검색 결과가 없습니다.', $searchField,  $search);
             } else {
                 return ApiResponse::success([], '게시물이 없습니다.');
             }
@@ -78,12 +78,7 @@ class IndexController extends Controller
         }
 
         $responseData = $index;
-
-        if (!is_null($searchField)) {
-            $responseData['search'] = $search;
-        }
-
-        return ApiResponse::success($responseData);
+        return ApiResponse::success($responseData, 'Success', $searchField, $search);
     }
 
     private function fetchAndFormat($model, $selectColumns, $limit, $isFeatured = false) {
