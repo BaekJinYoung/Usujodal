@@ -52,33 +52,29 @@ class IndexController extends Controller
             $query->withBooleanFormatted();
         }
 
-        $paginationEnabled = ($page > 0);
-        $index = $paginationEnabled ? $query->simplePaginate($page) : $query->get();
-
-        if ($index->isEmpty()) {
-            if (!empty($search)) {
-                return ApiResponse::success([], '검색 결과가 없습니다.', $searchField,  $search);
-            } else {
-                return ApiResponse::success([], '게시물이 없습니다.');
-            }
-        }
-
-        if ($paginationEnabled) {
-            $index->getCollection()->transform(function ($item) {
-                return $this->formatItem($item);
+        if ($page > 0) {
+            $pagination = $query->paginate($page);
+            $pagination->getCollection()->transform(function ($item) {
+                return $this->formatItemWithImage($this->formatItem($item));
             });
-            $index->getCollection()->transform(function ($item) {
-                return $this->formatItemWithImage($item);
-            });
+
+            $data = $pagination->toArray();
+
+            $data['search'] = $search;
+
+            return ApiResponse::success($data);
         } else {
-            $index = $this->formatCollection($index);
-            $index = $index->transform(function ($item) {
-                return $this->formatItemWithImage($item);
+            $collection = $query->get()->transform(function ($item) {
+                return $this->formatItemWithImage($this->formatItem($item));
             });
-        }
 
-        $responseData = $index;
-        return ApiResponse::success($responseData, 'Success', $searchField, $search);
+            $data = [
+                'data' => $collection,
+                'total' => $collection->count()
+            ];
+
+            return ApiResponse::success($data);
+        }
     }
 
     private function fetchAndFormat($model, $selectColumns, $limit, $isFeatured = false) {

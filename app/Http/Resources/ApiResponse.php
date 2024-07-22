@@ -7,17 +7,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ApiResponse
 {
-    public static function success($data = [], $message = 'Success', $searchField = null, $search = null, $status = 200)
+    public static function success($data = [], $message = 'Success', $status = 200)
     {
         $response = [
             'success' => true,
             'message' => $message,
             'data' => $data,
         ];
-
-        if (!is_null($searchField)) {
-            $response['search'] = $search;
-        }
 
         return response()->json($response, $status);
     }
