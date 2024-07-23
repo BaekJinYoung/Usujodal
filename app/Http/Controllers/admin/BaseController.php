@@ -39,37 +39,36 @@ class BaseController extends Controller {
             ->with('error', '해당 게시물을 찾을 수 없습니다.');
         }
 
-        if (array_key_exists('image', $item->toArray())) {
-            $fileExists = isset($item->image) && Storage::exists('public/' . $item->image);
+        $attributes = [
+            'image' => 'image_name',
+            'file_path' => 'file_name'
+        ];
 
-            if ($fileExists) {
-                $item['image_name'] = pathinfo($item->image, PATHINFO_FILENAME) . '.' . pathinfo($item->image, PATHINFO_EXTENSION);
-                $item['image'] = asset('storage/' . $item->image);
-            } else {
-                $item['image_name'] = null;
-                $item['image'] = null;
-            }
-        } else {
-            unset($item['image_name']);
-            unset($item['image']);
-        }
-
-        if (array_key_exists('file_path', $item->toArray())) {
-            $fileExists = isset($item->file_path) && Storage::exists('public/' . $item->file_path);
-
-            if ($fileExists) {
-                $item['file_name'] = pathinfo($item->file_path, PATHINFO_FILENAME) . '.' . pathinfo($item->file_path, PATHINFO_EXTENSION);
-                $item['file_path'] = asset('storage/' . $item->file_path);
-            } else {
-                $item['file_name'] = null;
-                $item['file_path'] = null;
-            }
-        } else {
-            unset($item['file_name']);
-            unset($item['file_path']);
+        foreach ($attributes as $attribute => $fileNameAttribute) {
+            $item = $this->addFileInformation($item, $attribute, $fileNameAttribute);
         }
 
         return view($this->getViewName('edit'), compact('item'));
+    }
+
+    private function addFileInformation($item, $attribute, $fileNameAttribute)
+    {
+        if (array_key_exists($attribute, $item->toArray())) {
+            $fileExists = isset($item->{$attribute}) && Storage::exists('public/' . $item->{$attribute});
+
+            if ($fileExists) {
+                $item[$fileNameAttribute] = pathinfo($item->{$attribute}, PATHINFO_FILENAME) . '.' . pathinfo($item->{$attribute}, PATHINFO_EXTENSION);
+                $item[$attribute] = asset('storage/' . $item->{$attribute});
+            } else {
+                $item[$fileNameAttribute] = null;
+                $item[$attribute] = null;
+            }
+        } else {
+            unset($item[$fileNameAttribute]);
+            unset($item[$attribute]);
+        }
+
+        return $item;
     }
 
     public function delete($item) {
