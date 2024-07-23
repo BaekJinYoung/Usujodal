@@ -24,6 +24,7 @@
                     </button>
                 </div>
             @endif
+
             <div class="title-wrap col-group">
                 <h2 class="main-title">
                     공지사항 등록

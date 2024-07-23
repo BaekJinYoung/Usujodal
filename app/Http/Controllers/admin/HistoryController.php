@@ -16,8 +16,7 @@ class HistoryController extends BaseController {
         parent::__construct($history);
     }
 
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         $query = $this->model->query();
         $selectedYear = $request->query('yearFilter', '');
 
@@ -40,8 +39,7 @@ class HistoryController extends BaseController {
         return view('admin.historyIndex', compact('items', 'perPage', 'years', 'selectedYear'));
     }
 
-    public function store(HistoryRequest $request)
-    {
+    public function store(HistoryRequest $request) {
         $validated = $request->validated();
 
         if (isset($validated['date'])) {
@@ -54,6 +52,14 @@ class HistoryController extends BaseController {
         $yearlyImage = YearlyImage::firstOrNew(['year' => $year]);
 
         if ($request->hasFile('image')) {
+
+            if ($yearlyImage->exists && $yearlyImage->image_path) {
+                $confirmOverwrite = $request->input('confirm_overwrite');
+
+                if ($confirmOverwrite !== 'yes') {
+                    return redirect()->back()->with('warning', '이미지가 이미 등록되어 있습니다. 이미지를 덮어쓰시겠습니까?')->withInput();
+                }
+            }
 
             if ($yearlyImage->exists && $yearlyImage->image_path) {
                 Storage::delete('public/' . $yearlyImage->image_path);
@@ -73,9 +79,13 @@ class HistoryController extends BaseController {
         return redirect()->route('admin.historyIndex');
     }
 
-    public function edit($id)
-    {
+    public function edit($id) {
         $item = $this->model->find($id);
+
+        if (!$item) {
+            return redirect()->route($this->getRouteName('index'))
+                ->with('error', '해당 게시물을 찾을 수 없습니다.');
+        }
 
         $year = Carbon::parse($item->date)->format('Y');
         $yearlyImage = YearlyImage::where('year', $year)->first();

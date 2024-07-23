@@ -24,6 +24,11 @@
                     </button>
                 </div>
             @endif
+                @if(session('warning'))
+                    <div class="alert alert-warning">
+                        {{ session('warning') }}
+                    </div>
+                @endif
 
             <div class="title-wrap col-group">
                 <h2 class="main-title">

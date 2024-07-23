@@ -34,6 +34,11 @@ class BaseController extends Controller {
     public function edit($id) {
         $item = $this->model->find($id);
 
+        if (!$item) {
+            return redirect()->route($this->getRouteName('index'))
+            ->with('error', '해당 게시물을 찾을 수 없습니다.');
+        }
+
         if (array_key_exists('image', $item->toArray())) {
             $fileExists = isset($item->image) && Storage::exists('public/' . $item->image);
 
