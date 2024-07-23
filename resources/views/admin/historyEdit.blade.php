@@ -27,10 +27,10 @@
 
             <div class="title-wrap col-group">
                 <h2 class="main-title">
-                    연혁 등록
+                    연혁 상세
                 </h2>
             </div>
-            <form action="{{route("admin.historyUpdate", $item)}}" method="post" enctype="multipart/form-data">
+            <form id="historyForm" action="{{ route('admin.historyUpdate', $item) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('patch')
                 <div class="form-wrap row-group">
@@ -40,7 +40,7 @@
                             <span class="red">*</span>
                         </p>
                         <input type="month" class="form-input w-560" id="date" name="date"
-                               value="{{old('date', date('Y-m', strtotime($item->date)))}}">
+                               value="{{ old('date', date('Y-m', strtotime($item->date))) }}">
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
@@ -48,7 +48,7 @@
                             <span class="red">*</span>
                         </p>
                         <textarea rows="5" name="content" id="content"
-                                  placeholder="내용을 작성해주세요.">{{old('content', $item->content)}}</textarea>
+                                  placeholder="내용을 작성해주세요.">{{ old('content', $item->content) }}</textarea>
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="form-btn-wrap col-group">
-                    <a href="{{route("admin.historyIndex")}}" class="form-prev-btn">
+                    <a href="{{ route('admin.historyIndex') }}" class="form-prev-btn">
                         목록으로
                     </a>
                     <button class="form-prev-btn" type="submit">
@@ -90,20 +90,43 @@
         </div>
     </div>
 </div>
+
 <script>
+    document.getElementById('date').addEventListener('change', function (event) {
+        const selectedDate = new Date(event.target.value);
+        const selectedYear = selectedDate.getFullYear();
+
+        fetch(`/admin/history/check-image/${selectedYear}`)
+            .then(response => response.json())
+            .then(data => {
+                if (!data.exists) {
+                    document.getElementById('image-preview').style.display = 'none';
+                    document.getElementById('image-filename').textContent = '';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
     document.getElementById('image_upload').addEventListener('change', function (event) {
         const file = event.target.files[0];
         if (file) {
-            document.getElementById('image-preview').style.display = 'block';
-            document.getElementById('image-filename').textContent = file.name;
+            if (confirm('이미지가 이미 등록되어 있습니다. 이미지를 덮어쓰시겠습니까?')) {
+                document.getElementById('image-preview').style.display = 'block';
+                document.getElementById('image-filename').textContent = file.name;
+                document.querySelector('input[name="confirm_overwrite"]').value = 'yes';
+            } else {
+                document.getElementById('image_upload').value = '';
+            }
         }
     });
 
     document.getElementById('remove-image-btn').addEventListener('click', function () {
         document.getElementById('image_upload').value = '';
         document.getElementById('image-preview').style.display = 'none';
+        document.getElementById('remove_image').value = '1';
     });
 </script>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

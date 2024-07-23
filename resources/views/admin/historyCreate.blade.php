@@ -24,11 +24,6 @@
                     </button>
                 </div>
             @endif
-                @if(session('warning'))
-                    <div class="alert alert-warning">
-                        {{ session('warning') }}
-                    </div>
-                @endif
 
             <div class="title-wrap col-group">
                 <h2 class="main-title">
@@ -92,20 +87,28 @@
         </div>
     </div>
 </div>
+
 <script>
     document.getElementById('image_upload').addEventListener('change', function (event) {
         const file = event.target.files[0];
         if (file) {
-            document.getElementById('image-preview').style.display = 'block';
-            document.getElementById('image-filename').textContent = file.name;
+            if (confirm('이미지가 이미 등록되어 있습니다. 이미지를 덮어쓰시겠습니까?')) {
+                document.getElementById('image-preview').style.display = 'block';
+                document.getElementById('image-filename').textContent = file.name;
+                document.querySelector('input[name="confirm_overwrite"]').value = 'yes';
+            } else {
+                document.getElementById('image_upload').value = '';
+            }
         }
     });
 
     document.getElementById('remove-image-btn').addEventListener('click', function () {
         document.getElementById('image_upload').value = '';
         document.getElementById('image-preview').style.display = 'none';
+        document.getElementById('remove_image').value = '1';
     });
 </script>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

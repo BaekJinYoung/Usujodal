@@ -14,7 +14,6 @@ class History extends Model
     protected $fillable = [
         'date',
         'content',
-        'image',
     ];
 
     protected $dates = ['deleted_at'];
