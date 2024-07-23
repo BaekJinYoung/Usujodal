@@ -97,7 +97,11 @@ class HistoryController extends BaseController {
 
     public function checkImage($year) {
         $yearlyImage = YearlyImage::where('year', $year)->first();
-        return response()->json(['exists' => $yearlyImage ? true : false]);
+        $imageName = $yearlyImage ? pathinfo($yearlyImage->image_path, PATHINFO_BASENAME) : null;
+        return response()->json([
+            'exists' => (bool) $yearlyImage,
+            'imageName' => $imageName,
+        ]);
     }
 
     public function update(HistoryRequest $request, History $history) {

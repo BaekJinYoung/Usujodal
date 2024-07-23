@@ -99,13 +99,20 @@
         fetch(`/admin/history/check-image/${selectedYear}`)
             .then(response => response.json())
             .then(data => {
-                if (!data.exists) {
-                    document.getElementById('image-preview').style.display = 'none';
-                    document.getElementById('image-filename').textContent = '';
+                const imagePreview = document.getElementById('image-preview');
+                const imageFilename = document.getElementById('image-filename');
+
+                if (data.exists) {
+                    imagePreview.style.display = 'block';
+                    imageFilename.textContent = data.imageName;
+                } else {
+                    imagePreview.style.display = 'none';
+                    imageFilename.textContent = '';
                 }
             })
             .catch(error => console.error('Error:', error));
     });
+
 
     document.getElementById('image_upload').addEventListener('change', function (event) {
         const file = event.target.files[0];
