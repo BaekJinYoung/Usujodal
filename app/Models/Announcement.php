@@ -26,4 +26,9 @@ class Announcement extends Model
         return $query->select(['id', 'title', 'is_featured', 'created_at'])
                 ->selectRaw('IF(is_featured, "true", "false") AS is_featured');
     }
+
+    public function getIsFeaturedAttribute()
+    {
+        return $this->attributes['is_featured'] ? 'Y' : 'N';
+    }
 }
