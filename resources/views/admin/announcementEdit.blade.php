@@ -88,7 +88,7 @@
                                 800*800px 비율 고해상도 사진 등록
                             </span>
                             <div class="file-preview">
-                                <p class="file-name" id="fileName">{{$item->image}}</p>
+                                <p class="file-name" id="fileName">{{$item->image_name}}</p>
                             </div>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                                 800*800px 비율 고해상도 사진 등록
                             </span>
                             <div class="file-preview">
-                                <p class="file-name" id="mobile_fileName">{{$item->file_path}}</p>
+                                <p class="file-name" id="mobile_fileName">{{$item->file_name}}</p>
                             </div>
                         </div>
                     </div>

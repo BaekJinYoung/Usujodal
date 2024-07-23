@@ -66,7 +66,7 @@
                                  @if(!$item->image) style="display: none" @endif>
                                 <p class="file-name" id="image-filename">
                                     @if($item->image)
-                                        {{$item->image}}
+                                        {{$item->image_name}}
                                     @endif
                                 </p>
                                 <button type="button" class="file-del-btn" id="remove-image-btn">
