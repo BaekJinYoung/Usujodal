@@ -83,9 +83,6 @@
                             <label for="pc_file_upload" class="file-upload-btn">
                                 파일 업로드
                             </label>
-                            <span class="guide-txt">
-                                800*800px 비율 고해상도 사진 등록
-                            </span>
                             <div class="file-preview">
                                 <p class="file-name" id="fileName"></p>
                             </div>
@@ -101,9 +98,6 @@
                             <label for="mb_file_upload" class="file-upload-btn">
                                 파일 업로드
                             </label>
-                            <span class="guide-txt">
-                                800*800px 비율 고해상도 사진 등록
-                            </span>
                             <div class="file-preview">
                                 <p class="file-name" id="mobile_fileName"></p>
                             </div>

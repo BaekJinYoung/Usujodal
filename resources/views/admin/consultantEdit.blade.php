@@ -70,9 +70,6 @@
                             <label for="image_upload" class="file-upload-btn">
                                 파일 업로드
                             </label>
-                            <span class="guide-txt">
-                                320*440px 비율 고해상도 사진 등록
-                            </span>
                             <div class="file-preview" id="image-preview"
                                  @if(!$item->image) style="display: none" @endif>
                                 <p class="file-name" id="image-filename">
