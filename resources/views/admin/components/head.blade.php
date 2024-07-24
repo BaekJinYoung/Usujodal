@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/admin/style.css') }}">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 
-    <link rel="shortcut icon" href="{{ asset('images/favicon.ico' )}}">
+{{--    <link rel="shortcut icon" href="{{ asset('images/favicon.ico' )}}">--}}
 
     {{--스와이퍼--}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>

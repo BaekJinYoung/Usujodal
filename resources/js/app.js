@@ -7,3 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
         theme: 'snow'
     });
 });
+
+const app = createApp({});
+
+import ExampleComponent from './components/ExampleComponent.vue';
+app.component('example-component', ExampleComponent);
