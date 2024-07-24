@@ -75,7 +75,6 @@
                     <div class="form-item row-group">
                         <p class="item-default">
                             이미지
-                            <span class="red">*</span>
                         </p>
                         <div class="file-upload-wrap">
                             <input type='file' id='pc_file_upload' accept="image/*" name="image"
@@ -91,7 +90,6 @@
                     <div class="form-item row-group">
                         <p class="item-default">
                             첨부파일
-                            <span class="red">*</span>
                         </p>
                         <div class="file-upload-wrap">
                             <input type='file' id='mb_file_upload' accept="image/*" name="file"

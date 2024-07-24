@@ -21,6 +21,10 @@ class ConsultantController extends BaseController {
 
         $this->model->create($store);
 
+        if ($request->filled('continue')) {
+            return redirect()->route('admin.consultantCreate');
+        }
+
         return redirect()->route('admin.consultantIndex');
     }
 

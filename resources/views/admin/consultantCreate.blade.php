@@ -49,7 +49,6 @@
                     <div class="form-item row-group">
                         <p class="item-default">
                             컨설팅분야
-                            <span class="red">*</span>
                         </p>
                         <textarea rows="5" name="department" id="department"
                                   placeholder="내용을 작성해주세요.">{{old('department')}}</textarea>
@@ -57,7 +56,6 @@
                     <div class="form-item row-group">
                         <p class="item-default">
                             약력 소개
-                            <span class="red">*</span>
                         </p>
                         <textarea rows="5" name="content" id="content"
                                   placeholder="내용을 작성해주세요.">{{old('content')}}</textarea>

@@ -70,6 +70,10 @@ class HistoryController extends BaseController {
 
         $this->model->create($dataToStore);
 
+        if ($request->filled('continue')) {
+            return redirect()->route('admin.historyCreate');
+        }
+
         return redirect()->route('admin.historyIndex');
     }
 

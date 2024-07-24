@@ -30,7 +30,7 @@ class YoutubeController extends BaseController {
         $this->model->create($store);
 
         if ($request->filled('continue')) {
-            return redirect()->route('admin.youtubeIndex');
+            return redirect()->route('admin.youtubeCreate');
         }
 
         return redirect()->route('admin.youtubeIndex');

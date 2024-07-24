@@ -36,7 +36,7 @@ class AnnouncementController extends BaseController {
         $this->model->create($store);
 
         if ($request->filled('continue')) {
-            return redirect()->route('admin.announcementIndex');
+            return redirect()->route('admin.announcementCreate');
         }
 
         return redirect()->route('admin.announcementIndex');

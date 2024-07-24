@@ -16,7 +16,7 @@ class QuestionController extends BaseController {
         $this->model->create($store);
 
         if ($request->filled('continue')) {
-            return redirect()->route('admin.questionIndex');
+            return redirect()->route('admin.questionCreate');
         }
 
         return redirect()->route('admin.questionIndex');

@@ -52,7 +52,6 @@
                     <div class="form-item row-group">
                         <p class="item-default">
                             이미지
-                            <span class="red">*</span>
                         </p>
                         <div class="file-upload-wrap">
                             <input type='file' id='pc_file_upload' accept="image/*" name="image"
@@ -68,7 +67,6 @@
                     <div class="form-item row-group">
                         <p class="item-default">
                             첨부파일
-                            <span class="red">*</span>
                         </p>
                         <div class="file-upload-wrap">
                             <input type='file' id='mb_file_upload' accept="image/*" name="file"
@@ -83,7 +81,7 @@
                     </div>
                     <div class="form-item row-group">
                         <div class="form-group">
-                            <label for="filter">필터 선택</label>
+                            <label for="filter">필터 선택 <span class="red">*</span> </label>
                             <select id="filter" name="filter" class="form-control">
                                 <option value="조달인증" {{ old('filter', $item->filter) == '조달인증' ? 'selected' : '' }}>
                                     조달인증

@@ -78,7 +78,7 @@
                     </div>
                     <div class="form-item row-group">
                         <div class="form-group">
-                            <label for="filter">필터 선택</label>
+                            <label for="filter">필터 선택 <span class="red">*</span> </label>
                             <select id="filter" name="filter" class="form-control">
                                 <option value="조달인증">조달인증</option>
                                 <option value="품질인증">품질인증</option>

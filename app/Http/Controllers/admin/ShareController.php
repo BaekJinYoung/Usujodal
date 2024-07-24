@@ -36,7 +36,7 @@ class ShareController extends BaseController {
         $this->model->create($store);
 
         if ($request->filled('continue')) {
-            return redirect()->route('admin.shareIndex');
+            return redirect()->route('admin.shareCreate');
         }
 
         return redirect()->route('admin.shareIndex');
