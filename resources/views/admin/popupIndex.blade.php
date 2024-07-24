@@ -63,7 +63,7 @@
                                         <a href="{{route("admin.popupEdit", $item->id)}}" class="btn">
                                             수정
                                         </a>
-                                        <form action="{{route("admin.popupDelete", $item->id)}}" method="post">
+                                        <form action="{{route("admin.popupDelete", $item->id)}}" method="post" onsubmit="return confirmDelete();">
                                             @csrf
                                             @method('delete')
                                             <button type="submit" class="btn del-btn">
@@ -94,6 +94,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    function confirmDelete() {
+        return confirm("정말로 삭제하시겠습니까?");
+    }
+</script>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
