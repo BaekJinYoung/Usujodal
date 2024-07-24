@@ -29,7 +29,7 @@
                     유튜브 상세
                 </h2>
             </div>
-            <form action="{{route("admin.youtubeUpdate", $item)}}" method="post" enctype="multipart/form-data">
+            <form id="form" action="{{route("admin.youtubeUpdate", $item)}}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('patch')
                 <div class="form-wrap row-group">
@@ -64,13 +64,12 @@
                         </p>
                         <input type="text" id="title" name="title" class="form-input" value="{{old('title', $item->title)}}" placeholder="제목을 입력하세요">
                     </div>
-                    <div class="form-item row-group">
+                    <div class="form-item editor row-group">
                         <p class="item-default">
                             텍스트
                             <span class="red">*</span>
                         </p>
-                        <textarea rows="5" name="content" id="content"
-                                  placeholder="내용을 작성해주세요.">{{old('content', $item->content)}}</textarea>
+                        <div id="editor"></div>
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
@@ -109,7 +108,7 @@
                     <a href="{{route("admin.youtubeIndex")}}" class="form-prev-btn">
                         목록으로
                     </a>
-                    <button class="form-prev-btn" type="submit">
+                    <button class="form-prev-btn" type="submit" id="submit">
                         수정
                     </button>
                 </div>
@@ -117,6 +116,40 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+    let toolbarOptions = [
+        [{'size': ['small', false, 'large', 'huge']}],
+        ['bold', 'italic', 'underline', 'strike'],
+        ['image'],
+        [{'align': []}, {'color': []}, {'background': []}],
+        ['clean']
+    ];
+
+    let quill = new Quill('#editor', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow'
+    });
+
+    quill.root.innerHTML = `{!! $item->content !!}`;
+
+    document.getElementById('form').addEventListener('submit', function (e) {
+        let contentInput = document.createElement('input');
+        contentInput.setAttribute('type', 'hidden');
+        contentInput.setAttribute('name', 'content');
+        contentInput.setAttribute('value', quill.root.innerHTML);
+        this.appendChild(contentInput);
+    });
+
+    function displayFileName(input, fileNameElementId) {
+        var fileName = input.files[0] ? input.files[0].name : '';
+        document.getElementById(fileNameElementId).textContent = fileName;
+    }
+</script>
+
 <script>
     document.getElementById('image_upload').addEventListener('change', function (event) {
         const file = event.target.files[0];

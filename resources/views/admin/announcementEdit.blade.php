@@ -26,10 +26,10 @@
             @endif
             <div class="title-wrap col-group">
                 <h2 class="main-title">
-                    공지사항 수정
+                    공지사항 상세
                 </h2>
             </div>
-            <form action="{{route("admin.announcementUpdate", $item)}}" method="post" enctype="multipart/form-data">
+            <form id="form" action="{{ route('admin.announcementUpdate', $item) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('patch')
                 <div class="form-wrap row-group">
@@ -41,14 +41,14 @@
                         <div class="radio-wrap">
                             <div class="label-wrap col-group">
                                 <label for="radio_item_1" class="radio-item">
-                                    <input type="radio" name="is_featured" id="radio_item_1" value="1" class="form-radio" {{ !$item->is_featured==0 ? 'checked' : '' }}>
+                                    <input type="radio" name="is_featured" id="radio_item_1" value="1" class="form-radio" {{ $item->is_featured ? 'checked' : '' }}>
                                     <div class="checked-item col-group">
                                         <span class="radio-icon"></span>
                                         Y
                                     </div>
                                 </label>
                                 <label for="radio_item_2" class="radio-item">
-                                    <input type="radio" name="is_featured" id="radio_item_2" value="0" class="form-radio" {{ !$item->is_featured==1 ? 'checked' : '' }}>
+                                    <input type="radio" name="is_featured" id="radio_item_2" value="0" class="form-radio" {{ !$item->is_featured ? 'checked' : '' }}>
                                     <div class="checked-item col-group">
                                         <span class="radio-icon"></span>
                                         N
@@ -62,16 +62,15 @@
                             제목
                             <span class="red">*</span>
                         </p>
-                        <input type="text" name="title" class="form-input" id="title" value="{{old('title', $item->title)}}"
+                        <input type="text" name="title" class="form-input" id="title" value="{{ old('title', $item->title) }}"
                                placeholder="제목을 작성해주세요.">
                     </div>
-                    <div class="form-item row-group">
+                    <div class="form-item editor row-group">
                         <p class="item-default">
                             내용
                             <span class="red">*</span>
                         </p>
-                        <textarea rows="5" name="content" id="content"
-                                  placeholder="내용을 작성해주세요.">{{old('content', $item->content)}}</textarea>
+                        <div id="editor"></div>
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
@@ -85,7 +84,7 @@
                                 파일 업로드
                             </label>
                             <div class="file-preview">
-                                <p class="file-name" id="fileName">{{$item->image_name}}</p>
+                                <p class="file-name" id="fileName">{{ $item->image_name }}</p>
                             </div>
                         </div>
                     </div>
@@ -101,17 +100,17 @@
                                 파일 업로드
                             </label>
                             <div class="file-preview">
-                                <p class="file-name" id="mobile_fileName">{{$item->file_name}}</p>
+                                <p class="file-name" id="mobile_fileName">{{ $item->file_name }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-btn-wrap col-group">
-                    <a href="{{route("admin.announcementIndex")}}" class="form-prev-btn">
+                    <a href="{{ route('admin.announcementIndex') }}" class="form-prev-btn">
                         목록으로
                     </a>
-                    <button class="form-prev-btn" type="submit">
+                    <button class="form-prev-btn" type="submit" id="submit">
                         수정
                     </button>
                 </div>
@@ -119,11 +118,39 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script>
+    let toolbarOptions = [
+        [{'size': ['small', false, 'large', 'huge']}],
+        ['bold', 'italic', 'underline', 'strike'],
+        ['image'],
+        [{'align': []}, {'color': []}, {'background': []}],
+        ['clean']
+    ];
+
+    let quill = new Quill('#editor', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow'
+    });
+
+    quill.root.innerHTML = `{!! $item->content !!}`;
+
+    document.getElementById('form').addEventListener('submit', function (e) {
+        let contentInput = document.createElement('input');
+        contentInput.setAttribute('type', 'hidden');
+        contentInput.setAttribute('name', 'content');
+        contentInput.setAttribute('value', quill.root.innerHTML);
+        this.appendChild(contentInput);
+    });
+
     function displayFileName(input, fileNameElementId) {
-        var fileName = input.files[0].name;
+        var fileName = input.files[0] ? input.files[0].name : '';
         document.getElementById(fileNameElementId).textContent = fileName;
     }
 </script>
+
 </body>
 </html>
