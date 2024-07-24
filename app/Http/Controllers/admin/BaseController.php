@@ -24,6 +24,11 @@ class BaseController extends Controller {
         $perPage = $request->query('perPage', 10);
         $items = $query->orderBy('id', 'desc')->paginate($perPage);
 
+        $items->getCollection()->transform(function ($item) {
+            $item->is_featured = $item->is_featured ? 'Y' : 'N';
+            return $item;
+        });
+
         return view($this->getViewName('index'), compact('items', 'perPage', 'search'));
     }
 
