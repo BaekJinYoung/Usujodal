@@ -14,6 +14,10 @@ class ShareController extends BaseController {
     public function store(ShareRequest $request) {
         $store = $request->validated();
 
+        if (isset($store['content'])) {
+            $store['content'] = preg_replace('/^<p>(.*?)<\/p>$/s', '$1', $store['content']);
+        }
+
         if ($request->hasFile('image')) {
             $fileName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
@@ -40,6 +44,10 @@ class ShareController extends BaseController {
 
     public function update(ShareRequest $request, Share $share) {
         $update = $request->validated();
+
+        if (isset($update['content'])) {
+            $update['content'] = preg_replace('/^<p>(.*?)<\/p>$/s', '$1', $update['content']);
+        }
 
         if ($request->hasFile('image')) {
             $fileName = $request->file('image')->getClientOriginalName();

@@ -14,6 +14,10 @@ class YoutubeController extends BaseController {
     public function store(YoutubeRequest $request) {
         $store = $request->validated();
 
+        if (isset($store['content'])) {
+            $store['content'] = preg_replace('/^<p>(.*?)<\/p>$/s', '$1', $store['content']);
+        }
+
         if ($request->hasFile('image')) {
             $fileName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
@@ -34,6 +38,10 @@ class YoutubeController extends BaseController {
 
     public function update(YoutubeRequest $request, Youtube $youtube) {
         $update = $request->validated();
+
+        if (isset($update['content'])) {
+            $update['content'] = preg_replace('/^<p>(.*?)<\/p>$/s', '$1', $update['content']);
+        }
 
         if ($request->hasFile('image')) {
             $fileName = $request->file('image')->getClientOriginalName();

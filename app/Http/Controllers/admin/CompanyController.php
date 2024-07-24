@@ -14,6 +14,10 @@ class CompanyController extends BaseController {
     public function store(CompanyRequest $request) {
         $store = $request->validated();
 
+        if (isset($store['content'])) {
+            $store['content'] = preg_replace('/^<p>(.*?)<\/p>$/s', '$1', $store['content']);
+        }
+
         if ($request->hasFile('image')) {
             $fileName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
@@ -38,10 +42,20 @@ class CompanyController extends BaseController {
     public function update(CompanyRequest $request, Company $company) {
         $update = $request->validated();
 
+        if (isset($update['content'])) {
+            $update['content'] = preg_replace('/^<p>(.*?)<\/p>$/s', '$1', $update['content']);
+        }
+
         if ($request->hasFile('image')) {
             $fileName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
             $update['image'] = $path;
+        }
+
+        if ($request->hasFile('file')) {
+            $fileName = $request->file('file')->getClientOriginalName();
+            $filePath = $request->file('file')->storeAs('uploads', $fileName, 'public');
+            $update['file_path'] = $filePath;
         }
 
         $company->update($update);
