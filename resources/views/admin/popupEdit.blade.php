@@ -88,12 +88,14 @@
         if (file) {
             document.getElementById('image-preview').style.display = 'block';
             document.getElementById('image-filename').textContent = file.name;
+            document.getElementById('remove_image').value = '0';
         }
     });
 
     document.getElementById('remove-image-btn').addEventListener('click', function () {
         document.getElementById('image_upload').value = '';
         document.getElementById('image-preview').style.display = 'none';
+        document.getElementById('remove_image').value = '1';
     });
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

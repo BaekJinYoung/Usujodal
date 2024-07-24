@@ -28,10 +28,8 @@ class PopupRequest extends FormRequest
             'image' => 'required',
         ];
 
-        if ($this->isMethod('post')) {
+        if ($this->input('remove_image') == '1') {
             $rules['image'] = 'required';
-        } elseif ($this->isMethod('patch')) {
-            $rules['image'] = 'nullable';
         }
 
         return $rules;
