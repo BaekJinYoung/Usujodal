@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\InquiryRequest;
+use App\Http\Resources\ApiResponse;
 use App\Models\Inquiry;
 use Illuminate\Http\Request;
 
@@ -17,6 +18,6 @@ class InquiryController extends Controller
 
         $this->Inquiry->create($inquiry);
 
-        return response()->json($inquiry, 201);
+        return ApiResponse::success($inquiry);
     }
 }
