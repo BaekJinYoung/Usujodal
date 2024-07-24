@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\ConsultantController;
 use App\Http\Controllers\admin\HistoryController;
+use App\Http\Controllers\admin\InquiryController;
 use App\Http\Controllers\admin\PopupController;
 use App\Http\Controllers\admin\QuestionController;
 use App\Http\Controllers\admin\ShareController;
@@ -116,6 +117,14 @@ Route::prefix('admin')->group(function () {
             Route::get('/{consultant}/edit', 'edit')->name("admin.consultantEdit");
             Route::patch('/{consultant}', 'update')->name("admin.consultantUpdate");
             Route::delete('/{consultant}', 'delete')->name("admin.consultantDelete");
+        });
+    });
+
+    Route::prefix('inquiry')->group(function () {
+        Route::controller(InquiryController::class)->group(function () {
+            Route::get('/', 'index')->name("admin.inquiryIndex");
+            Route::get('/{inquiry}/edit', 'edit')->name("admin.inquiryEdit");
+            Route::delete('/{inquiry}', 'delete')->name("admin.inquiryDelete");
         });
     });
 });

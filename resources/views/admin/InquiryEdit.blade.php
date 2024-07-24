@@ -26,38 +26,49 @@
             @endif
             <div class="title-wrap col-group">
                 <h2 class="main-title">
-                    자주하는 질문 상세
+                    문의하기 상세
                 </h2>
             </div>
-            <form action="{{route("admin.questionUpdate", $item)}}" method="post" enctype="multipart/form-data">
+            <form action="" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('patch')
                 <div class="form-wrap row-group">
                     <div class="form-item row-group">
                         <p class="item-default">
-                            제목
-                            <span class="red">*</span>
+                            이름
                         </p>
-                        <input type="text" name="title" class="form-input" id="title" value="{{old('title', $item->title)}}"
-                               placeholder="제목을 작성해주세요.">
+                        <input type="text" value="{{old('title', $item->name)}}">
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
-                            내용
-                            <span class="red">*</span>
+                            연락처
                         </p>
-                        <textarea rows="5" name="content" id="details"
-                                  placeholder="내용을 작성해주세요.">{{old('content', $item->content)}}</textarea>
+                        <input type="text" value="{{old('title', $item->contact)}}">
+                    </div>
+                    <div class="form-item row-group">
+                        <p class="item-default">
+                            이메일
+                        </p>
+                        <input type="text" value="{{old('title', $item->email)}}">
+                    </div>
+                    <div class="form-item row-group">
+                        <p class="item-default">
+                            회사명
+                        </p>
+                        <input type="text" value="{{old('title', $item->company)}}">
+                    </div>
+                    <div class="form-item row-group">
+                        <p class="item-default">
+                            문의내용
+                        </p>
+                        <input type="text" value="{{old('title', $item->message)}}">
                     </div>
                 </div>
 
                 <div class="form-btn-wrap col-group">
-                    <a href="{{route("admin.questionIndex")}}" class="form-prev-btn">
+                    <a href="{{route("admin.inquiryIndex")}}" class="form-prev-btn">
                         목록으로
                     </a>
-                    <button class="form-prev-btn" type="submit">
-                        수정
-                    </button>
                 </div>
             </form>
         </div>

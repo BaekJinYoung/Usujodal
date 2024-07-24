@@ -22,7 +22,7 @@ class BaseController extends Controller {
         }
 
         $perPage = $request->query('perPage', 10);
-        $items = $query->latest()->paginate($perPage);
+        $items = $query->orderBy('id', 'desc')->paginate($perPage);
 
         return view($this->getViewName('index'), compact('items', 'perPage', 'search'));
     }
