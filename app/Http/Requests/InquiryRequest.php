@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class InquiryRequest extends FormRequest
 {
@@ -18,7 +18,7 @@ class InquiryRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, mixed>
      */
     public function rules(): array
     {
@@ -28,6 +28,15 @@ class InquiryRequest extends FormRequest
             'company' => 'nullable|string',
             'email' => 'nullable|string',
             'message' => 'required',
+            'agreement' => [
+                'required',
+                'boolean',
+                function ($attribute, $value, $fail) {
+                    if ($value !== true) {
+                        $fail('The ' . $attribute . ' field must be true.');
+                    }
+                },
+            ],
         ];
 
         return $rules;

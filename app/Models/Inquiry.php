@@ -17,6 +17,7 @@ class Inquiry extends Model
         'company',
         'email',
         'message',
+        'agreement',
     ];
 
     protected $dates = ['deleted_at'];
