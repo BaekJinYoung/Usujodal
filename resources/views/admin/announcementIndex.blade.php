@@ -91,7 +91,7 @@
                                         <a href="{{route("admin.announcementEdit", $item->id)}}" class="btn">
                                             상세
                                         </a>
-                                        <form action="{{route("admin.announcementDelete", $item->id)}}" method="post">
+                                        <form action="{{route("admin.announcementDelete", $item->id)}}" method="post" onsubmit="return confirmDelete();">
                                             @csrf
                                             @method('delete')
                                             <button type="submit" class="btn del-btn">
@@ -114,6 +114,10 @@
     function updatePageCount() {
         var pageCount = document.getElementById('pageCount').value;
         window.location.href = '?perPage=' + pageCount;
+    }
+
+    function confirmDelete() {
+        return confirm("정말로 삭제하시겠습니까?");
     }
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

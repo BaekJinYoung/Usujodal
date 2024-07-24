@@ -29,7 +29,7 @@
                     유튜브 등록
                 </h2>
             </div>
-            <form action="{{route('admin.youtubeStore')}}" method="post" enctype="multipart/form-data">
+            <form id="form" action="{{route('admin.youtubeStore')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="form-wrap row-group">
                     <div class="form-item row-group">
@@ -63,13 +63,12 @@
                         </p>
                         <input type="text" id="title" name="title" class="form-input" value="{{old('title')}}" placeholder="제목을 입력하세요">
                     </div>
-                    <div class="form-item row-group">
+                    <div class="form-item editor row-group">
                         <p class="item-default">
                             텍스트
                             <span class="red">*</span>
                         </p>
-                        <textarea rows="5" name="content" id="content"
-                                  placeholder="내용을 작성해주세요.">{{old('content')}}</textarea>
+                        <div id="editor"></div>
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
@@ -102,10 +101,10 @@
                     <a href="{{route("admin.youtubeIndex")}}" class="form-prev-btn">
                         목록으로
                     </a>
-                    <button class="form-prev-btn" type="submit">
+                    <button class="form-prev-btn" type="submit" id="submit">
                         등록
                     </button>
-                    <button class="form-submit-btn" name="continue" type="submit" value="1">
+                    <button class="form-submit-btn" id="submitContinue" name="continue" type="submit" value="1">
                         등록 후 계속
                     </button>
                 </div>
@@ -113,6 +112,46 @@
         </div>
     </div>
 </div>
+
+<script>
+    let toolbarOptions = [
+        [{'size': ['small', false, 'large', 'huge']}],
+        ['bold', 'italic', 'underline', 'strike'],
+        ['image'],
+        [{'align': []}, {'color': []}, {'background': []}],
+        ['clean']
+    ];
+
+    let quill = new Quill('#editor', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow'
+    });
+</script>
+<script>
+    ['submit', 'submitContinue'].forEach(function (index) {
+        let button = document.getElementById(index);
+        button.addEventListener('click', function () {
+            let form = document.getElementById('form');
+
+            let hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'content');
+            hiddenInput.setAttribute('id', 'content');
+            hiddenInput.value = quill.root.innerHTML;
+            form.appendChild(hiddenInput);
+
+            let formData = new FormData(form);
+            if (button.value === "continue") {
+                fetchUtil("{{ route('admin.youtubeStore') }}", formData, "{{ route('admin.youtubeCreate') }}", "등록되었습니다.");
+            } else {
+                fetchUtil("{{ route('admin.youtubeStore') }}", formData, "{{ route('admin.youtubeIndex') }}");
+            }
+        });
+    });
+</script>
+
 <script>
     document.getElementById('image_upload').addEventListener('change', function (event) {
         const file = event.target.files[0];

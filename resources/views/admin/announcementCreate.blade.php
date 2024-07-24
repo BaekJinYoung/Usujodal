@@ -30,7 +30,7 @@
                     공지사항 등록
                 </h2>
             </div>
-            <form action="{{route("admin.announcementStore")}}" method="post" enctype="multipart/form-data">
+            <form id="form" action="{{ route('admin.announcementStore') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="form-wrap row-group">
                     <div class="form-item row-group">
@@ -62,16 +62,15 @@
                             제목
                             <span class="red">*</span>
                         </p>
-                        <input type="text" name="title" class="form-input" id="title" value="{{old('title')}}"
+                        <input type="text" name="title" class="form-input" id="title" value="{{ old('title') }}"
                                placeholder="제목을 작성해주세요.">
                     </div>
-                    <div class="form-item row-group">
+                    <div class="form-item editor row-group">
                         <p class="item-default">
                             내용
                             <span class="red">*</span>
                         </p>
-                        <textarea rows="5" name="content" id="details"
-                                  placeholder="내용을 작성해주세요.">{{old('content')}}</textarea>
+                        <div id="editor"></div>
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
@@ -106,13 +105,13 @@
                 </div>
 
                 <div class="form-btn-wrap col-group">
-                    <a href="{{route("admin.announcementIndex")}}" class="form-prev-btn">
+                    <a href="{{ route('admin.announcementIndex') }}" class="form-prev-btn">
                         목록으로
                     </a>
-                    <button class="form-prev-btn" type="submit">
+                    <button class="form-prev-btn" type="submit" id="submit">
                         등록
                     </button>
-                    <button class="form-submit-btn" name="continue" type="submit" value="1">
+                    <button class="form-submit-btn" id="submitContinue" name="continue" type="submit" value="1">
                         등록 후 계속
                     </button>
                 </div>
@@ -121,6 +120,44 @@
     </div>
 </div>
 
+<script>
+    let toolbarOptions = [
+        [{'size': ['small', false, 'large', 'huge']}],
+        ['bold', 'italic', 'underline', 'strike'],
+        ['image'],
+        [{'align': []}, {'color': []}, {'background': []}],
+        ['clean']
+    ];
+
+    let quill = new Quill('#editor', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow'
+    });
+</script>
+<script>
+    ['submit', 'submitContinue'].forEach(function (index) {
+        let button = document.getElementById(index);
+        button.addEventListener('click', function () {
+            let form = document.getElementById('form');
+
+            let hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'content');
+            hiddenInput.setAttribute('id', 'content');
+            hiddenInput.value = quill.root.innerHTML;
+            form.appendChild(hiddenInput);
+
+            let formData = new FormData(form);
+            if (button.value === "continue") {
+                fetchUtil("{{ route('admin.announcementStore') }}", formData, "{{ route('admin.announcementCreate') }}", "등록되었습니다.");
+            } else {
+                fetchUtil("{{ route('admin.announcementStore') }}", formData, "{{ route('admin.announcementIndex') }}");
+            }
+        });
+    });
+</script>
 <script>
     function displayFileName(input, fileNameElementId) {
         var fileName = input.files[0].name;

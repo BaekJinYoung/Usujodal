@@ -29,7 +29,7 @@
                     인증성공업체 등록
                 </h2>
             </div>
-            <form action="{{route('admin.companyStore')}}" method="post" enctype="multipart/form-data">
+            <form id="form" action="{{route('admin.companyStore')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="form-wrap row-group">
                     <div class="form-item row-group">
@@ -39,13 +39,12 @@
                         </p>
                         <input type="text" id="title" name="title" class="form-input" value="{{old('title')}}" placeholder="제목을 입력하세요">
                     </div>
-                    <div class="form-item row-group">
+                    <div class="form-item editor row-group">
                         <p class="item-default">
                             내용
                             <span class="red">*</span>
                         </p>
-                        <textarea rows="5" name="content" id="details"
-                                  placeholder="내용을 작성해주세요.">{{old('content')}}</textarea>
+                        <div id="editor"></div>
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
@@ -57,9 +56,6 @@
                             <label for="pc_file_upload" class="file-upload-btn">
                                 파일 업로드
                             </label>
-                            <span class="guide-txt">
-                                800*800px 비율 고해상도 사진 등록
-                            </span>
                             <div class="file-preview">
                                 <p class="file-name" id="fileName"></p>
                             </div>
@@ -97,10 +93,10 @@
                     <a href="{{route("admin.companyIndex")}}" class="form-prev-btn">
                         목록으로
                     </a>
-                    <button class="form-prev-btn" type="submit">
+                    <button class="form-prev-btn" type="submit" id="submit">
                         등록
                     </button>
-                    <button class="form-submit-btn" name="continue" type="submit" value="1">
+                    <button class="form-submit-btn" id="submitContinue" name="continue" type="submit" value="1">
                         등록 후 계속
                     </button>
                 </div>
@@ -108,6 +104,46 @@
         </div>
     </div>
 </div>
+
+<script>
+    let toolbarOptions = [
+        [{'size': ['small', false, 'large', 'huge']}],
+        ['bold', 'italic', 'underline', 'strike'],
+        ['image'],
+        [{'align': []}, {'color': []}, {'background': []}],
+        ['clean']
+    ];
+
+    let quill = new Quill('#editor', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow'
+    });
+</script>
+<script>
+    ['submit', 'submitContinue'].forEach(function (index) {
+        let button = document.getElementById(index);
+        button.addEventListener('click', function () {
+            let form = document.getElementById('form');
+
+            let hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'content');
+            hiddenInput.setAttribute('id', 'content');
+            hiddenInput.value = quill.root.innerHTML;
+            form.appendChild(hiddenInput);
+
+            let formData = new FormData(form);
+            if (button.value === "continue") {
+                fetchUtil("{{ route('admin.companyStore') }}", formData, "{{ route('admin.companyCreate') }}", "등록되었습니다.");
+            } else {
+                fetchUtil("{{ route('admin.companyStore') }}", formData, "{{ route('admin.companyIndex') }}");
+            }
+        });
+    });
+</script>
+
 <script>
     function displayFileName(input, fileNameElementId) {
         var fileName = input.files[0].name;
