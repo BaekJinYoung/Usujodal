@@ -112,7 +112,7 @@ class IndexController extends Controller
         $announcements = $this->fetchAndFormat(Announcement::class, ['id', 'title', 'content', 'created_at'], 9);
         $youtubes = $this->fetchAndFormat(Youtube::class, ['id', 'title', 'image', 'created_at'], 9, true);
 
-        $main[] = [
+        $main = [
             'popup' => $popup,
             'banner' => $banner,
             'notice' => $notice,
