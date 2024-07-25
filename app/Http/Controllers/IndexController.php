@@ -74,7 +74,9 @@ class IndexController extends Controller
             $dataCollection = $query->get();
         }
 
-        if (in_array('link', $selectColumns)) {
+        $isYoutubeModel = $model instanceof Youtube;
+
+        if ($isYoutubeModel) {
             foreach ($dataCollection as $item) {
                 if (isset($item->link)) {
                     $youtubeVideoId = $this->extractYoutubeVideoId($item->link);
@@ -117,7 +119,9 @@ class IndexController extends Controller
 
         $data = $query->get();
 
-        if (in_array('link', $selectColumns)) {
+        $isYoutubeModel = $model instanceof Youtube;
+
+        if ($isYoutubeModel) {
             foreach ($data as $item) {
                 if (isset($item->link)) {
                     $youtubeVideoId = $this->extractYoutubeVideoId($item->link);
