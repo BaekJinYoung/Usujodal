@@ -42,6 +42,13 @@
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
+                            모바일 제목
+                            <span class="red">*</span>
+                        </p>
+                        <textarea rows="2" name="mobile_title" id="mobile_title"  placeholder="제목을 입력하세요">{{old('mobile_title')}}</textarea>
+                    </div>
+                    <div class="form-item row-group">
+                        <p class="item-default">
                             내용
                             <span class="red">*</span>
                         </p>
@@ -49,18 +56,40 @@
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
-                            사진 or 동영상
+                            모바일 내용
+                            <span class="red">*</span>
+                        </p>
+                        <textarea rows="3" name="mobile_content" id="mobile_content" placeholder="내용을 작성해주세요.">{{old('mobile_content')}}</textarea>
+                    </div>
+                    <div class="form-item row-group">
+                        <p class="item-default">
+                            PC 사진 or 동영상
+                            <span class="red">*</span>
                         </p>
                         <div class="file-upload-wrap">
-                            <input type='file' id='image_upload' accept="image/*" name="image" style="display: none;">
-                            <label for="image_upload" class="file-upload-btn">
+                            <input type='file' id='pc_file_upload' accept="image/*" name="image"
+                                   onchange="displayFileName(this, 'fileName')">
+                            <label for="pc_file_upload" class="file-upload-btn">
                                 파일 업로드
                             </label>
-                            <div class="file-preview" id="image-preview" style="display: none">
-                                <p class="file-name" id="image-filename"></p>
-                                <button type="button" class="file-del-btn" id="remove-image-btn">
-                                    <i class="xi-close"></i>
-                                </button>
+                            <div class="file-preview">
+                                <p class="file-name" id="fileName"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item row-group">
+                        <p class="item-default">
+                            모바일 사진 or 동영상
+                            <span class="red">*</span>
+                        </p>
+                        <div class="file-upload-wrap">
+                            <input type='file' id='mb_file_upload' accept="image/*" name="mobile_image"
+                                   onchange="displayFileName(this, 'mobile_fileName')">
+                            <label for="mb_file_upload" class="file-upload-btn">
+                                파일 업로드
+                            </label>
+                            <div class="file-preview">
+                                <p class="file-name" id="mobile_fileName"></p>
                             </div>
                         </div>
                     </div>
@@ -81,18 +110,10 @@
     </div>
 </div>
 <script>
-    document.getElementById('image_upload').addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        if (file) {
-            document.getElementById('image-preview').style.display = 'block';
-            document.getElementById('image-filename').textContent = file.name;
-        }
-    });
-
-    document.getElementById('remove-image-btn').addEventListener('click', function () {
-        document.getElementById('image_upload').value = '';
-        document.getElementById('image-preview').style.display = 'none';
-    });
+    function displayFileName(input, fileNameElementId) {
+        var fileName = input.files[0].name;
+        document.getElementById(fileNameElementId).textContent = fileName;
+    }
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

@@ -28,8 +28,18 @@ class IndexController extends Controller
     }
 
     private function formatItemWithImage($item) {
+        $isBannerModel = $item instanceof Banner;
+
         if (isset($item->image)) {
             $item->image = asset('storage/' . $item->image);
+            $item->image_type = $this->getFileType('image', $item->image);
+            if (!$isBannerModel) {
+                unset($item->image_type);
+            }
+        }
+        if (isset($item->mobile_image)) {
+            $item->mobile_image = asset('storage/' . $item->mobile_image);
+            $item->mobile_image_type = $this->getFileType('mobile_image', $item->mobile_image);
         }
         return $item;
     }
@@ -130,9 +140,24 @@ class IndexController extends Controller
         return $this->formatCollection($data);
     }
 
+    private function getFileType($attribute, $filePath)
+    {
+        if ($filePath) {
+            $fileMimeType = Storage::disk('public')->mimeType($filePath);
+
+            if (strpos($fileMimeType, 'image/') === 0) {
+                return 'image';
+            } elseif (strpos($fileMimeType, 'video/') === 0) {
+                return 'video';
+            }
+        }
+
+        return 'unknown';
+    }
+
     public function mainRespond() {
         $popup = $this->fetchAndFormat(Popup::class, ['id', 'title', 'image','link'], 0);
-        $banner = $this->fetchAndFormat(Banner::class, ['id', 'title', 'image', 'content'], 0);
+        $banner = $this->fetchAndFormat(Banner::class, ['id', 'title', 'mobile_title', 'content', 'mobile_content', 'image', 'mobile_image'], 0);
         $notice = $this->fetchAndFormat(Announcement::class, ['id', 'title'], 5, true);
         $news = $this->fetchAndFormat(Share::class, ['id', 'title'], 5, true);
         $announcements = $this->fetchAndFormat(Announcement::class, ['id', 'title', 'content', 'created_at'], 9);

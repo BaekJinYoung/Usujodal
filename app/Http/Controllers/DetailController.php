@@ -135,7 +135,6 @@ class DetailController extends Controller
             'model' => 'required|string|in:announcement,company,share'
         ]);
 
-        // 동적으로 모델 선택
         $modelClass = $this->getModelClass($request->input('model'));
 
         $fileDetail = $modelClass::select(['file_path'])->findOrFail($request->input('id'));

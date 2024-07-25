@@ -15,9 +15,33 @@ class BannerController extends BaseController
     {
         $store = $request->validated();
 
-        $fileName = $request->file('image')->getClientOriginalName();
-        $path = $request->file('image')->storeAs('images', $fileName, 'public');
-        $store['image'] = $path;
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = $file->getClientOriginalName();
+            $fileType = $file->getMimeType();
+
+            if (strpos($fileType, 'image/') === 0) {
+                $path = $file->storeAs('images', $fileName, 'public');
+                $store['image'] = $path;
+            } elseif (strpos($fileType, 'video/') === 0) {
+                $path = $file->storeAs('videos', $fileName, 'public');
+                $store['image'] = $path;
+            }
+        }
+
+        if ($request->hasFile('mobile_image')) {
+            $file = $request->file('mobile_image');
+            $fileName = $file->getClientOriginalName();
+            $fileType = $file->getMimeType();
+
+            if (strpos($fileType, 'image/') === 0) {
+                $path = $file->storeAs('images', $fileName, 'public');
+                $store['mobile_image'] = $path;
+            } elseif (strpos($fileType, 'video/') === 0) {
+                $path = $file->storeAs('videos', $fileName, 'public');
+                $store['mobile_image'] = $path;
+            }
+        }
 
         $this->model->create($store);
 
@@ -32,9 +56,31 @@ class BannerController extends BaseController
         $update = $request->validated();
 
         if ($request->hasFile('image')) {
-            $fileName = $request->file('image')->getClientOriginalName();
-            $path = $request->file('image')->storeAs('images', $fileName, 'public');
-            $update['image'] = $path;
+            $file = $request->file('image');
+            $fileName = $file->getClientOriginalName();
+            $fileType = $file->getMimeType();
+
+            if (strpos($fileType, 'image/') === 0) {
+                $path = $file->storeAs('images', $fileName, 'public');
+                $update['image'] = $path;
+            } elseif (strpos($fileType, 'video/') === 0) {
+                $path = $file->storeAs('videos', $fileName, 'public');
+                $update['image'] = $path;
+            }
+        }
+
+        if ($request->hasFile('mobile_image')) {
+            $file = $request->file('mobile_image');
+            $fileName = $file->getClientOriginalName();
+            $fileType = $file->getMimeType();
+
+            if (strpos($fileType, 'image/') === 0) {
+                $path = $file->storeAs('images', $fileName, 'public');
+                $update['mobile_image'] = $path;
+            } elseif (strpos($fileType, 'video/') === 0) {
+                $path = $file->storeAs('videos', $fileName, 'public');
+                $update['mobile_image'] = $path;
+            }
         }
 
         $banner->update($update);

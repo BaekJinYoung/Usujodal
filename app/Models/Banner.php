@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Banner extends Model
 {
@@ -13,9 +14,29 @@ class Banner extends Model
 
     protected $fillable = [
         'title',
+        'mobile_title',
         'image',
-        'content'
+        'mobile_image',
+        'content',
+        'mobile_content',
     ];
 
     protected $dates = ['deleted_at'];
+
+    public function getFileType($attribute)
+    {
+        $filePath = $this->{$attribute};
+
+        if ($filePath) {
+            $fileMimeType = Storage::disk('public')->mimeType($filePath);
+
+            if (strpos($fileMimeType, 'image/') === 0) {
+                return 'image';
+            } elseif (strpos($fileMimeType, 'video/') === 0) {
+                return 'video';
+            }
+        }
+
+        return 'unknown';
+    }
 }

@@ -26,7 +26,6 @@ class YoutubeRequest extends FormRequest
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'is_featured' => 'required|boolean',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'link' => 'required|string',
         ];
 

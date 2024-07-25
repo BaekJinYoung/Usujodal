@@ -24,8 +24,11 @@ class BannerRequest extends FormRequest
     {
         $rules = [
             'title' => 'required',
+            'mobile_title' => 'required',
             'content' => 'required',
+            'mobile_content' => 'required',
             'image' => 'required',
+            'mobile_image' => 'required',
         ];
 
         if ($this->isMethod('post')) {

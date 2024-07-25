@@ -46,6 +46,7 @@ class BaseController extends Controller {
 
         $attributes = [
             'image' => 'image_name',
+            'mobile_image' => 'mobile_image_name',
             'file_path' => 'file_name'
         ];
 
