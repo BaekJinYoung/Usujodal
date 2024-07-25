@@ -14,7 +14,7 @@ class ImageController extends Controller
 
         $fileName = $request->file('image')->getClientOriginalName();
         $path = $request->file('image')->storeAs('public/images', $fileName);
-        $url = Storage::url($path);
+        $url = asset(Storage::url($path));
 
         return response()->json(['url' => $url]);
     }
