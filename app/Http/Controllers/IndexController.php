@@ -76,6 +76,7 @@ class IndexController extends Controller
             $dataCollection = $query->get();
         }
 
+        // Check if the model is an instance of Youtube
         $isYoutubeModel = $model === Youtube::class;
 
         if ($isYoutubeModel) {
@@ -92,10 +93,6 @@ class IndexController extends Controller
                 return $this->formatItemWithImage($this->formatItem($item));
             });
         }
-
-        $dataCollection = $dataCollection->transform(function ($item) {
-            return $this->formatItemWithImage($this->formatItem($item));
-        });
 
         if ($page > 0) {
             $pagination->setCollection($dataCollection);
@@ -116,7 +113,7 @@ class IndexController extends Controller
         $query = $model::select($selectColumns)
             ->orderBy('created_at', 'desc');
 
-        if ($isFeatured ) {
+        if ($isFeatured) {
             $query->where('is_featured', true);
         }
 
@@ -126,8 +123,10 @@ class IndexController extends Controller
 
         $data = $query->get();
 
+        // Check if the model is an instance of Youtube
         $isYoutubeModel = $model === Youtube::class;
 
+        // Transform items based on the model type
         $data = $data->map(function ($item) use ($isYoutubeModel) {
             if ($isYoutubeModel && isset($item->link)) {
                 $youtubeVideoId = $this->extractYoutubeVideoId($item->link);
@@ -138,17 +137,14 @@ class IndexController extends Controller
             return $this->formatItemWithImage($item);
         });
 
-        $data = $data->transform(function ($item) {
-            return $this->formatItemWithImage($item);
-        });
+        // Format the collection
+        $formattedData = $this->formatCollection($data);
 
-        $data = $this->formatCollection($data);
-
-        if ($data->isEmpty()) {
+        if ($formattedData->isEmpty()) {
             return ApiResponse::success([], '게시물이 없습니다.');
         }
 
-        return $this->formatCollection($data);
+        return $formattedData;
     }
 
     private function getFileType($attribute, $filePath)
