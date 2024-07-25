@@ -30,4 +30,5 @@ Route::controller(DetailController::class)->group(function () {
     Route::get('/youtube/{id}', 'youtube_detail');
     Route::get('/announcement/{id}', 'announcement_detail');
     Route::get('/share/{id}', 'share_detail');
+    Route::get('download', 'downloadFile');
 });

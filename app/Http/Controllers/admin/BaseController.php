@@ -41,7 +41,7 @@ class BaseController extends Controller {
 
         if (!$item) {
             return redirect()->route($this->getRouteName('index'))
-            ->with('error', '해당 게시물을 찾을 수 없습니다.');
+                ->with('error', '해당 게시물을 찾을 수 없습니다.');
         }
 
         $attributes = [

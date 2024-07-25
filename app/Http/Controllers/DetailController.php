@@ -7,6 +7,7 @@ use App\Models\Announcement;
 use App\Models\Company;
 use App\Models\Share;
 use App\Models\Youtube;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
@@ -125,6 +126,39 @@ class DetailController extends Controller
             }
         }
         return $orderedDetail;
+    }
+
+    public function downloadFile(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer',
+            'model' => 'required|string|in:announcement,company,share'
+        ]);
+
+        // 동적으로 모델 선택
+        $modelClass = $this->getModelClass($request->input('model'));
+
+        $fileDetail = $modelClass::select(['file_path'])->findOrFail($request->input('id'));
+
+        if (!$fileDetail->file_path || !Storage::exists('public/' . $fileDetail->file_path)) {
+            return ApiResponse::error('파일이 존재하지 않습니다.', 404);
+        }
+
+        return Storage::download('public/' . $fileDetail->file_path);
+    }
+
+    private function getModelClass($model)
+    {
+        switch ($model) {
+            case 'announcement':
+                return Announcement::class;
+            case 'company':
+                return Company::class;
+            case 'share':
+                return Share::class;
+            default:
+                throw new \InvalidArgumentException('올바르지 않은 모델입니다.');
+        }
     }
 
     public function company_detail($id) {
