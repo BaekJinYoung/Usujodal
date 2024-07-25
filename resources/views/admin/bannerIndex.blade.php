@@ -49,13 +49,18 @@
                                     <div class="img_wrap">
                                         <img src="{{asset('storage/'.$item->image)}}" alt="">
                                     </div>
+                                    <div class="img_wrap">
+                                        <img src="{{asset('storage/'.$item->mobile_image)}}" alt="">
+                                    </div>
                                     <div class="item_txt_wrap">
                                         <p class="title_p">{{$item->title}}</p>
+                                        <p class="title_p">{{$item->mobile_title}}</p>
                                         <div class="btn-wrap col-group">
                                             <a href="{{route("admin.bannerEdit", $item->id)}}" class="btn">
                                                 수정
                                             </a>
-                                            <form action="{{route("admin.bannerDelete", $item->id)}}" method="post" onsubmit="return confirmDelete();">
+                                            <form action="{{route("admin.bannerDelete", $item->id)}}" method="post"
+                                                  onsubmit="return confirmDelete();">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn del-btn">
@@ -85,9 +90,9 @@
 </div>
 
 <script>
-function confirmDelete() {
-return confirm("정말로 삭제하시겠습니까?");
-}
+    function confirmDelete() {
+        return confirm("정말로 삭제하시겠습니까?");
+    }
 </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
