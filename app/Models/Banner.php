@@ -17,8 +17,6 @@ class Banner extends Model
         'mobile_title',
         'image',
         'mobile_image',
-        'content',
-        'mobile_content',
     ];
 
     protected $dates = ['deleted_at'];

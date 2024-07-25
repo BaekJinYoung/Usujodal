@@ -48,20 +48,6 @@
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
-                            내용
-                            <span class="red">*</span>
-                        </p>
-                        <textarea rows="3" name="content" id="content" placeholder="내용을 작성해주세요.">{{old('content', $item->content)}}</textarea>
-                    </div>
-                    <div class="form-item row-group">
-                        <p class="item-default">
-                            모바일 내용
-                            <span class="red">*</span>
-                        </p>
-                        <textarea rows="3" name="mobile_content" id="mobile_content" placeholder="내용을 작성해주세요.">{{old('content', $item->mobile_content)}}</textarea>
-                    </div>
-                    <div class="form-item row-group">
-                        <p class="item-default">
                             PC 사진 or 동영상
                             <span class="red">*</span>
                         </p>
