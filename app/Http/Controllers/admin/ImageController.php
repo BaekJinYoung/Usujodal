@@ -13,7 +13,7 @@ class ImageController extends Controller
         $request->validate(['image' => 'required']);
 
         $fileName = $request->file('image')->getClientOriginalName();
-        $path = $request->file('image')->storeAs('images', $fileName, 'public');
+        $path = $request->file('image')->storeAs('public/images', $fileName);
         $url = Storage::url($path);
 
         return response()->json(['url' => $url]);
