@@ -14,7 +14,7 @@ class DetailController extends Controller
 {
     private function convertRelativeUrlsToAbsolute($content) {
         $baseUrl = asset('storage'); // 스토리지의 기본 URL 설정
-        $pattern = '/<img\s+[^>]*src=["\'](\/storage[^"\']+)["\']/i'; // <img> 태그에서 src 속성의 상대 경로를 찾는 정규식
+        $pattern = '/<img\s+[^>]*src=["\'](\/images[^"\']+)["\']/i'; // <img> 태그에서 src 속성의 상대 경로를 찾는 정규식
         $replacement = '<img src="' . $baseUrl . '$1"'; // 절대 경로로 변환
         return preg_replace($pattern, $replacement, $content); // 변환된 문자열 반환
     }
