@@ -32,14 +32,16 @@ class IndexController extends Controller
 
         if (isset($item->image)) {
             $item->image = asset('storage/' . $item->image);
-            $item->image_type = $this->getFileType('image', $item->image);
+            $fileType = $this->getFileType('image', $item->image);
+            $item->image_type = ($fileType === 'image') ? 0 : 1;
             if (!$isBannerModel) {
                 unset($item->image_type);
             }
         }
         if (isset($item->mobile_image)) {
             $item->mobile_image = asset('storage/' . $item->mobile_image);
-            $item->mobile_image_type = $this->getFileType('mobile_image', $item->mobile_image);
+            $fileType = $this->getFileType('mobile_image', $item->mobile_image);
+            $item->mobile_image_type = ($fileType === 'image') ? 0 : 1;
         }
         return $item;
     }
@@ -74,16 +76,21 @@ class IndexController extends Controller
             $dataCollection = $query->get();
         }
 
-        $isYoutubeModel = $model instanceof Youtube;
+        $isYoutubeModel = $model === Youtube::class;
 
         if ($isYoutubeModel) {
-            foreach ($dataCollection as $item) {
+            $dataCollection = $dataCollection->map(function ($item) {
                 if (isset($item->link)) {
                     $youtubeVideoId = $this->extractYoutubeVideoId($item->link);
                     $item->video_id = $youtubeVideoId;
                     unset($item->link);
                 }
-            }
+                return $this->formatItemWithImage($this->formatItem($item));
+            });
+        } else {
+            $dataCollection = $dataCollection->map(function ($item) {
+                return $this->formatItemWithImage($this->formatItem($item));
+            });
         }
 
         $dataCollection = $dataCollection->transform(function ($item) {
@@ -119,17 +126,17 @@ class IndexController extends Controller
 
         $data = $query->get();
 
-        $isYoutubeModel = $model instanceof Youtube;
+        $isYoutubeModel = $model === Youtube::class;
 
-        if ($isYoutubeModel) {
-            foreach ($data as $item) {
-                if (isset($item->link)) {
-                    $youtubeVideoId = $this->extractYoutubeVideoId($item->link);
-                    $item->video_id = $youtubeVideoId;
-                    unset($item->link);
-                }
+        $data = $data->map(function ($item) use ($isYoutubeModel) {
+            if ($isYoutubeModel && isset($item->link)) {
+                $youtubeVideoId = $this->extractYoutubeVideoId($item->link);
+                $item->video_id = $youtubeVideoId;
+                unset($item->link);
             }
-        }
+
+            return $this->formatItemWithImage($item);
+        });
 
         $data = $data->transform(function ($item) {
             return $this->formatItemWithImage($item);
