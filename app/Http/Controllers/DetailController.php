@@ -115,10 +115,10 @@ class DetailController extends Controller
     }
 
     public function announcement_detail($id) {
-        return $this->detailRespond(Announcement::class, ['id', 'title', 'views', 'content', 'image', 'file_path', 'created_at'], $id, true, true);
+        return $this->detailRespond(Announcement::class, ['id', 'title', 'views', 'content', 'file_path', 'created_at'], $id, true, true);
     }
 
     public function share_detail($id) {
-        return $this->detailRespond(Share::class, ['id', 'title', 'views', 'content', 'image', 'file_path', 'created_at'], $id, true, true);
+        return $this->detailRespond(Share::class, ['id', 'title', 'views', 'content', 'file_path', 'created_at'], $id, true, true);
     }
 }
