@@ -40,6 +40,11 @@ class IndexController extends Controller
         });
     }
 
+    private function extractYoutubeVideoId($url) {
+        preg_match('/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i', $url, $matches);
+        return $matches[1] ?? null;
+    }
+
     private function fetchDataAndRespond($model, $selectColumns, $searchField, $page, Request $request) {
         $search = $request->input('search', '');
         $query = $model::select($selectColumns)->orderBy('id', 'desc');
@@ -54,27 +59,38 @@ class IndexController extends Controller
 
         if ($page > 0) {
             $pagination = $query->paginate($page);
-            $pagination->getCollection()->transform(function ($item) {
-                return $this->formatItemWithImage($this->formatItem($item));
-            });
-
-            $data = $pagination->toArray();
-
-            $data['search'] = $search;
-
-            return ApiResponse::success($data);
+            $dataCollection = $pagination->getCollection();
         } else {
-            $collection = $query->get()->transform(function ($item) {
-                return $this->formatItemWithImage($this->formatItem($item));
-            });
-
-            $data = [
-                'data' => $collection,
-                'total' => $collection->count()
-            ];
-
-            return ApiResponse::success($data);
+            $dataCollection = $query->get();
         }
+
+        if (in_array('link', $selectColumns)) {
+            foreach ($dataCollection as $item) {
+                if (isset($item->link)) {
+                    $youtubeVideoId = $this->extractYoutubeVideoId($item->link);
+                    $item->video_id = $youtubeVideoId;
+                    unset($item->link);
+                }
+            }
+        }
+
+        $dataCollection = $dataCollection->transform(function ($item) {
+            return $this->formatItemWithImage($this->formatItem($item));
+        });
+
+        if ($page > 0) {
+            $pagination->setCollection($dataCollection);
+            $data = $pagination->toArray();
+        } else {
+            $data = [
+                'data' => $dataCollection,
+                'total' => $dataCollection->count()
+            ];
+        }
+
+        $data['search'] = $search;
+
+        return ApiResponse::success($data);
     }
 
     private function fetchAndFormat($model, $selectColumns, $limit, $isFeatured = false) {
@@ -90,6 +106,16 @@ class IndexController extends Controller
         }
 
         $data = $query->get();
+
+        if (in_array('link', $selectColumns)) {
+            foreach ($data as $item) {
+                if (isset($item->link)) {
+                    $youtubeVideoId = $this->extractYoutubeVideoId($item->link);
+                    $item->video_id = $youtubeVideoId;
+                    unset($item->link);
+                }
+            }
+        }
 
         $data = $data->transform(function ($item) {
             return $this->formatItemWithImage($item);
@@ -110,7 +136,7 @@ class IndexController extends Controller
         $notice = $this->fetchAndFormat(Announcement::class, ['id', 'title'], 5, true);
         $news = $this->fetchAndFormat(Share::class, ['id', 'title'], 5, true);
         $announcements = $this->fetchAndFormat(Announcement::class, ['id', 'title', 'content', 'created_at'], 9);
-        $youtubes = $this->fetchAndFormat(Youtube::class, ['id', 'title', 'image', 'created_at'], 9, true);
+        $youtubes = $this->fetchAndFormat(Youtube::class, ['id', 'title', 'link', 'created_at'], 9, true);
 
         $main = [
             'popup' => $popup,
@@ -175,7 +201,7 @@ class IndexController extends Controller
     }
 
     public function youtube(Request $request) {
-        return $this->fetchDataAndRespond(Youtube::class, ['id', 'image', 'title', 'created_at'], 'title', 9, $request);
+        return $this->fetchDataAndRespond(Youtube::class, ['id', 'link', 'title', 'created_at'], 'title', 9, $request);
     }
 
     public function consultant(Request $request) {

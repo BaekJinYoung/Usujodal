@@ -13,10 +13,15 @@ use Illuminate\Support\Facades\Storage;
 class DetailController extends Controller
 {
     private function convertRelativeUrlsToAbsolute($content) {
-        $baseUrl = asset('storage'); // 스토리지의 기본 URL 설정
-        $pattern = '/<img\s+[^>]*src=["\'](\/images[^"\']+)["\']/i'; // <img> 태그에서 src 속성의 상대 경로를 찾는 정규식
-        $replacement = '<img src="' . $baseUrl . '$1"'; // 절대 경로로 변환
-        return preg_replace($pattern, $replacement, $content); // 변환된 문자열 반환
+        $baseUrl = asset('storage');
+        $pattern = '/<img\s+[^>]*src=["\'](\/images[^"\']+)["\']/i';
+        $replacement = '<img src="' . $baseUrl . '$1"';
+        return preg_replace($pattern, $replacement, $content);
+    }
+
+    private function extractYoutubeVideoId($url) {
+        preg_match('/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i', $url, $matches);
+        return $matches[1] ?? null;
     }
 
     private function detailRespond($model, $selectColumns, $id, $incrementViews = false, $prevNext = false) {
@@ -39,6 +44,11 @@ class DetailController extends Controller
             $detail['content'] = $this->convertRelativeUrlsToAbsolute($detail['content']);
         }
 
+        if (in_array('link', $selectColumns) && isset($detail['link'])) {
+            $youtubeVideoId = $this->extractYoutubeVideoId($detail['link']);
+            $detail['video_id'] = $youtubeVideoId;
+        }
+
         $fieldsOrder = [
             'id',
             'title',
@@ -46,7 +56,7 @@ class DetailController extends Controller
             'views',
             'filter',
             'content',
-            'link',
+            'video_id',
             'image',
             'file_name',
             'file_path',
