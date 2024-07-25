@@ -18,12 +18,6 @@ class AnnouncementController extends BaseController {
             $store['content'] = preg_replace('/^<p>(.*?)<\/p>$/s', '$1', $store['content']);
         }
 
-        if ($request->hasFile('image')) {
-            $fileName = $request->file('image')->getClientOriginalName();
-            $path = $request->file('image')->storeAs('images', $fileName, 'public');
-            $store['image'] = $path;
-        }
-
         if ($request->hasFile('file')) {
             $fileName = $request->file('file')->getClientOriginalName();
             $filePath = $request->file('file')->storeAs('uploads', $fileName, 'public');
@@ -47,12 +41,6 @@ class AnnouncementController extends BaseController {
 
         if (isset($update['content'])) {
             $update['content'] = preg_replace('/^<p>(.*?)<\/p>$/s', '$1', $update['content']);
-        }
-
-        if ($request->hasFile('image')) {
-            $fileName = $request->file('image')->getClientOriginalName();
-            $path = $request->file('image')->storeAs('images', $fileName, 'public');
-            $update['image'] = $path;
         }
 
         if ($request->hasFile('file')) {

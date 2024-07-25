@@ -5,13 +5,12 @@ use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\ConsultantController;
 use App\Http\Controllers\admin\HistoryController;
+use App\Http\Controllers\admin\ImageController;
 use App\Http\Controllers\admin\InquiryController;
 use App\Http\Controllers\admin\PopupController;
 use App\Http\Controllers\admin\QuestionController;
 use App\Http\Controllers\admin\ShareController;
 use App\Http\Controllers\admin\YoutubeController;
-use App\Http\Controllers\DetailController;
-use App\Http\Controllers\IndexController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,6 +18,11 @@ Route::get('/', function () {
 });
 
 Route::prefix('admin')->group(function () {
+
+    Route::controller(ImageController::class)->group(function () {
+        Route::post('/uploadImage', 'upload')->name("admin.upload");
+    });
+
     Route::prefix('popup')->group(function () {
         Route::controller(PopupController::class)->group(function () {
             Route::get('/', 'index')->name("admin.popupIndex");
@@ -82,7 +86,6 @@ Route::prefix('admin')->group(function () {
             Route::get('/{history}/edit', 'edit')->name("admin.historyEdit");
             Route::patch('/{history}', 'update')->name("admin.historyUpdate");
             Route::delete('/{history}', 'delete')->name("admin.historyDelete");
-
             Route::get('/check-image/{year}', 'checkImage')->name('admin.checkImage');
         });
     });

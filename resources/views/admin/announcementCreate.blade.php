@@ -74,21 +74,6 @@
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
-                            이미지
-                        </p>
-                        <div class="file-upload-wrap">
-                            <input type='file' id='pc_file_upload' accept="image/*" name="image"
-                                   onchange="displayFileName(this, 'fileName')">
-                            <label for="pc_file_upload" class="file-upload-btn">
-                                파일 업로드
-                            </label>
-                            <div class="file-preview">
-                                <p class="file-name" id="fileName"></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-item row-group">
-                        <p class="item-default">
                             파일 첨부
                         </p>
                         <div class="file-upload-wrap">
@@ -131,12 +116,46 @@
 
     let quill = new Quill('#editor', {
         modules: {
-            toolbar: toolbarOptions
+            toolbar: {
+                container: toolbarOptions,
+                handlers: {
+                    'image': imageHandler
+                }
+            }
         },
         theme: 'snow'
     });
-</script>
-<script>
+
+    function imageHandler() {
+        let self = this;
+        let fileInput = document.createElement('input');
+        fileInput.setAttribute('type', 'file');
+        fileInput.setAttribute('accept', 'image/*');
+        fileInput.addEventListener('change', function() {
+            let file = this.files[0];
+            let formData = new FormData();
+            formData.append('image', file);
+
+            fetch("{{ route('admin.upload') }}", {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    let url = data.url;
+                    let range = quill.getSelection();
+                    quill.insertEmbed(range.index, 'image', url);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+        fileInput.click();
+    }
+
     ['submit', 'submitContinue'].forEach(function (index) {
         let button = document.getElementById(index);
         button.addEventListener('click', function () {
@@ -145,7 +164,6 @@
             let hiddenInput = document.createElement('input');
             hiddenInput.setAttribute('type', 'hidden');
             hiddenInput.setAttribute('name', 'content');
-            hiddenInput.setAttribute('id', 'content');
             hiddenInput.value = quill.root.innerHTML;
             form.appendChild(hiddenInput);
 
@@ -157,13 +175,12 @@
             }
         });
     });
-</script>
 
-<script>
     function displayFileName(input, fileNameElementId) {
         var fileName = input.files[0].name;
         document.getElementById(fileNameElementId).textContent = fileName;
     }
 </script>
+
 </body>
 </html>

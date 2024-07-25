@@ -129,10 +129,45 @@
 
     let quill = new Quill('#editor', {
         modules: {
-            toolbar: toolbarOptions
+            toolbar: {
+                container: toolbarOptions,
+                handlers: {
+                    'image': imageHandler
+                }
+            }
         },
         theme: 'snow'
     });
+
+    function imageHandler() {
+        let self = this;
+        let fileInput = document.createElement('input');
+        fileInput.setAttribute('type', 'file');
+        fileInput.setAttribute('accept', 'image/*');
+        fileInput.addEventListener('change', function() {
+            let file = this.files[0];
+            let formData = new FormData();
+            formData.append('image', file);
+
+            fetch("{{ route('admin.upload') }}", {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    let url = data.url;
+                    let range = quill.getSelection();
+                    quill.insertEmbed(range.index, 'image', url);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+        fileInput.click();
+    }
 
     quill.root.innerHTML = `{!! $item->content !!}`;
 
