@@ -32,7 +32,7 @@ class IndexController extends Controller
 
         if (isset($item->image)) {
             $item->image = asset('storage/' . $item->image);
-            $fileType = $this->getFileType('image', $item->image);
+            $fileType = $this->getFileType($item->image);
             $item->image_type = ($fileType === 'image') ? 0 : 1;
             if (!$isBannerModel) {
                 unset($item->image_type);
@@ -40,10 +40,26 @@ class IndexController extends Controller
         }
         if (isset($item->mobile_image)) {
             $item->mobile_image = asset('storage/' . $item->mobile_image);
-            $fileType = $this->getFileType('mobile_image', $item->mobile_image);
+            $fileType = $this->getFileType($item->mobile_image);
             $item->mobile_image_type = ($fileType === 'image') ? 0 : 1;
         }
         return $item;
+    }
+
+    private function getFileType($filePath)
+    {
+        $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+
+        $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff'];
+        $videoExtensions = ['mp4', 'mov', 'avi', 'mkv', 'webm'];
+
+        if (in_array(strtolower($extension), $imageExtensions)) {
+            return 'image';
+        } elseif (in_array(strtolower($extension), $videoExtensions)) {
+            return 'video';
+        }
+
+        return 'unknown';
     }
 
     private function formatCollection($collection) {
@@ -145,21 +161,6 @@ class IndexController extends Controller
         }
 
         return $formattedData;
-    }
-
-    private function getFileType($attribute, $filePath)
-    {
-        if ($filePath) {
-            $fileMimeType = Storage::disk('public')->mimeType($filePath);
-
-            if (strpos($fileMimeType, 'image/') === 0) {
-                return 'image';
-            } elseif (strpos($fileMimeType, 'video/') === 0) {
-                return 'video';
-            }
-        }
-
-        return 'unknown';
     }
 
     public function mainRespond() {
