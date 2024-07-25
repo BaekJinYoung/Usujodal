@@ -154,7 +154,7 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    let url = "{{ url('https://baekjinyoung.co.kr') }}" + data.url;
+                    let url = data.url;
                     let range = quill.getSelection();
                     quill.insertEmbed(range.index, 'image', url);
                 })
