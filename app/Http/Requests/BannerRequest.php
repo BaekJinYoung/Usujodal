@@ -29,12 +29,6 @@ class BannerRequest extends FormRequest
             'mobile_image' => 'required',
         ];
 
-        if ($this->isMethod('post')) {
-            $rules['image'] = 'required';
-        } elseif ($this->isMethod('patch')) {
-            $rules['image'] = 'nullable';
-        }
-
         return $rules;
     }
 }
