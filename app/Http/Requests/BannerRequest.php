@@ -29,7 +29,7 @@ class BannerRequest extends FormRequest
             'mobile_title' => 'required',
         ];
 
-        if ($removeImage != '1') {
+        if ($removeImage == '1') {
             $rules['image'] = 'required|image';
             $rules['mobile_image'] = 'required|image';
         } else {
