@@ -50,10 +50,10 @@
                                 파일 업로드
                             </label>
                             <div class="file-preview" id="image-preview"
-                                 @if(!$item->image || old('remove_image') == '1') style="display: none" @endif>
+                                 @if(!$item->image && old('remove_image') != '1') style="display: none" @endif>
                                 <p class="file-name" id="image-filename">
                                     @if($item->image && old('remove_image') != '1')
-                                        {{old('remove_image')}}
+                                        {{$item->image_name}}
                                     @endif
                                 </p>
                                 <button type="button" class="file-del-btn" id="remove-image-btn">
