@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-//        Schema::create('inquiries', function (Blueprint $table) {
-//            $table->id();
-//            $table->string('name');
-//            $table->string('contact');
-//            $table->string('company')->nullable();
-//            $table->string('email')->nullable();
-//            $table->text('message');
-//            $table->timestamps();
-//        });
+        Schema::create('inquiries', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('contact');
+            $table->string('company')->nullable();
+            $table->string('email')->nullable();
+            $table->text('message');
+            $table->timestamps();
+        });
     }
 
     /**
