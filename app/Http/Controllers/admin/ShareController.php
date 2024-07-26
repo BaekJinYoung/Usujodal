@@ -43,7 +43,9 @@ class ShareController extends BaseController {
             $update['content'] = preg_replace('/^<p>(.*?)<\/p>$/s', '$1', $update['content']);
         }
 
-        if ($request->hasFile('file')) {
+        if ($request->input('remove_image') == '1') {
+            $share->file_path = null;
+        } else if ($request->hasFile('file')) {
             $fileName = $request->file('file')->getClientOriginalName();
             $filePath = $request->file('file')->storeAs('uploads', $fileName, 'public');
             $update['file_path'] = $filePath;
