@@ -77,7 +77,7 @@
                             파일 첨부
                         </p>
                         <div class="file-upload-wrap">
-                            <input type='file' id='image_upload' accept="image/*" name="image" style="display: none;">
+                            <input type='file' id='image_upload' accept="image/*" name="file" style="display: none;">
                             <label for="image_upload" class="file-upload-btn">
                                 파일 업로드
                             </label>
@@ -176,6 +176,14 @@
                 fetchUtil("{{ route('admin.announcementStore') }}", formData, "{{ route('admin.announcementIndex') }}");
             }
         });
+    });
+
+    document.getElementById('image_upload').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            document.getElementById('image-preview').style.display = 'block';
+            document.getElementById('image-filename').textContent = file.name;
+        }
     });
 
     document.getElementById('remove-image-btn').addEventListener('click', function () {

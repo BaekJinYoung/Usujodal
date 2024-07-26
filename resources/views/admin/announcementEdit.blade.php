@@ -74,16 +74,23 @@
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
-                            첨부파일
+                            파일 첨부
                         </p>
                         <div class="file-upload-wrap">
-                            <input type='file' id='mb_file_upload' accept="image/*" name="file"
-                                   onchange="displayFileName(this, 'mobile_fileName')">
-                            <label for="mb_file_upload" class="file-upload-btn">
+                            <input type='file' id='image_upload' accept="image/*" name="file" style="display: none;">
+                            <label for="image_upload" class="file-upload-btn">
                                 파일 업로드
                             </label>
-                            <div class="file-preview">
-                                <p class="file-name" id="mobile_fileName">{{ $item->file_name }}</p>
+                            <div class="file-preview" id="image-preview"
+                                 @if(!$item->file_path) style="display: none" @endif>
+                                <p class="file-name" id="image-filename">
+                                    @if($item->file_path)
+                                        {{$item->file_name}}
+                                    @endif
+                                </p>
+                                <button type="button" class="file-del-btn" id="remove-image-btn">
+                                    <i class="xi-close"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -164,11 +171,24 @@
         this.appendChild(contentInput);
     });
 
-    function displayFileName(input, fileNameElementId) {
-        var fileName = input.files[0] ? input.files[0].name : '';
-        document.getElementById(fileNameElementId).textContent = fileName;
-    }
+    document.getElementById('image_upload').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            document.getElementById('image-preview').style.display = 'block';
+            document.getElementById('image-filename').textContent = file.name;
+        }
+    });
+
+    document.getElementById('remove-image-btn').addEventListener('click', function () {
+        document.getElementById('image-preview').style.display = 'none';
+        document.getElementById('image_upload').value = '';
+        document.getElementById('remove_image').value = 1;
+    });
 </script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 </html>
