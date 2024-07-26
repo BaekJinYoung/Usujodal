@@ -60,9 +60,9 @@
                                     <i class="xi-close"></i>
                                 </button>
                             </div>
+                            <input type="hidden" name="remove_image" id="remove_image" value="0">
                         </div>
                     </div>
-                    <input type="hidden" name="remove_image" id="remove_image" value="0">
                     <div class="form-item row-group">
                         <p class="item-default">
                             링크(선택)
@@ -88,14 +88,14 @@
         if (file) {
             document.getElementById('image-preview').style.display = 'block';
             document.getElementById('image-filename').textContent = file.name;
-            document.getElementById('remove_image').value = '0';
+            document.getElementById('remove_image').value = 0;
         }
     });
 
     document.getElementById('remove-image-btn').addEventListener('click', function () {
-        document.getElementById('image_upload').value = '';
         document.getElementById('image-preview').style.display = 'none';
-        document.getElementById('remove_image').value = '1';
+        document.getElementById('image_upload').value = '';
+        document.getElementById('remove_image').value = 1;
     });
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
