@@ -57,6 +57,9 @@ class HistoryController extends BaseController {
             if ($yearlyImage->exists && $yearlyImage->image_path) {
                 if ($confirmOverwrite === 'yes') {
                     Storage::delete('public/' . $yearlyImage->image_path);
+                } else {
+                    $request->file('image')->storeAs('images', $request->file('image')->getClientOriginalName(), 'public');
+                    return redirect()->back()->with('error', '이미지가 이미 존재합니다. 덮어쓰지 않기로 선택했습니다.');
                 }
             }
 
@@ -64,6 +67,12 @@ class HistoryController extends BaseController {
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
             $yearlyImage->image_path = $path;
             $yearlyImage->save();
+        } elseif ($request->input('remove_image') == '1') {
+            if ($yearlyImage->exists && $yearlyImage->image_path) {
+                Storage::delete('public/' . $yearlyImage->image_path);
+                $yearlyImage->image_path = null;
+                $yearlyImage->save();
+            }
         }
 
         $dataToStore = Arr::except($validated, ['image']);
@@ -101,10 +110,12 @@ class HistoryController extends BaseController {
 
     public function checkImage($year) {
         $yearlyImage = YearlyImage::where('year', $year)->first();
-        $imageName = $yearlyImage ? pathinfo($yearlyImage->image_path, PATHINFO_BASENAME) : null;
+
+        $exists = $yearlyImage && $yearlyImage->image_path !== null;
+        $imageName = $exists  ? pathinfo($yearlyImage->image_path, PATHINFO_BASENAME) : null;
 
         return response()->json([
-            'exists' => (bool) $yearlyImage,
+            'exists' => $exists,
             'imageName' => $imageName,
         ]);
     }
@@ -130,7 +141,7 @@ class HistoryController extends BaseController {
                 }
             }
 
-            $fileName = time() . '-' . $request->file('image')->getClientOriginalName();
+            $fileName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
             $yearlyImage->image_path = $path;
             $yearlyImage->save();
