@@ -95,14 +95,14 @@
             if (file) {
                 imagePreview.style.display = 'block';
                 imageFilename.textContent = file.name;
-                removeImageInput.value = 0; // 새 파일 선택 시 remove_image 값을 0으로 설정
+                removeImageInput.value = 0;
             }
         });
 
         removeImageBtn.addEventListener('click', function() {
             imagePreview.style.display = 'none';
             imageInput.value = '';
-            removeImageInput.value = 1; // 파일 제거 시 remove_image 값을 1로 설정
+            removeImageInput.value = 1;
         });
     });
 

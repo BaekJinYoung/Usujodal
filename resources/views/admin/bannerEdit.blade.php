@@ -57,9 +57,9 @@
                                 파일 업로드
                             </label>
                         <div class="file-preview" id="image-preview"
-                             @if(!$item->image) style="display: none" @endif>
+                             @if(!$item->image || old('remove_image') == '1') style="display: none" @endif>
                             <p class="file-name" id="image-filename">
-                                @if($item->image)
+                                @if($item->image && old('remove_image') != '1')
                                     {{$item->image_name}}
                                 @endif
                             </p>
@@ -67,7 +67,7 @@
                                 <i class="xi-close"></i>
                             </button>
                         </div>
-                        <input type="hidden" name="remove_image" id="remove_image" value="0">
+                        <input type="hidden" name="remove_image" id="remove_image" value="{{ old('remove_image', 0) }}">
                         </div>
                     </div>
                     <div class="form-item row-group">
@@ -81,9 +81,9 @@
                                 파일 업로드
                             </label>
                         <div class="file-preview" id="mobile_image-preview"
-                             @if(!$item->mobile_image) style="display: none" @endif>
+                             @if(!$item->mobile_image || old('mobile_remove_image') == '1') style="display: none" @endif>
                             <p class="file-name" id="mobile_image-filename">
-                                @if($item->mobile_image)
+                                @if($item->mobile_image && old('mobile_remove_image') != '1')
                                     {{$item->mobile_image_name}}
                                 @endif
                             </p>
@@ -91,7 +91,7 @@
                                 <i class="xi-close"></i>
                             </button>
                         </div>
-                        <input type="hidden" name="mobile_remove_image" id="mobile_remove_image" value="0">
+                        <input type="hidden" name="mobile_remove_image" id="mobile_remove_image" value="{{ old('mobile_remove_image', 0) }}">
                         </div>
                     </div>
                 </div>
@@ -109,34 +109,50 @@
     </div>
 </div>
 <script>
-    document.getElementById('image_upload').addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        if (file) {
-            document.getElementById('image-preview').style.display = 'block';
-            document.getElementById('image-filename').textContent = file.name;
-            document.getElementById('remove_image').value = 0;
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+        const imageInput = document.getElementById('image_upload');
+        const imagePreview = document.getElementById('image-preview');
+        const imageFilename = document.getElementById('image-filename');
+        const removeImageBtn = document.getElementById('remove-image-btn');
+        const removeImageInput = document.getElementById('remove_image');
+
+        imageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                imagePreview.style.display = 'block';
+                imageFilename.textContent = file.name;
+                removeImageInput.value = 0;
+            }
+        });
+
+        removeImageBtn.addEventListener('click', function() {
+            imagePreview.style.display = 'none';
+            imageInput.value = '';
+            removeImageInput.value = 1;
+        });
     });
 
-    document.getElementById('remove-image-btn').addEventListener('click', function () {
-        document.getElementById('image-preview').style.display = 'none';
-        document.getElementById('image_upload').value = '';
-        document.getElementById('remove_image').value = 1;
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const imageInput = document.getElementById('mobile_image_upload');
+        const imagePreview = document.getElementById('mobile_image-preview');
+        const imageFilename = document.getElementById('mobile_image-filename');
+        const removeImageBtn = document.getElementById('mobile_remove-image-btn');
+        const removeImageInput = document.getElementById('mobile_remove_image');
 
-    document.getElementById('mobile_image_upload').addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        if (file) {
-            document.getElementById('mobile_image-preview').style.display = 'block';
-            document.getElementById('mobile_image-filename').textContent = file.name;
-            document.getElementById('mobile_remove_image').value = 0;
-        }
-    });
+        imageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                imagePreview.style.display = 'block';
+                imageFilename.textContent = file.name;
+                removeImageInput.value = 0;
+            }
+        });
 
-    document.getElementById('mobile_remove-image-btn').addEventListener('click', function () {
-        document.getElementById('mobile_image-preview').style.display = 'none';
-        document.getElementById('mobile_image_upload').value = '';
-        document.getElementById('mobile_remove_image').value = 1;
+        removeImageBtn.addEventListener('click', function() {
+            imagePreview.style.display = 'none';
+            imageInput.value = '';
+            removeImageInput.value = 1;
+        });
     });
 </script>
 
