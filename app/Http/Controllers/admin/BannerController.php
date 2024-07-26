@@ -55,7 +55,9 @@ class BannerController extends BaseController
     public function update(BannerRequest $request, Banner $banner) {
         $update = $request->validated();
 
-        if ($request->hasFile('image')) {
+        if ($request->input('remove_image') == '1') {
+            $banner->image = null;
+        } else if ($request->hasFile('image')) {
             $file = $request->file('image');
             $fileName = $file->getClientOriginalName();
             $fileType = $file->getMimeType();
@@ -69,7 +71,9 @@ class BannerController extends BaseController
             }
         }
 
-        if ($request->hasFile('mobile_image')) {
+        if ($request->input('mobile_remove_image') == '1') {
+            $banner->mobile_image = null;
+        } else if ($request->hasFile('mobile_image')) {
             $file = $request->file('mobile_image');
             $fileName = $file->getClientOriginalName();
             $fileType = $file->getMimeType();

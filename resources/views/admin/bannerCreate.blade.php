@@ -53,13 +53,15 @@
                             <span class="red">*</span>
                         </p>
                         <div class="file-upload-wrap">
-                            <input type='file' id='pc_file_upload' accept="image/*" name="image"
-                                   onchange="displayFileName(this, 'fileName')">
-                            <label for="pc_file_upload" class="file-upload-btn">
+                            <input type='file' id='image_upload' accept="image/*" name="image" style="display: none;">
+                            <label for="image_upload" class="file-upload-btn">
                                 파일 업로드
                             </label>
-                            <div class="file-preview">
-                                <p class="file-name" id="fileName"></p>
+                            <div class="file-preview" id="image-preview" style="display: none">
+                                <p class="file-name" id="image-filename"></p>
+                                <button type="button" class="file-del-btn" id="remove-image-btn">
+                                    <i class="xi-close"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -69,13 +71,15 @@
                             <span class="red">*</span>
                         </p>
                         <div class="file-upload-wrap">
-                            <input type='file' id='mb_file_upload' accept="image/*" name="mobile_image"
-                                   onchange="displayFileName(this, 'mobile_fileName')">
-                            <label for="mb_file_upload" class="file-upload-btn">
+                            <input type='file' id='mobile_image_upload' accept="image/*" name="mobile_image" style="display: none;">
+                            <label for="mobile_image_upload" class="file-upload-btn">
                                 파일 업로드
                             </label>
-                            <div class="file-preview">
-                                <p class="file-name" id="mobile_fileName"></p>
+                            <div class="file-preview" id="mobile_image-preview" style="display: none">
+                                <p class="file-name" id="mobile_image-filename"></p>
+                                <button type="button" class="file-del-btn" id="mobile_remove-image-btn">
+                                    <i class="xi-close"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -96,10 +100,33 @@
     </div>
 </div>
 <script>
-    function displayFileName(input, fileNameElementId) {
-        var fileName = input.files[0].name;
-        document.getElementById(fileNameElementId).textContent = fileName;
-    }
+    document.getElementById('image_upload').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            document.getElementById('image-preview').style.display = 'block';
+            document.getElementById('image-filename').textContent = file.name;
+        }
+    });
+
+    document.getElementById('remove-image-btn').addEventListener('click', function () {
+        document.getElementById('image_upload').value = '';
+        document.getElementById('image-preview').style.display = 'none';
+        document.getElementById('remove_image').value = '1';
+    });
+
+    document.getElementById('mobile_image_upload').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            document.getElementById('mobile_image-preview').style.display = 'block';
+            document.getElementById('mobile_image-filename').textContent = file.name;
+        }
+    });
+
+    document.getElementById('mobile_remove-image-btn').addEventListener('click', function () {
+        document.getElementById('mobile_image_upload').value = '';
+        document.getElementById('mobile_image-preview').style.display = 'none';
+        document.getElementById('mobile_remove_image').value = '1';
+    });
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
