@@ -68,13 +68,13 @@
                             파일 첨부
                         </p>
                         <div class="file-upload-wrap">
-                            <input type='file' id='image_upload' accept="image/*" name="file" style="display: none;">
-                            <label for="image_upload" class="file-upload-btn">
+                            <input type='file' id='file_upload' accept="image/*" name="file" style="display: none;">
+                            <label for="file_upload" class="file-upload-btn">
                                 파일 업로드
                             </label>
-                            <div class="file-preview" id="image-preview" style="display: none">
+                            <div class="file-preview" id="file-preview" style="display: none">
                                 <p class="file-name" id="file-filename"></p>
-                                <button type="button" class="file-del-btn" id="remove-image-btn">
+                                <button type="button" class="file-del-btn" id="remove-file-btn">
                                     <i class="xi-close"></i>
                                 </button>
                             </div>
@@ -180,13 +180,34 @@
             }
         });
     });
-</script>
 
-<script>
-    function displayFileName(input, fileNameElementId) {
-        var fileName = input.files[0].name;
-        document.getElementById(fileNameElementId).textContent = fileName;
-    }
+    document.getElementById('image_upload').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            document.getElementById('image-preview').style.display = 'block';
+            document.getElementById('image-filename').textContent = file.name;
+        }
+    });
+
+    document.getElementById('remove-image-btn').addEventListener('click', function () {
+        document.getElementById('image_upload').value = '';
+        document.getElementById('image-preview').style.display = 'none';
+        document.getElementById('remove_image').value = '1';
+    });
+
+    document.getElementById('file_upload').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            document.getElementById('file-preview').style.display = 'block';
+            document.getElementById('file-filename').textContent = file.name;
+        }
+    });
+
+    document.getElementById('remove-file-btn').addEventListener('click', function () {
+        document.getElementById('file_upload').value = '';
+        document.getElementById('file-preview').style.display = 'none';
+        document.getElementById('remove_file').value = '1';
+    });
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
