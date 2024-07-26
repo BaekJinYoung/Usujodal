@@ -97,6 +97,12 @@
         document.getElementById('image_upload').value = '';
         document.getElementById('remove_image').value = 1;
     });
+
+    document.querySelector('form').addEventListener('submit', function () {
+        let removeImageInput = document.getElementById('remove_image');
+        let removeImageValue = removeImageInput.value;
+        removeImageInput.value = removeImageValue;
+    });
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
