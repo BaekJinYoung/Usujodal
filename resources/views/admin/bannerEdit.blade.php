@@ -51,6 +51,11 @@
                             PC 사진 or 동영상
                             <span class="red">*</span>
                         </p>
+                        <div class="file-upload-wrap">
+                            <input type='file' id='image_upload' accept="image/*" name="image" style="display: none;">
+                            <label for="image_upload" class="file-upload-btn">
+                                파일 업로드
+                            </label>
                         <div class="file-preview" id="image-preview"
                              @if(!$item->image) style="display: none" @endif>
                             <p class="file-name" id="image-filename">
@@ -63,12 +68,18 @@
                             </button>
                         </div>
                         <input type="hidden" name="remove_image" id="remove_image" value="0">
+                        </div>
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
                             모바일 사진 or 동영상
                             <span class="red">*</span>
                         </p>
+                        <div class="file-upload-wrap">
+                            <input type='file' id='mobile_image_upload' accept="image/*" name="mobile_image" style="display: none;">
+                            <label for="mobile_image_upload" class="file-upload-btn">
+                                파일 업로드
+                            </label>
                         <div class="file-preview" id="mobile_image-preview"
                              @if(!$item->mobile_image) style="display: none" @endif>
                             <p class="file-name" id="mobile_image-filename">
@@ -81,6 +92,7 @@
                             </button>
                         </div>
                         <input type="hidden" name="mobile_remove_image" id="mobile_remove_image" value="0">
+                        </div>
                     </div>
                 </div>
 

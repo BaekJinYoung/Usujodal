@@ -51,13 +51,15 @@
                             이미지
                         </p>
                         <div class="file-upload-wrap">
-                            <input type='file' id='pc_file_upload' accept="image/*" name="image"
-                                   onchange="displayFileName(this, 'fileName')">
-                            <label for="pc_file_upload" class="file-upload-btn">
+                            <input type='file' id='image_upload' accept="image/*" name="image" style="display: none;">
+                            <label for="image_upload" class="file-upload-btn">
                                 파일 업로드
                             </label>
-                            <div class="file-preview">
-                                <p class="file-name" id="fileName"></p>
+                            <div class="file-preview" id="image-preview" style="display: none">
+                                <p class="file-name" id="image-filename"></p>
+                                <button type="button" class="file-del-btn" id="remove-image-btn">
+                                    <i class="xi-close"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -66,13 +68,15 @@
                             파일 첨부
                         </p>
                         <div class="file-upload-wrap">
-                            <input type='file' id='mb_file_upload' accept="image/*" name="file"
-                                   onchange="displayFileName(this, 'mobile_fileName')">
-                            <label for="mb_file_upload" class="file-upload-btn">
+                            <input type='file' id='image_upload' accept="image/*" name="file" style="display: none;">
+                            <label for="image_upload" class="file-upload-btn">
                                 파일 업로드
                             </label>
-                            <div class="file-preview">
-                                <p class="file-name" id="mobile_fileName"></p>
+                            <div class="file-preview" id="image-preview" style="display: none">
+                                <p class="file-name" id="file-filename"></p>
+                                <button type="button" class="file-del-btn" id="remove-image-btn">
+                                    <i class="xi-close"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
