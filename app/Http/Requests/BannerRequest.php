@@ -23,6 +23,7 @@ class BannerRequest extends FormRequest
     public function rules(): array
     {
         $removeImage = $this->input('remove_image');
+        $mobileRemoveImage = $this->input('mobile_remove_image');
 
         $rules = [
             'title' => 'required',
@@ -31,9 +32,13 @@ class BannerRequest extends FormRequest
 
         if ($removeImage == '1') {
             $rules['image'] = 'required|image';
+        } else {
+            $rules['image'] = 'nullable';;
+        }
+
+        if ($mobileRemoveImage == '1') {
             $rules['mobile_image'] = 'required|image';
         } else {
-            $rules['image'] = 'nullable';
             $rules['mobile_image'] = 'nullable';
         }
 
