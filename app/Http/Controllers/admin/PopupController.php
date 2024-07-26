@@ -32,9 +32,7 @@ class PopupController extends BaseController
     public function update(PopupRequest $request, Popup $popup) {
         $update = $request->validated();
 
-        if ($request->input('remove_image') == '1') {
-            $popup->image = null;
-        } else if ($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $fileName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
             $update['image'] = $path;
