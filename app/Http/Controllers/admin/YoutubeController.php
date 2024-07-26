@@ -18,12 +18,6 @@ class YoutubeController extends BaseController {
             $store['content'] = preg_replace('/^<p>(.*?)<\/p>$/s', '$1', $store['content']);
         }
 
-        if ($request->hasFile('image')) {
-            $fileName = $request->file('image')->getClientOriginalName();
-            $path = $request->file('image')->storeAs('images', $fileName, 'public');
-            $store['image'] = $path;
-        }
-
         $isFeatured = $request->input('is_featured');
         $store['is_featured'] = $isFeatured;
 
@@ -41,12 +35,6 @@ class YoutubeController extends BaseController {
 
         if (isset($update['content'])) {
             $update['content'] = preg_replace('/^<p>(.*?)<\/p>$/s', '$1', $update['content']);
-        }
-
-        if ($request->hasFile('image')) {
-            $fileName = $request->file('image')->getClientOriginalName();
-            $path = $request->file('image')->storeAs('images', $fileName, 'public');
-            $update['image'] = $path;
         }
 
         $youtube->update($update);

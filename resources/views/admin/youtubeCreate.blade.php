@@ -78,23 +78,6 @@
                         <input type="text" name="link" id="link" class="form-input" value="{{old('link')}}"
                                placeholder="https://www.youtube.com/watch?v=">
                     </div>
-                    <div class="form-item row-group">
-                        <p class="item-default">
-                            대표사진
-                        </p>
-                        <div class="file-upload-wrap">
-                            <input type='file' id='image_upload' accept="image/*" name="image" style="display: none;">
-                            <label for="image_upload" class="file-upload-btn">
-                                파일 업로드
-                            </label>
-                            <div class="file-preview" id="image-preview" style="display: none">
-                                <p class="file-name" id="image-filename"></p>
-                                <button type="button" class="file-del-btn" id="remove-image-btn">
-                                    <i class="xi-close"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="form-btn-wrap col-group">
@@ -152,20 +135,6 @@
     });
 </script>
 
-<script>
-    document.getElementById('image_upload').addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        if (file) {
-            document.getElementById('image-preview').style.display = 'block';
-            document.getElementById('image-filename').textContent = file.name;
-        }
-    });
-
-    document.getElementById('remove-image-btn').addEventListener('click', function () {
-        document.getElementById('image_upload').value = '';
-        document.getElementById('image-preview').style.display = 'none';
-    });
-</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

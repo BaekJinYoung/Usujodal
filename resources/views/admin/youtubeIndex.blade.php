@@ -61,12 +61,14 @@
                     @else
                         @foreach($items as $key => $item)
                             <div class="board-item">
-                                <div class="img-box">
-                                    @if($item->image)
-                                        <img src="{{asset('storage/'.$item->image)}}" alt="">
-                                    @else
-                                        <img src="{{asset('images/certificate.png')}}" alt="">
-                                    @endif
+                                <div class="video-box">
+                                    <iframe id="youtube-iframe-{{ $item->id }}"
+                                            width="560" height="315"
+                                            src="https://www.youtube.com/embed/{{ $item->video_id }}"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen
+                                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
                                 </div>
                                 <div class="txt-box row-group">
                                     <p class="title">{{$item->title}}</p>
@@ -97,10 +99,22 @@
         var pageCount = document.getElementById('pageCount').value;
         window.location.href = '?perPage=' + pageCount;
     }
-</script>
-<script>
+
     function confirmDelete() {
         return confirm("정말로 삭제하시겠습니까?");
+    }
+
+    function playVideo(element, videoId) {
+        const videoBox = element.parentElement;
+        const iframe = document.createElement('iframe');
+        iframe.setAttribute('src', 'https://www.youtube.com/embed/' + videoId + '?autoplay=1');
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+        iframe.setAttribute('allowfullscreen', 'true');
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        videoBox.innerHTML = '';
+        videoBox.appendChild(iframe);
     }
 </script>
 

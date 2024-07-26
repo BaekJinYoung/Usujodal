@@ -15,7 +15,6 @@ class Youtube extends Model
         'title',
         'content',
         'is_featured',
-        'image',
         'link',
         'views',
     ];
