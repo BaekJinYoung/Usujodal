@@ -120,14 +120,14 @@
             imageInput.addEventListener('change', function(event) {
                 const file = event.target.files[0];
                 if (file) {
-                    imagePreview.classList.remove('d-none');
+                    imagePreview.style.display = 'block';
                     imageFilename.textContent = file.name;
                     removeImageInput.value = 0;
                 }
             });
 
             removeImageBtn.addEventListener('click', function() {
-                imagePreview.classList.add('d-none');
+                imagePreview.style.display = 'none';
                 imageInput.value = '';
                 removeImageInput.value = 1;
             });
