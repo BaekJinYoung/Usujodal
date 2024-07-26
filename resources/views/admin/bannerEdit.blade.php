@@ -110,49 +110,31 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const imageInput = document.getElementById('image_upload');
-        const imagePreview = document.getElementById('image-preview');
-        const imageFilename = document.getElementById('image-filename');
-        const removeImageBtn = document.getElementById('remove-image-btn');
-        const removeImageInput = document.getElementById('remove_image');
+        function setupFileInput(inputId, previewId, filenameId, removeBtnId, removeInputId) {
+            const imageInput = document.getElementById(inputId);
+            const imagePreview = document.getElementById(previewId);
+            const imageFilename = document.getElementById(filenameId);
+            const removeImageBtn = document.getElementById(removeBtnId);
+            const removeImageInput = document.getElementById(removeInputId);
 
-        imageInput.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                imagePreview.style.display = 'block';
-                imageFilename.textContent = file.name;
-                removeImageInput.value = 0;
-            }
-        });
+            imageInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    imagePreview.classList.remove('d-none');
+                    imageFilename.textContent = file.name;
+                    removeImageInput.value = 0;
+                }
+            });
 
-        removeImageBtn.addEventListener('click', function() {
-            imagePreview.style.display = 'none';
-            imageInput.value = '';
-            removeImageInput.value = 1;
-        });
-    });
+            removeImageBtn.addEventListener('click', function() {
+                imagePreview.classList.add('d-none');
+                imageInput.value = '';
+                removeImageInput.value = 1;
+            });
+        }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const imageInput = document.getElementById('mobile_image_upload');
-        const imagePreview = document.getElementById('mobile_image-preview');
-        const imageFilename = document.getElementById('mobile_image-filename');
-        const removeImageBtn = document.getElementById('mobile_remove-image-btn');
-        const removeImageInput = document.getElementById('mobile_remove_image');
-
-        imageInput.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                imagePreview.style.display = 'block';
-                imageFilename.textContent = file.name;
-                removeImageInput.value = 0;
-            }
-        });
-
-        removeImageBtn.addEventListener('click', function() {
-            imagePreview.style.display = 'none';
-            imageInput.value = '';
-            removeImageInput.value = 1;
-        });
+        setupFileInput('image_upload', 'image-preview', 'image-filename', 'remove-image-btn', 'remove_image');
+        setupFileInput('mobile_image_upload', 'mobile_image-preview', 'mobile_image-filename', 'mobile_remove-image-btn', 'mobile_remove_image');
     });
 </script>
 
