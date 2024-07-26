@@ -53,7 +53,7 @@
                                  @if(!$item->image || old('remove_image') == '1') style="display: none" @endif>
                                 <p class="file-name" id="image-filename">
                                     @if($item->image && old('remove_image') != '1')
-                                        {{$item->image_name}}
+                                        {{old('remove_image')}}
                                     @endif
                                 </p>
                                 <button type="button" class="file-del-btn" id="remove-image-btn">
@@ -83,26 +83,29 @@
     </div>
 </div>
 <script>
-    document.getElementById('image_upload').addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        if (file) {
-            document.getElementById('image-preview').style.display = 'block';
-            document.getElementById('image-filename').textContent = file.name;
-            document.getElementById('remove_image').value = 0;
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+        const imageInput = document.getElementById('image_upload');
+        const imagePreview = document.getElementById('image-preview');
+        const imageFilename = document.getElementById('image-filename');
+        const removeImageBtn = document.getElementById('remove-image-btn');
+        const removeImageInput = document.getElementById('remove_image');
+
+        imageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                imagePreview.style.display = 'block';
+                imageFilename.textContent = file.name;
+                removeImageInput.value = 0; // 새 파일 선택 시 remove_image 값을 0으로 설정
+            }
+        });
+
+        removeImageBtn.addEventListener('click', function() {
+            imagePreview.style.display = 'none';
+            imageInput.value = '';
+            removeImageInput.value = 1; // 파일 제거 시 remove_image 값을 1로 설정
+        });
     });
 
-    document.getElementById('remove-image-btn').addEventListener('click', function () {
-        document.getElementById('image-preview').style.display = 'none';
-        document.getElementById('image_upload').value = '';
-        document.getElementById('remove_image').value = 1;
-    });
-
-    document.querySelector('form').addEventListener('submit', function () {
-        let removeImageInput = document.getElementById('remove_image');
-        let removeImageValue = removeImageInput.value;
-        removeImageInput.value = removeImageValue;
-    });
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
