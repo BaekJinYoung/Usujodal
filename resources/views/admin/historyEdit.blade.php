@@ -70,9 +70,9 @@
                                     <i class="xi-close"></i>
                                 </button>
                             </div>
+                            <input type="hidden" name="remove_image" id="remove_image" value="0">
                         </div>
                     </div>
-                    <input type="hidden" name="remove_image" id="remove_image" value="0">
                 </div>
 
                 <div class="form-btn-wrap col-group">
@@ -89,11 +89,17 @@
 </div>
 
 <script>
+    let currentYear = null;
+
+    function showNotification(message) {
+        alert(message);
+    }
+
     document.getElementById('date').addEventListener('change', function (event) {
         const selectedDate = new Date(event.target.value);
-        const selectedYear = selectedDate.getFullYear();
+        currentYear = selectedDate.getFullYear();
 
-        fetch(`/admin/history/check-image/${selectedYear}`)
+        fetch(`/admin/history/check-image/${currentYear}`)
             .then(response => response.json())
             .then(data => {
                 const imagePreview = document.getElementById('image-preview');
@@ -110,17 +116,26 @@
             .catch(error => console.error('Error:', error));
     });
 
-
     document.getElementById('image_upload').addEventListener('change', function (event) {
         const file = event.target.files[0];
-        if (file) {
-            if (confirm('이미지가 이미 등록되어 있습니다. 이미지를 덮어쓰시겠습니까?')) {
-                document.getElementById('image-preview').style.display = 'block';
-                document.getElementById('image-filename').textContent = file.name;
-                document.querySelector('input[name="confirm_overwrite"]').value = 'yes';
-            } else {
-                document.getElementById('image_upload').value = '';
-            }
+        if (file && currentYear) {
+            fetch(`/admin/history/check-image/${currentYear}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists) {
+                        if (confirm('이미지가 이미 등록되어 있습니다. 이미지를 덮어쓰시겠습니까?')) {
+                            document.getElementById('image-preview').style.display = 'block';
+                            document.getElementById('image-filename').textContent = file.name;
+                            document.querySelector('input[name="confirm_overwrite"]').value = 'yes';
+                        } else {
+                            document.getElementById('image_upload').value = '';
+                        }
+                    } else {
+                        document.getElementById('image-preview').style.display = 'block';
+                        document.getElementById('image-filename').textContent = file.name;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         }
     });
 
