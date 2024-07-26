@@ -59,14 +59,12 @@
                         <col width="20%">
                         <col width="20%">
                         <col width="20%">
-                        <col width="20%">
                     </colgroup>
                     <thead class="admin-thead">
                     <tr class="admin-tr">
                         <th class="admin-th">상단공지(Y/N)</th>
                         <th class="admin-th">제목</th>
                         <th class="admin-th">작성일</th>
-                        <th class="admin-th"></th>
                         <th class="admin-th"></th>
                     </tr>
                     </thead>
@@ -85,7 +83,6 @@
                                 <td class="admin-td">{{$item->is_featured}}</td>
                                 <td class="admin-td">{{$item->title}}</td>
                                 <td class="admin-td">{{date('Y-m-d', strtotime($item->created_at))}}</td>
-                                <td class="admin-td"></td>
                                 <td class="admin-td">
                                     <div class="btn-wrap col-group">
                                         <a href="{{route("admin.announcementEdit", $item->id)}}" class="btn">

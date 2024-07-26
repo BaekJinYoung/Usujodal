@@ -55,18 +55,12 @@
                 </div>
                 <table class="admin-table">
                     <colgroup>
-                        <col width="20%">
-                        <col width="20%">
-                        <col width="20%">
-                        <col width="20%">
+                        <col width="80%">
                         <col width="20%">
                     </colgroup>
                     <thead class="admin-thead">
                     <tr class="admin-tr">
-                        <th class="admin-th"></th>
                         <th class="admin-th">제목</th>
-                        <th class="admin-th"></th>
-                        <th class="admin-th"></th>
                         <th class="admin-th"></th>
                     </tr>
                     </thead>
@@ -82,10 +76,7 @@
                     @else
                         @foreach($items as $key => $item)
                             <tr class="admin-tr">
-                                <td class="admin-td"></td>
                                 <td class="admin-td">{{$item->title}}</td>
-                                <td class="admin-td"></td>
-                                <td class="admin-td"></td>
                                 <td class="admin-td">
                                     <div class="btn-wrap col-group">
                                         <a href="{{route("admin.questionEdit", $item->id)}}" class="btn">
