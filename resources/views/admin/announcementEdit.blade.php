@@ -92,6 +92,7 @@
                                     <i class="xi-close"></i>
                                 </button>
                             </div>
+                            <input type="hidden" name="remove_image" id="remove_image" value="0">
                         </div>
                     </div>
                 </div>
@@ -176,6 +177,7 @@
         if (file) {
             document.getElementById('image-preview').style.display = 'block';
             document.getElementById('image-filename').textContent = file.name;
+            document.getElementById('remove_image').value = 0;
         }
     });
 
