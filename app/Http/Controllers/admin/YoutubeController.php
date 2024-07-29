@@ -9,6 +9,7 @@ class YoutubeController extends BaseController {
 
     public function __construct(Youtube $youtube) {
         parent::__construct($youtube);
+        $this->setDefaultPerPage(8);
     }
 
     public function store(YoutubeRequest $request) {

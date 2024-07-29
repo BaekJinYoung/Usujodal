@@ -9,6 +9,7 @@ class BannerController extends BaseController
 {
     public function __construct(Banner $banner) {
         parent::__construct($banner);
+        $this->setDefaultPerPage(10);
     }
 
     public function store(BannerRequest $request)

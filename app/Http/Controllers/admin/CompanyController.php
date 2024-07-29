@@ -9,6 +9,7 @@ class CompanyController extends BaseController {
 
     public function __construct(Company $company) {
         parent::__construct($company);
+        $this->setDefaultPerPage(8);
     }
 
     public function store(CompanyRequest $request) {

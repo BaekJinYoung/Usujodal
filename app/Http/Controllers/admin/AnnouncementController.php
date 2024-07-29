@@ -9,6 +9,7 @@ class AnnouncementController extends BaseController {
 
     public function __construct(Announcement $announcement) {
         parent::__construct($announcement);
+        $this->setDefaultPerPage(10);
     }
 
     public function store(AnnouncementRequest $request) {

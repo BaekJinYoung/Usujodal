@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 class BaseController extends Controller {
     protected $model;
 
+    protected $defaultPerPage = 10;
+
     public function __construct($model) {
         $this->model = $model;
     }
@@ -21,7 +23,7 @@ class BaseController extends Controller {
             $query->where('title', 'like', '%' . $search . '%');
         }
 
-        $perPage = $request->query('perPage', 10);
+        $perPage = $request->query('perPage', $this->defaultPerPage);
         $items = $query->orderBy('id', 'desc')->paginate($perPage);
 
         $items->getCollection()->transform(function ($item) {

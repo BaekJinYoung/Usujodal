@@ -24,7 +24,7 @@ class HistoryController extends BaseController {
             $query->whereYear('date', $selectedYear);
         }
 
-        $perPage = $request->query('perPage', 10);
+        $perPage = $request->query('perPage', 8);
         $items = $query->orderBy('date', 'desc')->paginate($perPage);
 
         $years = $this->model->selectRaw('YEAR(date) as year')->distinct()->pluck('year')->toArray();
@@ -55,16 +55,13 @@ class HistoryController extends BaseController {
 
             if ($yearlyImage->exists && $yearlyImage->image) {
                 if ($confirmOverwrite === 'yes') {
-                    // 기존 파일 삭제
                     Storage::delete('storage/' . $yearlyImage->image);
                 } else {
-                    // 덮어쓰기 안 할 경우
                     $request->file('image')->storeAs('images', $request->file('image')->getClientOriginalName(), 'public');
                     return redirect()->back()->with('error', '이미지가 이미 존재합니다. 덮어쓰지 않기로 선택했습니다.');
                 }
             }
 
-            // 새 파일 저장
             $fileName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
             $yearlyImage->image = $path;
@@ -86,8 +83,6 @@ class HistoryController extends BaseController {
 
         return redirect()->route('admin.historyIndex');
     }
-
-
 
     public function edit($id) {
         $item = $this->model->find($id);

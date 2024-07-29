@@ -10,6 +10,7 @@ class PopupController extends BaseController
 {
     public function __construct(Popup $popup) {
         parent::__construct($popup);
+        $this->setDefaultPerPage(10);
     }
 
     public function store(PopupRequest $request)

@@ -9,6 +9,7 @@ class ShareController extends BaseController {
 
     public function __construct(Share $share) {
         parent::__construct($share);
+        $this->setDefaultPerPage(10);
     }
 
     public function store(ShareRequest $request) {
