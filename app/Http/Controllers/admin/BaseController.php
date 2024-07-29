@@ -23,7 +23,11 @@ class BaseController extends Controller {
             $query->where('title', 'like', '%' . $search . '%');
         }
 
-        $perPage = $request->query('perPage', $this->defaultPerPage);
+        $perPage = (int) $request->query('perPage', $this->defaultPerPage);
+        if ($perPage <= 0) {
+            $perPage = $this->defaultPerPage;
+        }
+
         $items = $query->orderBy('id', 'desc')->paginate($perPage);
 
         $items->getCollection()->transform(function ($item) {
