@@ -32,7 +32,7 @@ class HistoryController extends BaseController {
         $items->getCollection()->transform(function ($item) {
             $year = Carbon::parse($item->date)->format('Y');
             $yearlyImage = YearlyImage::where('year', $year)->first();
-            $item->image = $yearlyImage ? asset('storage/' . $yearlyImage->image_path) : null;
+            $item->image = $yearlyImage ? asset('storage/' . $yearlyImage->image) : null;
             return $item;
         });
 
@@ -48,35 +48,36 @@ class HistoryController extends BaseController {
         }
 
         $year = Carbon::parse($validated['date'])->format('Y');
-
         $yearlyImage = YearlyImage::firstOrNew(['year' => $year]);
 
         if ($request->hasFile('image')) {
             $confirmOverwrite = $request->input('confirm_overwrite');
 
-            if ($yearlyImage->exists && $yearlyImage->image_path) {
+            if ($yearlyImage->exists && $yearlyImage->image) {
                 if ($confirmOverwrite === 'yes') {
-                    Storage::delete('public/' . $yearlyImage->image_path);
+                    // 기존 파일 삭제
+                    Storage::delete('storage/' . $yearlyImage->image);
                 } else {
+                    // 덮어쓰기 안 할 경우
                     $request->file('image')->storeAs('images', $request->file('image')->getClientOriginalName(), 'public');
                     return redirect()->back()->with('error', '이미지가 이미 존재합니다. 덮어쓰지 않기로 선택했습니다.');
                 }
             }
 
+            // 새 파일 저장
             $fileName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
-            $yearlyImage->image_path = $path;
+            $yearlyImage->image = $path;
             $yearlyImage->save();
         } elseif ($request->input('remove_image') == '1') {
-            if ($yearlyImage->exists && $yearlyImage->image_path) {
-                Storage::delete('public/' . $yearlyImage->image_path);
-                $yearlyImage->image_path = null;
+            if ($yearlyImage->exists && $yearlyImage->image) {
+                Storage::delete('public/' . $yearlyImage->image);
+                $yearlyImage->image = null;
                 $yearlyImage->save();
             }
         }
 
         $dataToStore = Arr::except($validated, ['image']);
-
         $this->model->create($dataToStore);
 
         if ($request->filled('continue')) {
@@ -85,6 +86,8 @@ class HistoryController extends BaseController {
 
         return redirect()->route('admin.historyIndex');
     }
+
+
 
     public function edit($id) {
         $item = $this->model->find($id);
@@ -97,9 +100,9 @@ class HistoryController extends BaseController {
         $year = Carbon::parse($item->date)->format('Y');
         $yearlyImage = YearlyImage::where('year', $year)->first();
 
-        if ($yearlyImage && $yearlyImage->image_path) {
-            $item->image = asset('storage/' . $yearlyImage->image_path);
-            $item->image_name = pathinfo($yearlyImage->image_path, PATHINFO_FILENAME) . '.' . pathinfo($yearlyImage->image_path, PATHINFO_EXTENSION);
+        if ($yearlyImage && $yearlyImage->image) {
+            $item->image = asset('storage/' . $yearlyImage->image);
+            $item->image_name = pathinfo($yearlyImage->image, PATHINFO_FILENAME) . '.' . pathinfo($yearlyImage->image, PATHINFO_EXTENSION);
         } else {
             $item->image = null;
             $item->image_name = null;
@@ -111,8 +114,8 @@ class HistoryController extends BaseController {
     public function checkImage($year) {
         $yearlyImage = YearlyImage::where('year', $year)->first();
 
-        $exists = $yearlyImage && $yearlyImage->image_path !== null;
-        $imageName = $exists  ? pathinfo($yearlyImage->image_path, PATHINFO_BASENAME) : null;
+        $exists = $yearlyImage && $yearlyImage->image !== null;
+        $imageName = $exists  ? pathinfo($yearlyImage->image, PATHINFO_BASENAME) : null;
 
         return response()->json([
             'exists' => $exists,
@@ -123,18 +126,17 @@ class HistoryController extends BaseController {
     public function update(HistoryRequest $request, History $history) {
         $update = $request->validated();
 
-            $date = Carbon::parse($request->input('date'));
-            $update['date'] = $date->format('Y-m-d');
-
+        $date = Carbon::parse($request->input('date'));
+        $update['date'] = $date->format('Y-m-d');
         $year = $date->format('Y');
         $yearlyImage = YearlyImage::firstOrNew(['year' => $year]);
 
         if ($request->hasFile('image')) {
             $confirmOverwrite = $request->input('confirm_overwrite');
 
-            if ($yearlyImage->exists && $yearlyImage->image_path) {
+            if ($yearlyImage->exists && $yearlyImage->image) {
                 if ($confirmOverwrite === 'yes') {
-                    Storage::delete('public/' . $yearlyImage->image_path);
+                    Storage::delete('public/' . $yearlyImage->image);
                 } else {
                     $request->file('image')->storeAs('images', $request->file('image')->getClientOriginalName(), 'public');
                     return redirect()->back()->with('error', '이미지가 이미 존재합니다. 덮어쓰지 않기로 선택했습니다.');
@@ -143,12 +145,11 @@ class HistoryController extends BaseController {
 
             $fileName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images', $fileName, 'public');
-            $yearlyImage->image_path = $path;
+            $yearlyImage->image = $path;
             $yearlyImage->save();
         } elseif ($request->input('remove_image') == '1') {
-            if ($yearlyImage->exists && $yearlyImage->image_path) {
-                Storage::delete('public/' . $yearlyImage->image_path);
-                $yearlyImage->image_path = null;
+            if ($yearlyImage->exists && $yearlyImage->image) {
+                $yearlyImage->image = null;
                 $yearlyImage->save();
             }
         }

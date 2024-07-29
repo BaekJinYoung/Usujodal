@@ -30,124 +30,137 @@
                     연혁 상세
                 </h2>
             </div>
-            <form id="historyForm" action="{{ route('admin.historyUpdate', $item) }}" method="post" enctype="multipart/form-data">
-                @csrf
-                @method('patch')
-                <div class="form-wrap row-group">
-                    <div class="form-item row-group">
-                        <p class="item-default">
-                            진행 일자
-                            <span class="red">*</span>
-                        </p>
-                        <input type="month" class="form-input w-560" id="date" name="date"
-                               value="{{ old('date', date('Y-m', strtotime($item->date))) }}">
-                    </div>
-                    <div class="form-item row-group">
-                        <p class="item-default">
-                            내용
-                            <span class="red">*</span>
-                        </p>
-                        <textarea rows="5" name="content" id="content"
-                                  placeholder="내용을 작성해주세요.">{{ old('content', $item->content) }}</textarea>
-                    </div>
-                    <div class="form-item row-group">
-                        <p class="item-default">
-                            이미지
-                        </p>
-                        <div class="file-upload-wrap">
-                            <input type='file' id='image_upload' accept="image/*" name="image" style="display: none;">
-                            <label for="image_upload" class="file-upload-btn">
-                                파일 업로드
-                            </label>
-                            <div class="file-preview" id="image-preview"
-                                 @if(!$item->image) style="display: none" @endif>
-                                <p class="file-name" id="image-filename">
-                                    @if($item->image)
-                                        {{$item->image_name}}
-                                    @endif
-                                </p>
-                                <button type="button" class="file-del-btn" id="remove-image-btn">
-                                    <i class="xi-close"></i>
-                                </button>
+                <form id="form" action="{{ route('admin.historyUpdate', $item) }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method('patch')
+                    <div class="form-wrap row-group">
+                        <div class="form-item row-group">
+                            <p class="item-default">
+                                진행 일자
+                                <span class="red">*</span>
+                            </p>
+                            <input type="month" class="form-input w-560" id="date" name="date"
+                                   value="{{ old('date', date('Y-m', strtotime($item->date))) }}">
+                        </div>
+                        <div class="form-item row-group">
+                            <p class="item-default">
+                                내용
+                                <span class="red">*</span>
+                            </p>
+                            <textarea rows="5" name="content" id="content"
+                                      placeholder="내용을 작성해주세요.">{{ old('content', $item->content) }}</textarea>
+                        </div>
+                        <div class="form-item row-group">
+                            <p class="item-default">
+                                이미지
+                            </p>
+                            <div class="file-upload-wrap">
+                                <input type='file' id='image_upload' accept="image/*" name="image" style="display: none;">
+                                <label for="image_upload" class="file-upload-btn">
+                                    파일 업로드
+                                </label>
+                                <div class="file-preview" id="image-preview"
+                                     @if(!$item->image) style="display: none" @endif>
+                                    <p class="file-name" id="image-filename">
+                                        @if($item->image)
+                                            {{$item->image_name}}
+                                        @endif
+                                    </p>
+                                    <button type="button" class="file-del-btn" id="remove-image-btn">
+                                        <i class="xi-close"></i>
+                                    </button>
+                                </div>
+                                <input type="hidden" name="remove_image" id="remove_image" value="0">
+                                <input type="hidden" name="confirm_overwrite" value="no">
                             </div>
-                            <input type="hidden" name="remove_image" id="remove_image" value="0">
                         </div>
                     </div>
-                </div>
 
-                <div class="form-btn-wrap col-group">
-                    <a href="{{ route('admin.historyIndex') }}" class="form-prev-btn">
-                        목록으로
-                    </a>
-                    <button class="form-prev-btn" type="submit">
-                        수정
-                    </button>
-                </div>
-            </form>
+                    <div class="form-btn-wrap col-group">
+                        <a href="{{ route('admin.historyIndex') }}" class="form-prev-btn">
+                            목록으로
+                        </a>
+                        <button class="form-prev-btn" type="submit" id="submit">
+                            수정
+                        </button>
+                    </div>
+                </form>
+
         </div>
     </div>
 </div>
 
 <script>
-    let currentYear = null;
+    let currentYear = new Date(document.getElementById('date').value).getFullYear();
 
     function showNotification(message) {
         alert(message);
     }
 
-    document.getElementById('date').addEventListener('change', function (event) {
+    document.getElementById('date').addEventListener('change', async function (event) {
         const selectedDate = new Date(event.target.value);
         currentYear = selectedDate.getFullYear();
 
-        fetch(`/admin/history/check-image/${currentYear}`)
-            .then(response => response.json())
-            .then(data => {
-                const imagePreview = document.getElementById('image-preview');
-                const imageFilename = document.getElementById('image-filename');
+        try {
+            const response = await fetch(`/admin/history/check-image/${currentYear}`);
+            if (!response.ok) throw new Error('Network response was not ok');
+            const data = await response.json();
 
-                if (data.exists) {
-                    imagePreview.style.display = 'block';
-                    imageFilename.textContent = data.imageName;
-                } else {
-                    imagePreview.style.display = 'none';
-                    imageFilename.textContent = '';
-                }
-            })
-            .catch(error => console.error('Error:', error));
-    });
+            const imagePreview = document.getElementById('image-preview');
+            const imageFilename = document.getElementById('image-filename');
 
-    document.getElementById('image_upload').addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        if (file && currentYear) {
-            fetch(`/admin/history/check-image/${currentYear}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.exists) {
-                        if (confirm('이미지가 이미 등록되어 있습니다. 이미지를 덮어쓰시겠습니까?')) {
-                            document.getElementById('image-preview').style.display = 'block';
-                            document.getElementById('image-filename').textContent = file.name;
-                            document.querySelector('input[name="confirm_overwrite"]').value = 'yes';
-                        } else {
-                            document.getElementById('image_upload').value = '';
-                        }
-                    } else {
-                        document.getElementById('image-preview').style.display = 'block';
-                        document.getElementById('image-filename').textContent = file.name;
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+            if (data.exists) {
+                imagePreview.style.display = 'block';
+                imageFilename.textContent = data.imageName;
+            } else {
+                imagePreview.style.display = 'none';
+                imageFilename.textContent = '';
+            }
+        } catch (error) {
+            console.error('Error fetching image data:', error);
         }
     });
+
+    document.getElementById('image_upload').addEventListener('change', async function (event) {
+        const file = event.target.files[0];
+        if (file && currentYear) {
+            try {
+                const response = await fetch(`/admin/history/check-image/${currentYear}`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+
+                if (data.exists) {
+                    if (confirm('이미지가 이미 등록되어 있습니다. 이미지를 덮어쓰시겠습니까?')) {
+                        document.getElementById('image-preview').style.display = 'block';
+                        document.getElementById('image-filename').textContent = file.name;
+                        document.querySelector('input[name="confirm_overwrite"]').value = 'yes';
+                    } else {
+                        document.getElementById('image_upload').value = '';
+                        document.getElementById('confirm_overwrite').value = 'no';
+                    }
+                } else {
+                    document.getElementById('image-preview').style.display = 'block';
+                    document.getElementById('image-filename').textContent = file.name;
+                    document.getElementById('confirm_overwrite').value = '';
+                }
+            } catch (error) {
+                console.error('Error fetching image data:', error);
+            }
+        }
+    });
+
 
     document.getElementById('remove-image-btn').addEventListener('click', function () {
         document.getElementById('image_upload').value = '';
         document.getElementById('image-preview').style.display = 'none';
-        document.getElementById('remove_image').value = '1';
+        document.getElementById('remove_image').value = 1;
     });
+
 </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

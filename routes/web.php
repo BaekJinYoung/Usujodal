@@ -86,7 +86,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/{history}/edit', 'edit')->name("admin.historyEdit");
             Route::patch('/{history}', 'update')->name("admin.historyUpdate");
             Route::delete('/{history}', 'delete')->name("admin.historyDelete");
-            Route::get('/check-image/{year}', 'checkImage')->name('admin.checkImage');
+            Route::get('/check-image/{currentYear}', 'checkImage')->name('admin.checkImage');
         });
     });
 

@@ -210,7 +210,7 @@ class IndexController extends Controller
                     })->first();
 
                     $yearlyImage = YearlyImage::where('year', $year)->first();
-                    $image = $yearlyImage ? asset('storage/' . $yearlyImage->image_path) : null;
+                    $image = $yearlyImage && $yearlyImage->image ? asset('storage/' . $yearlyImage->image) : null;
 
                     $years[] = [
                         'year' => $year,

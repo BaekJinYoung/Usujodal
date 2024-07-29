@@ -9,5 +9,5 @@ class YearlyImage extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['year', 'image_path'];
+    protected $fillable = ['year', 'image'];
 }

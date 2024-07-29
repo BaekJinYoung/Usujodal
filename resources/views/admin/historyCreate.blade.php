@@ -65,6 +65,8 @@
                                 </button>
                             </div>
                             <input type="hidden" name="remove_image" id="remove_image" value="0">
+                            <input type="hidden" name="confirm_overwrite" value="no">
+
                         </div>
                     </div>
                 </div>
@@ -126,15 +128,18 @@
                             document.querySelector('input[name="confirm_overwrite"]').value = 'yes';
                         } else {
                             document.getElementById('image_upload').value = '';
+                            document.querySelector('input[name="confirm_overwrite"]').value = 'no';
                         }
                     } else {
                         document.getElementById('image-preview').style.display = 'block';
                         document.getElementById('image-filename').textContent = file.name;
+                        document.querySelector('input[name="confirm_overwrite"]').value = 'no';
                     }
                 })
                 .catch(error => console.error('Error:', error));
         }
     });
+
 
     document.getElementById('remove-image-btn').addEventListener('click', function () {
         document.getElementById('image_upload').value = '';
