@@ -38,6 +38,10 @@ class BaseController extends Controller {
         return view($this->getViewName('index'), compact('items', 'perPage', 'search'));
     }
 
+    public function setDefaultPerPage($value) {
+        $this->defaultPerPage = $value;
+    }
+
     public function create() {
         return view($this->getViewName('create'));
     }
