@@ -124,9 +124,9 @@ class IndexController extends Controller
         return ApiResponse::success($data);
     }
 
-    private function fetchAndFormat($model, $selectColumns, $limit, $isFeatured = false, $sortDirection = 'asc') {
+    private function fetchAndFormat($model, $selectColumns, $limit, $isFeatured = false, $sortDirection = 'desc') {
         if (!in_array($sortDirection, ['asc', 'desc'])) {
-            $sortDirection = 'asc';
+            $sortDirection = 'desc';
         }
 
         $query = $model::select($selectColumns)
@@ -165,7 +165,7 @@ class IndexController extends Controller
 
     public function mainRespond() {
         $popup = $this->fetchAndFormat(Popup::class, ['id', 'title', 'image','link'], 0);
-        $banner = $this->fetchAndFormat(Banner::class, ['id', 'title', 'mobile_title', 'image', 'mobile_image'], 0, false, 'desc');
+        $banner = $this->fetchAndFormat(Banner::class, ['id', 'title', 'mobile_title', 'image', 'mobile_image'], 0, false, 'asc');
         $notice = $this->fetchAndFormat(Announcement::class, ['id', 'title'], 5, true);
         $news = $this->fetchAndFormat(Share::class, ['id', 'title'], 5, true);
         $announcements = $this->fetchAndFormat(Announcement::class, ['id', 'title', 'content', 'created_at'], 9);
