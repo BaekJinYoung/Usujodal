@@ -181,7 +181,7 @@
 /* 사진 갤러리 관리 */
 .admin_photo_gallery .board-item .img-box { padding-top: 64.25%; }
 
-.admin_photo_gallery_280_400 .board-item .img-box {
+.admin_photo_gallery_280_400 .board-item .img-box_280_400 {
     display: flex; /* Flexbox to center align content */
     align-items: center; /* Vertically center the image */
     justify-content: center; /* Horizontally center the image */
@@ -192,7 +192,7 @@
     max-width: 100%; /* Ensure the container doesn’t exceed the parent width */
 }
 
-.admin_photo_gallery_280_400 .board-item .img-box img {
+.admin_photo_gallery_280_400 .board-item .img-box_280_400 img {
     width: 100%; /* Responsive width */
     height: auto; /* Maintain aspect ratio */
     object-fit: contain; /* Fit the image within the box */

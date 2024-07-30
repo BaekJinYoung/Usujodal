@@ -43,7 +43,7 @@
                     @else
                         @foreach($items as $key => $item)
                             <div class="board-item">
-                                <div class="img-box">
+                                <div class="img-box_280_400">
                                     @if($item->image)
                                         <img src="{{asset('storage/'.$item->image)}}" alt="">
                                     @else
