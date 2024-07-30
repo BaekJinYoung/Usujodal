@@ -31,13 +31,13 @@ class BannerRequest extends FormRequest
         ];
 
         if ($removeImage == '1') {
-            $rules['image'] = 'required|image';
+            $rules['image'] = 'required';
         } else {
             $rules['image'] = 'nullable';;
         }
 
         if ($mobileRemoveImage == '1') {
-            $rules['mobile_image'] = 'required|image';
+            $rules['mobile_image'] = 'required';
         } else {
             $rules['mobile_image'] = 'nullable';
         }

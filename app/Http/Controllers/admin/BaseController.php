@@ -15,6 +15,14 @@ class BaseController extends Controller {
         $this->model = $model;
     }
 
+    public function isVideo($filePath)
+    {
+        $videoExtensions = ['mp4', 'webm', 'ogg'];
+        $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+
+        return in_array($extension, $videoExtensions);
+    }
+
     public function index(Request $request) {
         $query = $this->model->query();
         $search = $request->input('search', '');
@@ -32,6 +40,8 @@ class BaseController extends Controller {
 
         $items->getCollection()->transform(function ($item) {
             $item->is_featured = $item->is_featured ? 'Y' : 'N';
+            $item->is_video = $this->isVideo('storage/'.$item->image); // Check if the main image is a video
+            $item->is_mobile_video = $this->isVideo('storage/'.$item->mobile_image); // Check if the mobile image is a video
             return $item;
         });
 

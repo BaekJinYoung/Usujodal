@@ -47,10 +47,25 @@
                             <ul class="item_list_ul">
                                 <li>
                                     <div class="img_wrap">
-                                        <img src="{{asset('storage/'.$item->image)}}" alt="">
+                                        @if($item->is_video)
+                                            <video controls class="img-fluid">
+                                                <source src="{{ asset('storage/'.$item->image) }}" type="video/{{ pathinfo($item->image, PATHINFO_EXTENSION) }}">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        @else
+                                            <img src="{{ asset('storage/'.$item->image) }}" alt="이미지" class="img-fluid">
+                                        @endif
                                     </div>
+
                                     <div class="img_wrap">
-                                        <img src="{{asset('storage/'.$item->mobile_image)}}" alt="">
+                                        @if($item->is_mobile_video)
+                                            <video controls class="img-fluid">
+                                                <source src="{{ asset('storage/'.$item->mobile_image) }}" type="video/{{ pathinfo($item->mobile_image, PATHINFO_EXTENSION) }}">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        @else
+                                            <img src="{{ asset('storage/'.$item->mobile_image) }}" alt="모바일 이미지" class="img-fluid">
+                                        @endif
                                     </div>
                                     <div class="item_txt_wrap">
                                         <p class="title_p">{{$item->title}}</p>
