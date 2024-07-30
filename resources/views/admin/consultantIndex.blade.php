@@ -22,7 +22,7 @@
                 </div>
             @endif
 
-            <div class="admin_photo_gallery">
+            <div class="admin_photo_gallery_280_400">
                 <div class="title-wrap col-group">
                     <div class="main-title-wrap col-group">
                         <h2 class="main-title">
@@ -72,7 +72,6 @@
                         @endforeach
                     @endif
                 </div>
-                @include('admin.components.pagination', ['paginator' => $items])
             </div>
         </div>
     </div>

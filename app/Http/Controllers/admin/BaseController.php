@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Storage;
 
 class BaseController extends Controller {
     protected $model;
-
     protected $defaultPerPage = 10;
 
     public function __construct($model) {
