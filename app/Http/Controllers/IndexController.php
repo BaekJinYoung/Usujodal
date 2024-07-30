@@ -51,7 +51,6 @@ class IndexController extends Controller
         if (isset($item->$field)) {
             $imagePath = $item->$field;
 
-            // If the image path already contains 'https://', consider it as absolute
             if (!preg_match('/^https?:\/\//', $imagePath)) {
                 $imagePath = asset('storage/' . $imagePath);
             }
@@ -163,6 +162,10 @@ class IndexController extends Controller
         }
 
         $data = $query->get();
+
+        if ($data->isEmpty()) {
+            return null;
+        }
 
         $data = $data->map(function ($item) {
             return $this->formatItemWithImage($this->formatItem($item));
