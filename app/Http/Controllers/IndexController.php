@@ -19,7 +19,17 @@ use Illuminate\Support\Facades\Storage;
 
 class IndexController extends Controller
 {
+    private function convertNewlinesToBr($content) {
+        return str_replace(["\r\n", "\r", "\n"], '<br/>', $content);
+    }
+
     private function formatItem($item) {
+        foreach ($item->toArray() as $key => $value) {
+            if (is_string($value)) {
+                $item->$key = $this->convertNewlinesToBr($value);
+            }
+        }
+
         if (isset($item->created_at)) {
             $item->created_at_formatted = Carbon::parse($item->created_at)->format('Y.m.d');
             unset($item->created_at);
@@ -141,6 +151,10 @@ class IndexController extends Controller
         }
 
         $data = $query->get();
+
+        $data = $data->map(function ($item) {
+            return $this->formatItemWithImage($this->formatItem($item));
+        });
 
         $isYoutubeModel = $model === Youtube::class;
 

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 class DetailController extends Controller
 {
     private function convertNewlinesToBr($content) {
-        return nl2br($content); // Converts \r\n or \n to <br/>
+        return str_replace(["\r\n", "\r", "\n"], '<br/>', $content);
     }
 
     private function convertRelativeUrlsToAbsolute($content) {
@@ -45,9 +45,10 @@ class DetailController extends Controller
 
         $detail = $this->formatFileData($detail);
 
-        if (isset($detail['content'])) {
-            $detail['content'] = $this->convertRelativeUrlsToAbsolute($detail['content']);
-            $detail['content'] = $this->convertNewlinesToBr($detail['content']);
+        foreach ($detail as $key => $value) {
+            if (is_string($value)) {
+                $detail[$key] = $this->convertNewlinesToBr($value);
+            }
         }
 
         if (in_array('link', $selectColumns) && isset($detail['link'])) {
