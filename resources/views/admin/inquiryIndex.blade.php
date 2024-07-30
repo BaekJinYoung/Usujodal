@@ -55,6 +55,7 @@
                         <col width="20%">
                         <col width="20%">
                         <col width="20%">
+                        <col width="20%">
                     </colgroup>
                     <thead class="admin-thead">
                     <tr class="admin-tr">
@@ -62,6 +63,7 @@
                         <th class="admin-th">연락처</th>
                         <th class="admin-th">이메일</th>
                         <th class="admin-th">회사명</th>
+                        <th class="admin-th">작성일</th>
                         <th class="admin-th"></th>
                     </tr>
                     </thead>
@@ -81,6 +83,7 @@
                                 <td class="admin-td">{{$item->contact}}</td>
                                 <td class="admin-td">{{$item->email}}</td>
                                 <td class="admin-td">{{$item->company}}</td>
+                                <td class="admin-td">{{date('Y-m-d', strtotime($item->created_at))}}</td>
                                 <td class="admin-td">
                                     <div class="btn-wrap col-group">
                                         <a href="{{route("admin.inquiryEdit", $item->id)}}" class="btn">

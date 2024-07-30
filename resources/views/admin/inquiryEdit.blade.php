@@ -35,6 +35,12 @@
                 <div class="form-wrap row-group">
                     <div class="form-item row-group">
                         <p class="item-default">
+                            작성일시
+                        </p>
+                        <input type="text" value="{{$item->created_at}}">
+                    </div>
+                    <div class="form-item row-group">
+                        <p class="item-default">
                             이름
                         </p>
                         <input type="text" value="{{old('title', $item->name)}}">
