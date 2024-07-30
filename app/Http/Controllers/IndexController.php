@@ -40,20 +40,32 @@ class IndexController extends Controller
     private function formatItemWithImage($item) {
         $isBannerModel = $item instanceof Banner;
 
-        if (isset($item->image)) {
-            $item->image = asset('storage/' . $item->image);
-            $fileType = $this->getFileType($item->image);
-            $item->image_type = ($fileType === 'image') ? 0 : 1;
-            if (!$isBannerModel) {
-                unset($item->image_type);
+        // Check if image paths are absolute URLs
+        $this->setImagePath($item, 'image');
+        $this->setImagePath($item, 'mobile_image');
+
+        return $item;
+    }
+
+    private function setImagePath($item, $field) {
+        if (isset($item->$field)) {
+            $imagePath = $item->$field;
+
+            // If the image path already contains 'https://', consider it as absolute
+            if (!preg_match('/^https?:\/\//', $imagePath)) {
+                $imagePath = asset('storage/' . $imagePath);
+            }
+
+            $item->$field = $imagePath;
+
+            if ($field === 'image') {
+                $fileType = $this->getFileType($imagePath);
+                $item->image_type = ($fileType === 'image') ? 0 : 1;
+            } elseif ($field === 'mobile_image') {
+                $fileType = $this->getFileType($imagePath);
+                $item->mobile_image_type = ($fileType === 'image') ? 0 : 1;
             }
         }
-        if (isset($item->mobile_image)) {
-            $item->mobile_image = asset('storage/' . $item->mobile_image);
-            $fileType = $this->getFileType($item->mobile_image);
-            $item->mobile_image_type = ($fileType === 'image') ? 0 : 1;
-        }
-        return $item;
     }
 
     private function getFileType($filePath)
