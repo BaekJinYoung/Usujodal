@@ -92,7 +92,6 @@ class IndexController extends Controller
             $dataCollection = $query->get();
         }
 
-        // Check if the model is an instance of Youtube
         $isYoutubeModel = $model === Youtube::class;
 
         if ($isYoutubeModel) {
@@ -125,9 +124,13 @@ class IndexController extends Controller
         return ApiResponse::success($data);
     }
 
-    private function fetchAndFormat($model, $selectColumns, $limit, $isFeatured = false) {
+    private function fetchAndFormat($model, $selectColumns, $limit, $isFeatured = false, $sortDirection = 'asc') {
+        if (!in_array($sortDirection, ['asc', 'desc'])) {
+            $sortDirection = 'asc';
+        }
+
         $query = $model::select($selectColumns)
-            ->orderBy('created_at', 'desc');
+            ->orderBy('id', $sortDirection);
 
         if ($isFeatured) {
             $query->where('is_featured', true);
@@ -139,10 +142,8 @@ class IndexController extends Controller
 
         $data = $query->get();
 
-        // Check if the model is an instance of Youtube
         $isYoutubeModel = $model === Youtube::class;
 
-        // Transform items based on the model type
         $data = $data->map(function ($item) use ($isYoutubeModel) {
             if ($isYoutubeModel && isset($item->link)) {
                 $youtubeVideoId = $this->extractYoutubeVideoId($item->link);
@@ -153,7 +154,6 @@ class IndexController extends Controller
             return $this->formatItemWithImage($item);
         });
 
-        // Format the collection
         $formattedData = $this->formatCollection($data);
 
         if ($formattedData->isEmpty()) {
@@ -165,7 +165,7 @@ class IndexController extends Controller
 
     public function mainRespond() {
         $popup = $this->fetchAndFormat(Popup::class, ['id', 'title', 'image','link'], 0);
-        $banner = $this->fetchAndFormat(Banner::class, ['id', 'title', 'mobile_title', 'image', 'mobile_image'], 0);
+        $banner = $this->fetchAndFormat(Banner::class, ['id', 'title', 'mobile_title', 'image', 'mobile_image'], 0, false, 'desc');
         $notice = $this->fetchAndFormat(Announcement::class, ['id', 'title'], 5, true);
         $news = $this->fetchAndFormat(Share::class, ['id', 'title'], 5, true);
         $announcements = $this->fetchAndFormat(Announcement::class, ['id', 'title', 'content', 'created_at'], 9);
