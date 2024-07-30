@@ -8,6 +8,7 @@ use App\Models\Consultant;
 class ConsultantController extends BaseController {
     public function __construct(Consultant $consultant) {
         parent::__construct($consultant);
+        $this->setDefaultPerPage(0);
     }
 
     public function store(ConsultantRequest $request) {
