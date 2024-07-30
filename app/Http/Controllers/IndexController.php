@@ -37,15 +37,7 @@ class IndexController extends Controller
         return $item;
     }
 
-    private function formatItemWithImage($item) {
-        $isBannerModel = $item instanceof Banner;
 
-        // Check if image paths are absolute URLs
-        $this->setImagePath($item, 'image');
-        $this->setImagePath($item, 'mobile_image');
-
-        return $item;
-    }
 
     private function setImagePath($item, $field) {
         if (isset($item->$field)) {
@@ -57,14 +49,25 @@ class IndexController extends Controller
 
             $item->$field = $imagePath;
 
-            if ($field === 'image') {
+            $isBannerModel = $item instanceof Banner;
+
+            if ($field === 'image' && $isBannerModel) {
                 $fileType = $this->getFileType($imagePath);
                 $item->image_type = ($fileType === 'image') ? 0 : 1;
-            } elseif ($field === 'mobile_image') {
+            } elseif ($field === 'mobile_image' && $isBannerModel) {
                 $fileType = $this->getFileType($imagePath);
                 $item->mobile_image_type = ($fileType === 'image') ? 0 : 1;
             }
         }
+    }
+
+    private function formatItemWithImage($item) {
+        $isBannerModel = $item instanceof Banner;
+
+        $this->setImagePath($item, 'image');
+        $this->setImagePath($item, 'mobile_image');
+
+        return $item;
     }
 
     private function getFileType($filePath)
