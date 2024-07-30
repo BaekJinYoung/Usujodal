@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Storage;
 
 class DetailController extends Controller
 {
+    private function convertNewlinesToBr($content) {
+        return nl2br($content); // Converts \r\n or \n to <br/>
+    }
+
     private function convertRelativeUrlsToAbsolute($content) {
         $baseUrl = asset('storage');
         $pattern = '/<img\s+[^>]*src=["\'](\/images[^"\']+)["\']/i';
@@ -43,6 +47,7 @@ class DetailController extends Controller
 
         if (isset($detail['content'])) {
             $detail['content'] = $this->convertRelativeUrlsToAbsolute($detail['content']);
+            $detail['content'] = $this->convertNewlinesToBr($detail['content']);
         }
 
         if (in_array('link', $selectColumns) && isset($detail['link'])) {
