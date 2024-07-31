@@ -37,8 +37,6 @@ class IndexController extends Controller
         return $item;
     }
 
-
-
     private function setImagePath($item, $field) {
         if (isset($item->$field)) {
             $imagePath = $item->$field;

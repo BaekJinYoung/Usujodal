@@ -37,14 +37,14 @@
                             제목
                             <span class="red">*</span>
                         </p>
-                        <textarea rows="2" name="title" placeholder="제목을 작성해주세요.">{{'title', old($item->title)}}</textarea>
+                        <textarea rows="2" name="title" placeholder="제목을 작성해주세요.">{{old('title', $item->title)}}</textarea>
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">
                             모바일 제목
                             <span class="red">*</span>
                         </p>
-                        <textarea rows="2" name="mobile_title" placeholder="제목을 작성해주세요.">{{'title', old($item->mobile_title)}}</textarea>
+                        <textarea rows="2" name="mobile_title" placeholder="제목을 작성해주세요.">{{old('mobile_title', $item->mobile_title)}}</textarea>
                     </div>
                     <div class="form-item row-group">
                         <p class="item-default">

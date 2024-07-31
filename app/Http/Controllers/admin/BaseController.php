@@ -39,8 +39,8 @@ class BaseController extends Controller {
 
         $items->getCollection()->transform(function ($item) {
             $item->is_featured = $item->is_featured ? 'Y' : 'N';
-            $item->is_video = $this->isVideo('storage/'.$item->image); // Check if the main image is a video
-            $item->is_mobile_video = $this->isVideo('storage/'.$item->mobile_image); // Check if the mobile image is a video
+            $item->is_video = $this->isVideo('storage/'.$item->image);
+            $item->is_mobile_video = $this->isVideo('storage/'.$item->mobile_image);
             return $item;
         });
 
